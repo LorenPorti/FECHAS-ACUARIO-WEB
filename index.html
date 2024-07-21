@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fechas Acuario Web</title>
+
+    <link rel="icon" type="image/png" href="imagenes/fish2.png" sizes="128x128" />
+    <link rel=" icon" type="image/png" href="imagenes./fish2.png" sizes="512x512 " />
+    <link rel="manifest " href="/manifest.json " />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/0405fb0190.js" crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Aclonica" rel="stylesheet">
+
+    <link rel="stylesheet" href="libreria/estilo.css" />
+
+    <!-- Iniciar EmailJs -->
+    <script type="text/javascript">
+        (function () {
+            emailjs.init({
+                publicKey: "IZrWZg4ZaagQIFsUX",
+            });
+        })();
+    </script>
+
+    <style>
+        .cabecera {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        }
+
+        .full-width-line {
+            width: 100%;
+            height: 2px;
+            /* Puedes ajustar la altura de la línea */
+            background-color: #000;
+            /* Puedes ajustar el color de la línea */
+            border: none;
+            margin-top: 0;
+            /* Ajusta el margen superior si es necesario */
+        }
+
+        .cabecera h5 {
+            margin-bottom: 0;
+            /* Elimina el margen inferior */
+        }
+
+        .btn .col {
+            margin-bottom: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-fluid p-2 bg-primary text-white text-center">
+        <h2 class="roboto-regular p-2">Toma Datos de Campo del acuario</h2>
+    </div>
+    <div class="container-fluid cabecera">
+        <h5 class="roboto-regular-italic marron col-4.5 text-start">Acuario núm. (0):</h5>
+        <h5 class="roboto-medium col-7.5 text-start ms-2">
+            Mi acuario de Chilches
+        </h5>
+    </div>
+    <a class="nav-link dropdown-toggle ms-2  montserrat-medium text-dark" data-bs-toggle="dropdown"
+        href="#" role="button" aria-expanded="false" id="dropdownMenuLink">Seleccionar Acuario</a>
+    <ul class="dropdown-menu" id="menu-acuarios">
+        <li><a class="dropdown-item montserrat-medium-italic" href="#">Action</a></li>
+        <li><a class="dropdown-item montserrat-medium-italic" href="#">Another action</a></li>
+        <li><a class="dropdown-item montserrat-medium-italic" href="#">Something else here</a></li>
+    </ul>
+    <hr class="full-width-line">
+
+    <script>
+        // Definir el nuevo valor que quieres mostrar
+        // var newValue = "Nuevo Texto";
+        // Seleccionar el elemento por su ID y cambiar su texto
+        // document.getElementById("dropdownMenuLink").textContent = newValue;
+    </script>
+
+    <script type="module" src="paraEsto.js"></script>
+
+</body>
+
+</html>
