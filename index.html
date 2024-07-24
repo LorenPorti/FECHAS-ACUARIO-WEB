@@ -339,12 +339,6 @@
     </script>
 
     <script>
-        document.getElementById("khInput").addEventListener("input", function() {
-            this.value = this.value.replace(/[^0-9]/g, ""); // Elimina caracteres no numéricos
-            if (this.value < 0 || this.value == "") this.value = 0;
-            if (this.value > 10) this.value = 10;
-        });
-
         // Primer filtro. accordion-button las entradas una a una
         // si se ha hecho una entrada con datos adecuados cambia el color del fondo de titulo del elemento
         // Controla la entrada de la fecha********************
@@ -362,6 +356,34 @@
                 }
             });
         // Controla las entradas del pH********************
+        document.getElementById("phInput").addEventListener("input", function(event) {
+            let value = this.value;
+            // Convertir coma a punto
+            if (value.includes(",")) {
+                this.value = value.replace(",", ".");
+                value = this.value;
+            }
+            // Validar y ajustar el valor a un solo decimal
+            if (value.includes(".")) {
+                const parts = value.split(".");
+                if (parts[1].length > 1) {
+                    value = `${parts[0]}.${parts[1].slice(0, 1)}`;
+                }
+            }
+            // Asegurarse de que 0 inicial se mantenga en caso de valores decimales como "0.5"
+            if (value.startsWith(".")) {
+                this.value = "0" + value;
+                value = this.value;
+            }
+            // Eliminar ceros a la izquierda, excepto en "0" o "0."
+            if (value !== "0" && value !== "0." && value.length > 1) {
+                // Convertir a número y volver a cadena para eliminar ceros a la izquierda
+                this.value = parseFloat(value).toString();
+            }
+            if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
+        });
+
         document.getElementById("phInput").addEventListener("focus", function() {
             if (this.value === "") {
                 this.value = 6;
@@ -379,6 +401,35 @@
             }
         });
         // Controla las entradas del KH********************
+        document.getElementById("khInput").addEventListener("input", function(event) {
+            let value = this.value;
+
+            // Convertir coma a punto
+            if (value.includes(",")) {
+                this.value = value.replace(",", ".");
+                value = this.value;
+            }
+            // Validar y ajustar el valor a un solo decimal
+            if (value.includes(".")) {
+                const parts = value.split(".");
+                if (parts[1].length > 1) {
+                    value = `${parts[0]}.${parts[1].slice(0, 1)}`;
+                }
+            }
+            // Asegurarse de que 0 inicial se mantenga en caso de valores decimales como "0.5"
+            if (value.startsWith(".")) {
+                this.value = "0" + value;
+                value = this.value;
+            }
+            // Eliminar ceros a la izquierda, excepto en "0" o "0."
+            if (value !== "0" && value !== "0." && value.length > 1) {
+                // Convertir a número y volver a cadena para eliminar ceros a la izquierda
+                this.value = parseFloat(value).toString();
+            }
+            if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
+        });
+
         document.getElementById("khInput").addEventListener("focus", function() {
             if (this.value === "") {
                 this.value = 2;
@@ -395,48 +446,79 @@
                 });
             }
         });
+
         // Controla las entradas de la temperatura********************
-        document
-            .getElementById("tempInput")
-            .addEventListener("focus", function() {
-                if (this.value === "") {
-                    this.value = 25;
-                }
-            });
-        document
-            .getElementById("tempInput")
-            .addEventListener("change", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("span");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("Temp.")) {
-                            element.classList.remove("text-bg-primary");
-                            element.classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        document.getElementById("tempInput").addEventListener("input", function(event) {
+            let value = this.value;
+            // Remover cualquier coma ingresada
+            if (value.includes(",")) {
+                this.value = value.replace(",", "");
+                value = this.value;
+            }
+            // Remover ceros a la izquierda excepto en el valor "0"
+            if (value !== "0" && value.length > 1) {
+                // Convertir a número entero y volver a cadena para eliminar ceros a la izquierda
+                this.value = parseInt(value, 10).toString();
+            }
+            if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
+        });
+
+        document.getElementById("tempInput").addEventListener("focus", function() {
+            if (this.value === "") {
+                this.value = 25;
+            }
+        });
+        document.getElementById("tempInput").addEventListener("change", (event) => {
+            if (event.returnValue) {
+                const elements = document.querySelectorAll("span");
+                elements.forEach((element) => {
+                    if (element.textContent.includes("Temp.")) {
+                        element.classList.remove("text-bg-primary");
+                        element.classList.add("text-bg-light");
+                    }
+                });
+            }
+        });
+
         // Controla las entradas de nitratos********************
-        document
-            .getElementById("no3Input")
-            .addEventListener("focus", function() {
-                if (this.value === "") {
-                    this.value = 10;
-                }
-            });
-        document
-            .getElementById("no3Input")
-            .addEventListener("change", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("span");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("NO3")) {
-                            element.classList.remove("text-bg-danger");
-                            element.classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        document.getElementById("no3Input").addEventListener("input", function(event) {
+            let value = this.value;
+
+            // Remover cualquier coma ingresada
+            if (value.includes(",")) {
+                this.value = value.replace(",", "");
+                value = this.value;
+            }
+
+            // Remover ceros a la izquierda excepto en el valor "0"
+            if (value !== "0" && value.length > 1) {
+                // Convertir a número entero y volver a cadena para eliminar ceros a la izquierda
+                this.value = parseInt(value, 10).toString();
+            }
+
+            if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
+        });
+
+        document.getElementById("no3Input").addEventListener("focus", function() {
+            if (this.value === "") {
+                this.value = 10;
+            }
+        });
+
+        document.getElementById("no3Input").addEventListener("change", (event) => {
+            if (event.returnValue) {
+                const elements = document.querySelectorAll("span");
+                elements.forEach((element) => {
+                    if (element.textContent.includes("NO3")) {
+                        element.classList.remove("text-bg-danger");
+                        element.classList.add("text-bg-light");
+                    }
+                });
+            }
+        });
+
         // Controla la entrada del número de acuario********************
         document
             .getElementById("menuAcuarios")
