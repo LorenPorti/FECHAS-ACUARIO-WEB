@@ -117,44 +117,32 @@
 <body>
     <div class="container-fluid p-2 bg-primary text-white text-center fixed-header">
         <div class="h2-container">
-            <h2 class="roboto-regular p-2 m-0">Toma Datos del Acuario</h2>
+            <h2 class="roboto-regular p-2 m-0">Toma Datos de Acuario</h2>
             <div class="dropdown">
                 <button class="btn btn-link text-white dropdown-toggle custom-dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-sharp fa-solid fa-ellipsis-vertical"></i>
-          </button>
+          <i class="fa-sharp fa-solid fa-ellipsis-vertical"></i>
+        </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" id="menuCabecera">
                     <li>
-                        <a class="dropdown-item" href="#" id="enviar">Enviar por correo</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" href="#" id="reiniciar"
-                >Reinicar datos</a
-              >
-            </li>
-          </ul>
+                        <a class="dropdown-item" href="#" id="enviar">Enviar por correo</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" id="reiniciar">Reinicar datos</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="content">
-      <div class="input-group mt-1 custom-border">
-        <!-- Entrada del númewro de acuario -->
-        <div style="background-color: #bec6a0" id="contentAcuarios">
-          <a
-            class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium"
-            padding-top="20"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-expanded="false"
-            id="acuariosInput"
-            style="width: 140px"
-          >
-            Selecc. acuario
-          </a>
-                        <ul class="dropdown-menu" id="menuAcuarios">
-                            <!-- <li>
+        <div class="input-group mt-1 custom-border">
+            <!-- Entrada del númewro de acuario -->
+            <div style="background-color: #bec6a0" id="contentAcuarios">
+                <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="acuariosInput" style="width: 140px">
+          Selecc. acuario
+        </a>
+                <ul class="dropdown-menu" id="menuAcuarios">
+                    <!-- <li>
                         <a class="dropdown-item montserrat-medium-italic" href="#">Uno</a>
                     </li>
                     <li>
@@ -163,7 +151,7 @@
                     <li>
                         <a class="dropdown-item montserrat-medium-italic" href="#">Sin CO2</a>
                     </li> -->
-                        </ul>
+                </ul>
             </div>
             <h5 class="mt-2 ms-1 roboto-medium-italic" id="acuarios">&nbsp;</h5>
             <!-- &nbsp;espacio no rompible -->
@@ -197,63 +185,44 @@
             <!-- Entrada de la Inyección -->
             <div style="background-color: #bec6a0" id="contentInyeccion">
                 <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="inyInput" style="width: 140px">
-            Inyección CO2
-          </a>
+          Inyección CO2
+        </a>
                 <ul class="dropdown-menu" id="menuInyeccion">
                     <li>
-                        <a class="dropdown-item montserrat-medium-italic" href="#">CO2 bot. pres.</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >CO2 levadura</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Sin CO2</a
-              >
-            </li>
-          </ul>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">CO2 bot. pres.</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">CO2 levadura</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Sin CO2</a>
+                    </li>
+                </ul>
+            </div>
+            <h5 class="mt-2 ms-5 roboto-medium-italic" id="inyeccion">&nbsp;</h5>
+            <!-- &nbsp;espacio no rompible -->
         </div>
-        <h5 class="mt-2 ms-5 roboto-medium-italic" id="inyeccion">&nbsp;</h5>
-        <!-- &nbsp;espacio no rompible -->
-      </div>
 
-      <div class="input-group mt-2 custom-border">
-        <!-- Entrada del estado de las plantas -->
-        <div style="background-color: #bec6a0" id="contentPlantas">
-          <a
-            class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium"
-            padding-top="20"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-expanded="false"
-            id="plantasInput"
-            style="width: 140px"
-          >
-            Estado plantas
-          </a>
-                        <ul class="dropdown-menu" id="menuPlantas">
-                            <li>
-                                <a class="dropdown-item montserrat-medium-italic" href="#">Excelente</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Normal</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Regular</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#">Mal</a>
-                            </li>
-                        </ul>
+        <div class="input-group mt-2 custom-border">
+            <!-- Entrada del estado de las plantas -->
+            <div style="background-color: #bec6a0" id="contentPlantas">
+                <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="plantasInput" style="width: 140px">
+          Estado plantas
+        </a>
+                <ul class="dropdown-menu" id="menuPlantas">
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Excelente</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Normal</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Regular</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Mal</a>
+                    </li>
+                </ul>
             </div>
             <h5 class="mt-2 ms-5 roboto-medium-italic" id="plantas">&nbsp;</h5>
             <!-- &nbsp;espacio no rompible -->
@@ -263,152 +232,88 @@
             <!-- Entrada del estado del agua -->
             <div style="background-color: #bec6a0" id="contentAgua">
                 <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="aguaInput" style="width: 140px">
-            Estado del agua
-          </a>
+          Estado del agua
+        </a>
                 <ul class="dropdown-menu" id="menuAgua">
                     <li>
-                        <a class="dropdown-item montserrat-medium-italic" href="#">Transparente</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Casi transp.</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Turbia</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Muy turbia</a
-              >
-            </li>
-          </ul>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Transparente</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Casi transp.</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Turbia</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Muy turbia</a>
+                    </li>
+                </ul>
+            </div>
+            <h5 class="mt-2 ms-5 roboto-medium-italic" id="agua">&nbsp;</h5>
+            <!-- &nbsp;espacio no rompible -->
         </div>
-        <h5 class="mt-2 ms-5 roboto-medium-italic" id="agua">&nbsp;</h5>
-        <!-- &nbsp;espacio no rompible -->
-      </div>
 
-      <div class="input-group mt-2 custom-border">
-        <!-- Entrada de la cantidad de algas -->
-        <div style="background-color: #bec6a0" id="contentAlgas">
-          <a
-            class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium"
-            padding-top="20"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-expanded="false"
-            id="algasInput"
-            style="width: 140px"
-          >
-            Estado de algas
-          </a>
-                        <ul class="dropdown-menu" id="menuAlgas">
-                            <li>
-                                <a class="dropdown-item montserrat-medium-italic" href="#">Ninguna</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Presencia</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Cubierto</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Muy cubierto</a
-              >
-            </li>
-          </ul>
+        <div class="input-group mt-2 custom-border">
+            <!-- Entrada de la cantidad de algas -->
+            <div style="background-color: #bec6a0" id="contentAlgas">
+                <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="algasInput" style="width: 140px">
+          Estado de algas
+        </a>
+                <ul class="dropdown-menu" id="menuAlgas">
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Ninguna</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Presencia</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Cubierto</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Muy cubierto</a>
+                    </li>
+                </ul>
+            </div>
+            <h5 class="mt-2 ms-5 roboto-medium-italic" id="algas">&nbsp;</h5>
+            <!-- &nbsp;espacio no rompible -->
         </div>
-        <h5 class="mt-2 ms-5 roboto-medium-italic" id="algas">&nbsp;</h5>
-        <!-- &nbsp;espacio no rompible -->
-      </div>
 
-      <div class="input-group mt-2 custom-border">
-        <!-- Entrada del estado de la superficie del agua -->
-        <div style="background-color: #bec6a0" id="contentSup">
-          <a
-            class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium"
-            padding-top="20"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-expanded="false"
-            id="supInput"
-            style="width: 140px"
-          >
-            Estado sup. agua
-          </a>
-                                <ul class="dropdown-menu" id="menuSup">
-                                    <li>
-                                        <a class="dropdown-item montserrat-medium-italic" href="#">Limpia</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Casi limpia</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Sucia</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item montserrat-medium-italic" href="#"
-                >Muy sucia</a
-              >
-            </li>
-          </ul>
+        <div class="input-group mt-2 custom-border">
+            <!-- Entrada del estado de la superficie del agua -->
+            <div style="background-color: #bec6a0" id="contentSup">
+                <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="supInput" style="width: 140px">
+          Estado sup. agua
+        </a>
+                <ul class="dropdown-menu" id="menuSup">
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Limpia</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Casi limpia</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Sucia</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item montserrat-medium-italic" href="#">Muy sucia</a>
+                    </li>
+                </ul>
+            </div>
+            <h5 class="mt-2 ms-5 roboto-medium-italic" id="superficie">&nbsp;</h5>
+            <!-- &nbsp;espacio no rompible -->
         </div>
-        <h5 class="mt-2 ms-5 roboto-medium-italic" id="superficie">&nbsp;</h5>
-        <!-- &nbsp;espacio no rompible -->
-      </div>
 
-      <!-- Comentarios***************** -->
-      <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 1:</h6>
-      <textarea
-        type="text"
-        class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded"
-        rows="4"
-        id="comentario_1"
-      ></textarea>
-      <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 2:</h6>
-      <textarea
-        type="text"
-        class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded"
-        rows="4"
-        id="comentario_2"
-      ></textarea>
-      <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 3:</h6>
-      <textarea
-        type="text"
-        class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded"
-        rows="4"
-        id="comentario_3"
-      ></textarea>
-      <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 4:</h6>
-      <textarea
-        type="text"
-        class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded"
-        rows="4"
-        id="comentario_4"
-      ></textarea>
-      <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 5:</h6>
-      <textarea
-        type="text"
-        class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded"
-        rows="4"
-        id="comentario_5"
-      ></textarea>
+        <!-- Comentarios***************** -->
+        <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 1:</h6>
+        <textarea type="text" class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded" rows="4" id="comentario_1"></textarea>
+        <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 2:</h6>
+        <textarea type="text" class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded" rows="4" id="comentario_2"></textarea>
+        <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 3:</h6>
+        <textarea type="text" class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded" rows="4" id="comentario_3"></textarea>
+        <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 4:</h6>
+        <textarea type="text" class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded" rows="4" id="comentario_4"></textarea>
+        <h6 class="montserrat-regular-italic mt-2 text-primary">comentario 5:</h6>
+        <textarea type="text" class="container-fluid georgia-medium h6 scroll-coment border border-2 border-info rounded" rows="4" id="comentario_5"></textarea>
     </div>
 
     <!-- Botones para enviar el correo -->
@@ -429,222 +334,202 @@
     </script> -->
 
     <script type="module">
-      import {
-        procesarAcuariosJson,
-        procesarInyeccion,
-        procesarPlantas,
-        procesarAlgas,
-        procesarAgua,
-        procesarSup,
-        procesarAcuarios,
-        enviarCorreo,
-      } from "./paraEsto.js";
-      procesarAcuariosJson();
-      procesarInyeccion();
-      procesarPlantas();
-      procesarAlgas();
-      procesarAgua();
-      procesarSup();
-      procesarAcuarios();
-      document.getElementById("enviar").addEventListener("click", () => {
-        enviarCorreo();
-      });
-      document.getElementById("reiniciar").addEventListener("click", () => {
-        window.location.reload();
-      });
+        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas(); procesarAlgas(); procesarAgua();
+        procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => { window.location.reload(); });
     </script>
 
     <script>
-      document.getElementById("khInput").addEventListener("input", function () {
-        this.value = this.value.replace(/[^0-9]/g, ""); // Elimina caracteres no numéricos
-        if(this.value < 0)this.value =0;
-        if(this.value > 10)this.value =10;
-      });
+        document.getElementById("khInput").addEventListener("input", function() {
+            this.value = this.value.replace(/[^0-9]/g, ""); // Elimina caracteres no numéricos
+            if (this.value < 0) this.value = 0;
+            if (this.value > 10) this.value = 10;
+        });
 
-      // Primer filtro. accordion-button las entradas una a una
-      // si se ha hecho una entrada con datos adecuados cambia el color del fondo de titulo del elemento
-      // Controla la entrada de la fecha********************
-      document
-        .getElementById("dateInput")
-        .addEventListener("change", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("span");
-            elements.forEach((element) => {
-              if (element.textContent.includes("Fecha")) {
-                element.classList.remove("text-bg-secondary");
-                element.classList.add("text-bg-light");
-              }
+        // Primer filtro. accordion-button las entradas una a una
+        // si se ha hecho una entrada con datos adecuados cambia el color del fondo de titulo del elemento
+        // Controla la entrada de la fecha********************
+        document
+            .getElementById("dateInput")
+            .addEventListener("change", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("span");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("Fecha")) {
+                            element.classList.remove("text-bg-secondary");
+                            element.classList.add("text-bg-light");
+                        }
+                    });
+                }
             });
-          }
-        });
-      // Controla las entradas del pH********************
-      document.getElementById("phInput").addEventListener("focus", function () {
-        if (this.value === "") {
-          this.value = 6;
-        }
-      });
-      document.getElementById("phInput").addEventListener("change", (event) => {
-        if (event.returnValue) {
-          const elements = document.querySelectorAll("span");
-          elements.forEach((element) => {
-            if (element.textContent.includes("pH")) {
-              element.classList.remove("text-bg-warning");
-              element.classList.add("text-bg-light");
+        // Controla las entradas del pH********************
+        document.getElementById("phInput").addEventListener("focus", function() {
+            if (this.value === "") {
+                this.value = 6;
             }
-          });
-        }
-      });
-      // Controla las entradas del KH********************
-      document.getElementById("khInput").addEventListener("focus", function () {
-        if (this.value === "") {
-          this.value = 2;
-        }
-      });
-      document.getElementById("khInput").addEventListener("change", (event) => {
-        if (event.returnValue) {
-          const elements = document.querySelectorAll("span");
-          elements.forEach((element) => {
-            if (element.textContent.includes("KH")) {
-              element.classList.remove("text-bg-success");
-              element.classList.add("text-bg-light");
+        });
+        document.getElementById("phInput").addEventListener("change", (event) => {
+            if (event.returnValue) {
+                const elements = document.querySelectorAll("span");
+                elements.forEach((element) => {
+                    if (element.textContent.includes("pH")) {
+                        element.classList.remove("text-bg-warning");
+                        element.classList.add("text-bg-light");
+                    }
+                });
             }
-          });
-        }
-      });
-      // Controla las entradas de la temperatura********************
-      document
-        .getElementById("tempInput")
-        .addEventListener("focus", function () {
-          if (this.value === "") {
-            this.value = 25;
-          }
         });
-      document
-        .getElementById("tempInput")
-        .addEventListener("change", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("span");
-            elements.forEach((element) => {
-              if (element.textContent.includes("Temp.")) {
-                element.classList.remove("text-bg-primary");
-                element.classList.add("text-bg-light");
-              }
-            });
-          }
-        });
-      // Controla las entradas de nitratos********************
-      document
-        .getElementById("no3Input")
-        .addEventListener("focus", function () {
-          if (this.value === "") {
-            this.value = 10;
-          }
-        });
-      document
-        .getElementById("no3Input")
-        .addEventListener("change", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("span");
-            elements.forEach((element) => {
-              if (element.textContent.includes("NO3")) {
-                element.classList.remove("text-bg-danger");
-                element.classList.add("text-bg-light");
-              }
-            });
-          }
-        });
-      // Controla la entrada del número de acuario********************
-      document
-        .getElementById("menuAcuarios")
-        .addEventListener("click", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("a");
-            elements.forEach((element) => {
-              if (element.textContent.includes("Selecc. acuario")) {
-                element.classList.add("text-bg-light");
-                document
-                  .getElementById("contentAcuarios")
-                  .classList.add("text-bg-light");
-              }
-            });
-          }
-        });
-      // Controla las entradas inyección de CO2********************
-      document
-        .getElementById("menuInyeccion")
-        .addEventListener("click", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("a");
-            elements.forEach((element) => {
-              if (element.textContent.includes("Inyección CO2")) {
-                element.classList.add("text-bg-light");
-                document
-                  .getElementById("contentInyeccion")
-                  .classList.add("text-bg-light");
-              }
-            });
-          }
-        });
-      // Controla las entradas del estado de las plantas********************
-      document
-        .getElementById("menuPlantas")
-        .addEventListener("click", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("a");
-            elements.forEach((element) => {
-              if (element.textContent.includes("Estado plantas")) {
-                element.classList.add("text-bg-light");
-                document
-                  .getElementById("contentPlantas")
-                  .classList.add("text-bg-light");
-              }
-            });
-          }
-        });
-      // Controla las entradas del estado del agua********************
-      document.getElementById("menuAgua").addEventListener("click", (event) => {
-        if (event.returnValue) {
-          const elements = document.querySelectorAll("a");
-          elements.forEach((element) => {
-            if (element.textContent.includes("Estado del agua")) {
-              element.classList.add("text-bg-light");
-              document
-                .getElementById("contentAgua")
-                .classList.add("text-bg-light");
+        // Controla las entradas del KH********************
+        document.getElementById("khInput").addEventListener("focus", function() {
+            if (this.value === "") {
+                this.value = 2;
             }
-          });
-        }
-      });
-      // Controla las entradas de la cantidad de algas********************
-      document
-        .getElementById("menuAlgas")
-        .addEventListener("click", (event) => {
-          if (event.returnValue) {
-            const elements = document.querySelectorAll("a");
-            elements.forEach((element) => {
-              if (element.textContent.includes("Estado de algas")) {
-                element.classList.add("text-bg-light");
-                document
-                  .getElementById("contentAlgas")
-                  .classList.add("text-bg-light");
-              }
-            });
-          }
         });
-      // Controla las entradas de la superficie del agua********************
-      document.getElementById("menuSup").addEventListener("click", (event) => {
-        if (event.returnValue) {
-          const elements = document.querySelectorAll("a");
-          elements.forEach((element) => {
-            if (element.textContent.includes("Estado sup. agua")) {
-              element.classList.add("text-bg-light");
-              document
-                .getElementById("contentSup")
-                .classList.add("text-bg-light");
+        document.getElementById("khInput").addEventListener("change", (event) => {
+            if (event.returnValue) {
+                const elements = document.querySelectorAll("span");
+                elements.forEach((element) => {
+                    if (element.textContent.includes("KH")) {
+                        element.classList.remove("text-bg-success");
+                        element.classList.add("text-bg-light");
+                    }
+                });
             }
-          });
-        }
-      });
+        });
+        // Controla las entradas de la temperatura********************
+        document
+            .getElementById("tempInput")
+            .addEventListener("focus", function() {
+                if (this.value === "") {
+                    this.value = 25;
+                }
+            });
+        document
+            .getElementById("tempInput")
+            .addEventListener("change", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("span");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("Temp.")) {
+                            element.classList.remove("text-bg-primary");
+                            element.classList.add("text-bg-light");
+                        }
+                    });
+                }
+            });
+        // Controla las entradas de nitratos********************
+        document
+            .getElementById("no3Input")
+            .addEventListener("focus", function() {
+                if (this.value === "") {
+                    this.value = 10;
+                }
+            });
+        document
+            .getElementById("no3Input")
+            .addEventListener("change", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("span");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("NO3")) {
+                            element.classList.remove("text-bg-danger");
+                            element.classList.add("text-bg-light");
+                        }
+                    });
+                }
+            });
+        // Controla la entrada del número de acuario********************
+        document
+            .getElementById("menuAcuarios")
+            .addEventListener("click", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("a");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("Selecc. acuario")) {
+                            element.classList.add("text-bg-light");
+                            document
+                                .getElementById("contentAcuarios")
+                                .classList.add("text-bg-light");
+                        }
+                    });
+                }
+            });
+        // Controla las entradas inyección de CO2********************
+        document
+            .getElementById("menuInyeccion")
+            .addEventListener("click", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("a");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("Inyección CO2")) {
+                            element.classList.add("text-bg-light");
+                            document
+                                .getElementById("contentInyeccion")
+                                .classList.add("text-bg-light");
+                        }
+                    });
+                }
+            });
+        // Controla las entradas del estado de las plantas********************
+        document
+            .getElementById("menuPlantas")
+            .addEventListener("click", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("a");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("Estado plantas")) {
+                            element.classList.add("text-bg-light");
+                            document
+                                .getElementById("contentPlantas")
+                                .classList.add("text-bg-light");
+                        }
+                    });
+                }
+            });
+        // Controla las entradas del estado del agua********************
+        document.getElementById("menuAgua").addEventListener("click", (event) => {
+            if (event.returnValue) {
+                const elements = document.querySelectorAll("a");
+                elements.forEach((element) => {
+                    if (element.textContent.includes("Estado del agua")) {
+                        element.classList.add("text-bg-light");
+                        document
+                            .getElementById("contentAgua")
+                            .classList.add("text-bg-light");
+                    }
+                });
+            }
+        });
+        // Controla las entradas de la cantidad de algas********************
+        document
+            .getElementById("menuAlgas")
+            .addEventListener("click", (event) => {
+                if (event.returnValue) {
+                    const elements = document.querySelectorAll("a");
+                    elements.forEach((element) => {
+                        if (element.textContent.includes("Estado de algas")) {
+                            element.classList.add("text-bg-light");
+                            document
+                                .getElementById("contentAlgas")
+                                .classList.add("text-bg-light");
+                        }
+                    });
+                }
+            });
+        // Controla las entradas de la superficie del agua********************
+        document.getElementById("menuSup").addEventListener("click", (event) => {
+            if (event.returnValue) {
+                const elements = document.querySelectorAll("a");
+                elements.forEach((element) => {
+                    if (element.textContent.includes("Estado sup. agua")) {
+                        element.classList.add("text-bg-light");
+                        document
+                            .getElementById("contentSup")
+                            .classList.add("text-bg-light");
+                    }
+                });
+            }
+        });
     </script>
-  </body>
+</body>
+
 </html>
