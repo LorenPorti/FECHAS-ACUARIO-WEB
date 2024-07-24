@@ -128,22 +128,33 @@
               >
             </li>
             <li>
-              <a class="dropdown-item" href="#" id="reiniciar">Reinicar datos</a>
-                    </li>
-                </ul>
-            </div>
+              <a class="dropdown-item" href="#" id="reiniciar"
+                >Reinicar datos</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
 
     <div class="content">
-        <div class="input-group mt-1 custom-border">
-            <!-- Entrada del númewro de acuario -->
-            <div style="background-color: #bec6a0" id="contentAcuarios">
-                <a class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium" padding-top="20" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" id="acuariosInput" style="width: 140px">
+      <div class="input-group mt-1 custom-border">
+        <!-- Entrada del númewro de acuario -->
+        <div style="background-color: #bec6a0" id="contentAcuarios">
+          <a
+            class="nav-link dropdown-toggle ms-2 mt-2 roboto-medium"
+            padding-top="20"
+            data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false"
+            id="acuariosInput"
+            style="width: 140px"
+          >
             Selecc. acuario
           </a>
-                <ul class="dropdown-menu" id="menuAcuarios">
-                    <!-- <li>
+                        <ul class="dropdown-menu" id="menuAcuarios">
+                            <!-- <li>
                         <a class="dropdown-item montserrat-medium-italic" href="#">Uno</a>
                     </li>
                     <li>
@@ -152,7 +163,7 @@
                     <li>
                         <a class="dropdown-item montserrat-medium-italic" href="#">Sin CO2</a>
                     </li> -->
-                </ul>
+                        </ul>
             </div>
             <h5 class="mt-2 ms-1 roboto-medium-italic" id="acuarios">&nbsp;</h5>
             <!-- &nbsp;espacio no rompible -->
@@ -438,14 +449,28 @@
       document.getElementById("enviar").addEventListener("click", () => {
         enviarCorreo();
       });
-      document
-        .getElementById("reiniciar")
-        .addEventListener("click", () => {
-          window.location.reload();
-        });
+      document.getElementById("reiniciar").addEventListener("click", () => {
+        window.location.reload();
+      });
     </script>
 
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const decrementButton = document.querySelector(".decrement");
+        const incrementButton = document.querySelector(".increment");
+        const numberInput = document.getElementById("customNumberInput");
+
+        decrementButton.addEventListener("click", function () {
+          const step = parseFloat(numberInput.step) || 1;
+          numberInput.value = parseFloat(numberInput.value) - step;
+        });
+
+        incrementButton.addEventListener("click", function () {
+          const step = parseFloat(numberInput.step) || 1;
+          numberInput.value = parseFloat(numberInput.value) + step;
+        });
+      });
+
       // Primer filtro. accordion-button las entradas una a una
       // si se ha hecho una entrada con datos adecuados cambia el color del fondo de titulo del elemento
       // Controla la entrada de la fecha********************
