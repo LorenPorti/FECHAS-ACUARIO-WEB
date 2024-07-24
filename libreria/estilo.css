@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
+
+@font-face {
+    font-family: 'Georgia';
+    src: url('../fonts/georgia.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .roboto-thin {
     font-family: "Roboto", sans-serif;
@@ -97,10 +105,146 @@
     font-style: italic;
 }
 
-.azul {
-    color: blue;
+.edu-au-vic-wa-nt-hand-thin {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 100;
+    font-style: normal;
 }
 
-.marron {
-    color: maroon;
+.edu-au-vic-wa-nt-hand-light {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.edu-au-vic-wa-nt-hand-regular {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.edu-au-vic-wa-nt-hand-medium {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.edu-au-vic-wa-nt-hand-bold {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.edu-au-vic-wa-nt-hand-black {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.edu-au-vic-wa-nt-hand-thin-italic {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.edu-au-vic-wa-nt-hand-light-italic {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.edu-au-vic-wa-nt-hand-regular-italic {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.edu-au-vic-wa-nt-hand-medium-italic {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.edu-au-vic-wa-nt-hand-bold-italic {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.edu-au-vic-wa-nt-hand-black-italic {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.georgia-thin {
+    font-family: "georgia";
+    font-weight: 100;
+    font-style: normal;
+}
+
+.georgia-light {
+    font-family: "georgia";
+    font-weight: 300;
+    font-style: normal;
+}
+
+.georgia-regular {
+    font-family: "georgia";
+    font-weight: 400;
+    font-style: normal;
+}
+
+.georgia-medium {
+    font-family: "georgia";
+    font-weight: 500;
+    font-style: normal;
+}
+
+.georgia-bold {
+    font-family: "georgia";
+    font-weight: 700;
+    font-style: normal;
+}
+
+.georgia-black {
+    font-family: "georgia";
+    font-weight: 900;
+    font-style: normal;
+}
+
+.georgia-thin-italic {
+    font-family: "georgia";
+    font-weight: 100;
+    font-style: italic;
+}
+
+.georgia-light-italic {
+    font-family: "georgia";
+    font-weight: 300;
+    font-style: italic;
+}
+
+.georgia-regular-italic {
+    font-family: "georgia";
+    font-weight: 400;
+    font-style: italic;
+}
+
+.georgia-medium-italic {
+    font-family: "georgia";
+    font-weight: 500;
+    font-style: italic;
+}
+
+.georgia-bold-italic {
+    font-family: "georgia";
+    font-weight: 700;
+    font-style: italic;
+}
+
+.georgia-black-italic {
+    font-family: "georgia";
+    font-weight: 900;
+    font-style: italic;
 }
