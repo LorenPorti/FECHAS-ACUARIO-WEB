@@ -119,10 +119,11 @@ export function enviarCorreo() {
     return;
   }
 
-  let objetoJson =
-    JSON.stringify(
-      jsonData
-    ); /* let objetoJson = JSON.stringify(jsonData, null, 2); */
+  let objetoJson = JSON.stringify(
+    jsonData,
+    null,
+    2
+  ); /* let objetoJson = JSON.stringify(jsonData, null, 2); */
 
   const templateParams = {
     message: objetoJson,
