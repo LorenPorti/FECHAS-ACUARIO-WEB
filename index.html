@@ -355,6 +355,13 @@
                     });
                 }
             });
+
+        function moveCursorToEnd(elemento) {
+            const input = document.getElementById(elemento);
+            input.focus();
+            input.setSelectionRange(input.value.length, input.value.length);
+        }
+
         // Controla las entradas del pH********************
         document.getElementById("phInput").addEventListener("input", function(event) {
             let value = this.value;
@@ -380,7 +387,11 @@
                 // Convertir a número y volver a cadena para eliminar ceros a la izquierda
                 this.value = parseFloat(value).toString();
             }
-            if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            //Si el número es menor que el mínimo especificado en el input
+            if (Number(this.value) < Number(this.min) || this.value == "") {
+                this.value = 0;
+                moveCursorToEnd('phInput');
+            }
             if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
         });
 
