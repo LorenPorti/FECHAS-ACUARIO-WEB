@@ -2,12 +2,12 @@
     "short_name": "F-Acuario",
     "name": "FECHAS ACUARIO",
     "icons": [{
-            "src": "/imagenes/send-email2.svg",
+            "src": "/imagenes/fish2.svg",
             "type": "icon",
             "sizes": "128x128"
         },
         {
-            "src": "/imagenes/send-email2.svg",
+            "src": "/imagenes/fish2.svg",
             "type": "icon",
             "sizes": "512x512"
         }
