@@ -2,10 +2,16 @@
     "short_name": "F-Acuario",
     "name": "FECHAS ACUARIO",
     "icons": [{
-        "src": "/imagenes/fish2.png",
-        "type": "image/png",
-        "sizes": "512x512"
-    }],
+            "src": "/imagenes/fish2.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/imagenes/fish2.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#000000",
