@@ -3,7 +3,8 @@
     "name": "FECHAS ACUARIO",
     "icons": [{
         "src": "/imagenes/fish2.png",
-        "type": "icon"
+        "type": "icon",
+        "sizes": "512x512"
     }],
     "start_url": "/",
     "display": "standalone",
