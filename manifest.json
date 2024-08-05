@@ -1,13 +1,13 @@
 {
     "short_name": "F-Acuario",
-    "name": "FECHAS ACUARIO",
+    "name": "FECHAS ACUARIO\r\nTOMA DE DATOS",
     "icons": [{
-            "src": "/imagenes/fish2.png",
+            "src": "/imagenes/fish-email.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "/imagenes/fish2.png",
+            "src": "/imagenes/fish-email.png",
             "type": "image/png",
             "sizes": "512x512"
         }
