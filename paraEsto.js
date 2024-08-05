@@ -169,6 +169,7 @@ function formatDate(dateString) {
     return `${day} ${month} ${year}`;
 }
 
+
 // convierte un valor de la forma "17 jul 2024" a Date
 function parseDateString(dateString) {
     const months = [
@@ -207,18 +208,20 @@ function comprobrarDatos(objeto) {
         alert("No se ha seleccionado ningun acuario.");
         return;
     }
-    if (parseDateString(objeto.fecha) === null) {
+
+    const fecha = parseDateString(objeto.fecha);
+
+    if (fecha === null) {
         banderaError = true;
         alert("La fecha es incorrecta.");
         return;
     }
-    if (parseDateString(objeto.fecha).milliseconds > Date.now()) {
+    if (fecha.milliseconds > Date.now()) {
         banderaError = true;
         alert("La fecha no puede ser posterior a la actual.");
         return;
     }
-    const fecha = new Date(objeto.fecha);
-    if (fecha.getDay() != 0) {
+    if (fecha.dateObject.getDay() != 0) {
         banderaError = true;
         alert("La fecha tiene que ser domingo.");
         return;
