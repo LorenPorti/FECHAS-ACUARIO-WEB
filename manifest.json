@@ -4,7 +4,9 @@
     "icons": [{
         "src": "/imagenes/fish2.svg",
         "type": "icon",
-        "sizes": "512x512"
+        "sizes": "512x512",
+        "wigth": "80px",
+        "height": "60px"
     }],
     "start_url": "/",
     "display": "standalone",
