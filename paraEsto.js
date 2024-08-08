@@ -136,7 +136,7 @@ export function enviarCorreo() {
     const templateParams = {
         message: objetoJson,
         to_email: CORREO_ELECTRONICO,
-        subject: `Num. ${jsonData.acuarioNum} «${jsonData.tituloAcuario}» - ${jsonData.fecha}`,
+        subject: `Num. ${jsonData.acuarioNum} «${jsonData.tituloAcuario}» - ${transformarFecha(jsonData.fecha)}`,
     };
 
     emailjs
@@ -211,6 +211,33 @@ function parseDateString(dateString) {
         dateObject: date,
         milliseconds: date.getTime(),
     };
+}
+
+// Convierte un valor de la forma "4 ago 2024" a "2024-08-04"
+function transformarFecha(dateString) {
+    const months = {
+        "ene": "01",
+        "feb": "02",
+        "mar": "03",
+        "abr": "04",
+        "may": "05",
+        "jun": "06",
+        "jul": "07",
+        "ago": "08",
+        "sep": "09",
+        "oct": "10",
+        "nov": "11",
+        "dic": "12"
+    };
+
+    const [day, month, year] = dateString.split(" ");
+
+    const formattedMonth = months[month.toLowerCase()];
+
+    // Asegura que el día tiene dos dígitos
+    const formattedDay = day.padStart(2, '0');
+
+    return `${year}-${formattedMonth}-${formattedDay}`;
 }
 
 function comprobrarDatos(objeto) {
