@@ -20,9 +20,20 @@ export async function procesarAcuariosJson() {
         document
             .getElementById("menuAcuarios")
             .addEventListener("click", function(event) {
-                const selectedText = event.target.textContent;
+                /* const selectedText = event.target.textContent;
                 titulo.textContent = `${selectedText.substring(5)}`;
-                numero.textContent = `Acuario num. ${selectedText.substring(0, 3)}:`;
+                numero.textContent = `Acuario num. ${selectedText.substring(0, 3)}:`; */
+                // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+                if (event.target.tagName === 'A') {
+                    // Evita la acción por defecto
+                    event.preventDefault();
+                    // Actualiza el contenido del <h5> con el texto seleccionado
+                    document.getElementById('acuarios').textContent = event.target.textContent;
+
+                    document
+                        .getElementById("contentAcuarios")
+                        .classList.add("text-bg-light");
+                }
             });
     } catch (error) {
         console.error("Error fetching JSON:", error);

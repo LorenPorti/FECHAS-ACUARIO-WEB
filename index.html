@@ -335,8 +335,9 @@
     </script> -->
 
     <script type="module">
-        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas(); procesarAlgas(); procesarAgua();
-        procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => { window.location.reload(); });
+        import { procesarAcuariosJson, /* procesarInyeccion, */ /* procesarPlantas, */ /* procesarAlgas, */ /* procesarAgua, */ /* procesarSup, */ /* procesarAcuarios, */ enviarCorreo, } from "./paraEsto.js"; procesarAcuariosJson(); /* procesarInyeccion(); */
+        /* procesarPlantas(); */ /* procesarAlgas(); */ /* procesarAgua(); */ /* procesarSup(); */ /* procesarAcuarios(); */ document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click",
+        () => { window.location.reload(); });
     </script>
 
     <script>
@@ -521,7 +522,7 @@
         });
 
         // Controla la entrada del número de acuario********************
-        document
+        /* document
             .getElementById("menuAcuarios")
             .addEventListener("click", (event) => {
                 if (event.returnValue) {
@@ -535,9 +536,23 @@
                         }
                     });
                 }
-            });
+            }); */
+        document.getElementById('menuAcuarios').addEventListener('click', function(event) {
+            // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+            if (event.target.tagName === 'A') {
+                // Evita la acción por defecto
+                event.preventDefault();
+                // Actualiza el contenido del <h5> con el texto seleccionado
+                document.getElementById('acuarios').textContent = event.target.textContent;
+
+                document
+                    .getElementById("contentAcuarios")
+                    .classList.add("text-bg-light");
+            }
+        });
+
         // Controla las entradas inyección de CO2********************
-        document
+        /* document
             .getElementById("menuInyeccion")
             .addEventListener("click", (event) => {
                 if (event.returnValue) {
@@ -551,9 +566,24 @@
                         }
                     });
                 }
-            });
+            }); */
+        document.getElementById('menuInyeccion').addEventListener('click', function(event) {
+            // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+            if (event.target.tagName === 'A') {
+                // Evita la acción por defecto
+                event.preventDefault();
+                // Actualiza el contenido del <h5> con el texto seleccionado
+                document.getElementById('inyeccion').textContent = event.target.textContent;
+
+                document
+                    .getElementById("contentInyeccion")
+                    .classList.add("text-bg-light");
+            }
+        });
+
+
         // Controla las entradas del estado de las plantas********************
-        document
+        /* document
             .getElementById("menuPlantas")
             .addEventListener("click", (event) => {
                 if (event.returnValue) {
@@ -567,9 +597,23 @@
                         }
                     });
                 }
-            });
+            }); */
+        document.getElementById('menuPlantas').addEventListener('click', function(event) {
+            // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+            if (event.target.tagName === 'A') {
+                // Evita la acción por defecto
+                event.preventDefault();
+                // Actualiza el contenido del <h5> con el texto seleccionado
+                document.getElementById('plantas').textContent = event.target.textContent;
+
+                document
+                    .getElementById("contentPlantas")
+                    .classList.add("text-bg-light");
+            }
+        });
+
         // Controla las entradas del estado del agua********************
-        document.getElementById("menuAgua").addEventListener("click", (event) => {
+        /* document.getElementById("menuAgua").addEventListener("click", (event) => {
             if (event.returnValue) {
                 const elements = document.querySelectorAll("a");
                 elements.forEach((element) => {
@@ -581,12 +625,26 @@
                     }
                 });
             }
+        }); */
+        document.getElementById('menuAgua').addEventListener('click', function(event) {
+            // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+            if (event.target.tagName === 'A') {
+                // Evita la acción por defecto
+                event.preventDefault();
+                // Actualiza el contenido del <h5> con el texto seleccionado
+                document.getElementById('agua').textContent = event.target.textContent;
+
+                document
+                    .getElementById("contentAgua")
+                    .classList.add("text-bg-light");
+            }
         });
+
         // Controla las entradas de la cantidad de algas********************
-        document
+        /* document
             .getElementById("menuAlgas")
             .addEventListener("click", (event) => {
-                if (event.returnValue) {
+                if (event.target.tagName === "A") {
                     const elements = document.querySelectorAll("a");
                     elements.forEach((element) => {
                         if (element.textContent.includes("Estado de algas")) {
@@ -597,9 +655,23 @@
                         }
                     });
                 }
-            });
+            }); */
+        document.getElementById('menuAlgas').addEventListener('click', function(event) {
+            // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+            if (event.target.tagName === 'A') {
+                // Evita la acción por defecto
+                event.preventDefault();
+                // Actualiza el contenido del <h5> con el texto seleccionado
+                document.getElementById('algas').textContent = event.target.textContent;
+
+                document
+                    .getElementById("contentAlgas")
+                    .classList.add("text-bg-light");
+            }
+        });
+
         // Controla las entradas de la superficie del agua********************
-        document.getElementById("menuSup").addEventListener("click", (event) => {
+        /* document.getElementById("menuSup").addEventListener("click", (event) => {
             if (event.returnValue) {
                 const elements = document.querySelectorAll("a");
                 elements.forEach((element) => {
@@ -610,6 +682,19 @@
                             .classList.add("text-bg-light");
                     }
                 });
+            }
+        }); */
+        document.getElementById('menuSup').addEventListener('click', function(event) {
+            // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
+            if (event.target.tagName === 'A') {
+                // Evita la acción por defecto
+                event.preventDefault();
+                // Actualiza el contenido del <h5> con el texto seleccionado
+                document.getElementById('superficie').textContent = event.target.textContent;
+
+                document
+                    .getElementById("contentSup")
+                    .classList.add("text-bg-light");
             }
         });
     </script>
