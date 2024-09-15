@@ -1,4 +1,23 @@
+export let numDelAcuario = null; // Inicializa la variable
+
+export async function obtenerNumAcuario() {
+    try {
+        const response = await fetch("/acuarioActual.json");
+        const numAcuarioActual = await response.json();
+        numDelAcuario = numAcuarioActual[0].numAcuario; // Asigna el valor a la variable
+        return numDelAcuario;
+    } catch (error) {
+        console.error("Error al obtener el número de acuario:", error);
+        return null;
+    }
+}
+
+
 export async function procesarAcuariosJson() {
+    // const numAcuario = await obtenerNumAcuario(); // Llama a obtenerNumAcuario y espera a que se complete
+    // alert(numAcuario); // Muestra el valor obtenido
+    // Aquí puedes usar `numAcuario` o `numDelAcuario` ya que ambos deberían tener el mismo valor
+
     // Carga los datos de acuarios.json y los muestra en el dropmenu
     try {
         const response = await fetch("./acuarios.json");
@@ -20,20 +39,9 @@ export async function procesarAcuariosJson() {
         document
             .getElementById("menuAcuarios")
             .addEventListener("click", function(event) {
-                /* const selectedText = event.target.textContent;
-                titulo.textContent = `${selectedText.substring(5)}`;
-                numero.textContent = `Acuario num. ${selectedText.substring(0, 3)}:`; */
-                // Verifica si el clic fue en un elemento del menú si no seria "UL" en vez de "A"
-                if (event.target.tagName === 'A') {
-                    // Evita la acción por defecto
-                    event.preventDefault();
-                    // Actualiza el contenido del <h5> con el texto seleccionado
-                    document.getElementById('acuarios').textContent = event.target.textContent;
-
-                    document
-                        .getElementById("contentAcuarios")
-                        .classList.add("text-bg-light");
-                }
+                const selectedText = event.target.textContent;
+                // titulo.textContent = `${selectedText.substring(5)}`;
+                numero.textContent = `Acuario num. ${selectedText.substring(0, 3)}:`;
             });
     } catch (error) {
         console.error("Error fetching JSON:", error);
@@ -132,6 +140,9 @@ export function enviarCorreo() {
     }
 
     let objetoJson = JSON.stringify(jsonData, null, 2); /* let objetoJson = JSON.stringify(jsonData, null, 2); */
+
+    let resultado = confirm(objetoJson);
+    if (!resultado) return;
 
     const templateParams = {
         message: objetoJson,
