@@ -127,6 +127,9 @@
                     <li>
                         <a class="dropdown-item" href="#" id="enviar">Enviar por correo</a>
                     </li>
+                    <!-- <li>
+                        <a class="dropdown-item" href="#" id="obtener">Correos enviados</a>
+                    </li> -->
                     <li>
                         <a class="dropdown-item" href="#" id="reiniciar">Reinicar datos</a>
                     </li>
@@ -354,8 +357,9 @@
     </script> -->
 
     <script type="module">
-        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas(); procesarAlgas(); procesarAgua();
-        procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => { window.location.reload(); });
+        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, obtenerCorreo } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas(); procesarAlgas();
+        procesarAgua(); procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => { window.location.reload(); });document.getElementById("obtener").addEventListener("click",
+        () => { obtenerCorreo(); })
     </script>
 
     <script>

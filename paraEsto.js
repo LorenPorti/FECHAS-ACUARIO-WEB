@@ -145,7 +145,7 @@ export async function enviarCorreo() {
         2
     ); /* let objetoJson = JSON.stringify(jsonData, null, 2); */
 
-    let resultado = await showModal("CONTENIDO DEL CORREO", objetoJson);
+    let resultado = await showModal("CONTENIDO DEL CORREO", objetoJson, "Enviar Correo");
     if (!resultado) return;
 
     const templateParams = {
@@ -168,6 +168,10 @@ export async function enviarCorreo() {
                 alert("Fallo en el envío del correo.");
             }
         );
+}
+
+export async function obtenerCorreo() {
+    showModal("LISTA DE CORREOS ENVIADOS", "muchos correos", "Correos Enviados");
 }
 
 // Convierte un valor Date al formato "17 jul 2024"
@@ -258,27 +262,32 @@ function transformarFecha(dateString) {
 }
 
 // Función para mostrar el modal y devolver una promesa que se resuelve con true o false
-function showModal(title, message) {
+function showModal(title, message, botonAvanzar) {
     return new Promise((resolve) => {
         // Actualiza el título y el contenido del modal
-        document.getElementById('modalLabel').innerText = title;
-        document.querySelector('.modal-body').innerText = message;
+        document.getElementById("modalLabel").innerText = title;
+        document.querySelector(".modal-body").innerText = message;
+        document.getElementById("sendEmailButton").innerText = botonAvanzar;
 
         // Muestra el modal
-        const modal = new bootstrap.Modal(document.getElementById('customModal'));
+        const modal = new bootstrap.Modal(document.getElementById("customModal"));
         modal.show();
 
         // Manejador de eventos para el botón "Enviar correo"
-        document.getElementById('sendEmailButton').addEventListener('click', function() {
-            modal.hide();
-            resolve(true); // Resuelve la promesa con true
-        });
+        document
+            .getElementById("sendEmailButton")
+            .addEventListener("click", function() {
+                modal.hide();
+                resolve(true); // Resuelve la promesa con true
+            });
 
         // Manejador de eventos para el botón "Cancelar"
-        document.getElementById('cancelButton').addEventListener('click', function() {
-            modal.hide();
-            resolve(false); // Resuelve la promesa con false
-        });
+        document
+            .getElementById("cancelButton")
+            .addEventListener("click", function() {
+                modal.hide();
+                resolve(false); // Resuelve la promesa con false
+            });
     });
 }
 
