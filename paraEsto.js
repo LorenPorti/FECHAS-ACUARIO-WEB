@@ -161,11 +161,13 @@ export async function enviarCorreo() {
         .then(
             function(response) {
                 console.log("SUCCESS!", response.status, response.text);
-                alert(`Email enviado correctamente a «${CORREO_ELECTRONICO}».`);
+                // alert(`Email enviado correctamente a «${CORREO_ELECTRONICO}».`);
+                showModal("ENVÍO DEL EMAIL", `Email enviado correctamente a «${CORREO_ELECTRONICO}».`, null);
             },
             function(error) {
                 console.log("FAILED...", error);
-                alert("Fallo en el envío del correo.");
+                // alert("Fallo en el envío del correo.");
+                showModal("FALLO EN EL EMAIL", "Fallo en el envío del correo.", null);
             }
         );
 }
@@ -262,12 +264,26 @@ function transformarFecha(dateString) {
 }
 
 // Función para mostrar el modal y devolver una promesa que se resuelve con true o false
+// Si se pone a null el botonAvanzar solo se muestra el boton cancelar con el texto "Enterado"
 function showModal(title, message, botonAvanzar) {
     return new Promise((resolve) => {
         // Actualiza el título y el contenido del modal
         document.getElementById("modalLabel").innerText = title;
         document.querySelector(".modal-body").innerText = message;
-        document.getElementById("sendEmailButton").innerText = botonAvanzar;
+        if (botonAvanzar != null) {
+            document.getElementById("sendEmailButton").hidden = false;
+            document.getElementById("sendEmailButton").innerText = botonAvanzar;
+            document.getElementById("sendEmailButton").classList.remove('btn-secondary');
+            document.getElementById("sendEmailButton").classList.add('btn-primary');
+            document.getElementById("cancelButton").classList.remove('btn-primary');
+            document.getElementById("cancelButton").classList.add('btn-secondary');
+            document.getElementById("cancelButton").innerText = "Cancelar";
+        } else {
+            document.getElementById("sendEmailButton").hidden = true;
+            document.getElementById("cancelButton").innerText = "Enterado";
+            document.getElementById("cancelButton").classList.remove('btn-secondary');
+            document.getElementById("cancelButton").classList.add('btn-primary');
+        }
 
         // Muestra el modal
         const modal = new bootstrap.Modal(document.getElementById("customModal"));
@@ -294,7 +310,8 @@ function showModal(title, message, botonAvanzar) {
 function comprobrarDatos(objeto) {
     if (objeto.acuarioNum == "" || objeto.tituloAcuario == "") {
         banderaError = true;
-        alert("No se ha seleccionado ningun acuario.");
+        // alert("No se ha seleccionado ningun acuario.");
+        showModal("ERROR ENTRADA", "No se ha seleccionado ningun acuario.", null);
         return;
     }
 
@@ -302,66 +319,78 @@ function comprobrarDatos(objeto) {
 
     if (fecha === null) {
         banderaError = true;
-        alert("La fecha es incorrecta.");
+        // alert("La fecha es incorrecta.");
+        showModal("ERROR ENTRADA", "La fecha es incorrecta.", null);
         return;
     }
     if (fecha.milliseconds > Date.now()) {
         banderaError = true;
-        alert("La fecha no puede ser posterior a la actual.");
+        // alert("La fecha no puede ser posterior a la actual.");
+        showModal("ERROR ENTRADA", "La fecha no puede ser posterior a la actual.", null);
         return;
     }
     if (fecha.dateObject.getDay() != 0) {
         banderaError = true;
-        alert("La fecha tiene que ser domingo.");
+        // alert("La fecha tiene que ser domingo.");
+        showModal("ERROR ENTRADA", "La fecha tiene que ser domingo.", null);
         return;
     }
     if (objeto.pH == "") {
         banderaError = true;
-        alert("Falta el pH.");
+        // alert("Falta el pH.");
+        showModal("ERROR ENTRADA", "Falta el pH.", null);
         return;
     }
     if (parseFloat(objeto.pH) < 4 || parseFloat(objeto.pH) > 10) alert("El valor del pH debe estar entre 4 y 10.");
     if (objeto.KH == "") {
         banderaError = true;
-        alert("Falta el KH.");
+        // alert("Falta el KH.");
+        showModal("ERROR ENTRADA", "Falta el KH.", null);
         return;
     }
     if (parseFloat(objeto.KH) < 0 || parseFloat(objeto.KH) > 30) alert("El valor del KH debe estar entre 0 y 30.");
     if (objeto.temp == "") {
         banderaError = true;
-        alert("Falta la temperatura.");
+        // alert("Falta la temperatura.");
+        showModal("ERROR ENTRADA", "Falta la temperatura.", null);
         return;
     }
     if (parseInt(objeto.temp) < 5 || parseInt(objeto.temp) > 40) alert("El valor de la tempeartura debe estar entre 5ºC y 40ºC.");
     if (objeto.NO3 == "") {
         banderaError = true;
-        alert("Falta el valor del nitrato.");
+        // alert("Falta el valor del nitrato.");
+        showModal("ERROR ENTRADA", "Falta el valor del nitrato.", null);
         return;
     }
     if (parseInt(objeto.NO3) < 0 || parseInt(objeto.NO3) > 100) alert("El valor del NO3 debe estar entre 0 y 100.");
     if (objeto.inyCO2.trim() == "") {
         banderaError = true;
-        alert("Falta el tipo de inyección de CO2.");
+        // alert("Falta el tipo de inyección de CO2.");
+        showModal("ERROR ENTRADA", "Falta el tipo de inyección de CO2.", null);
         return;
     }
     if (objeto.plantas.trim() == "") {
         banderaError = true;
-        alert("Falta el estado de las plantas.");
+        // alert("Falta el estado de las plantas.");
+        showModal("ERROR ENTRADA", "Falta el estado de las plantas.", null);
         return;
     }
     if (objeto.agua.trim() == "") {
         banderaError = true;
-        alert("Falta el estado del agua.");
+        // alert("Falta el estado del agua.");
+        showModal("ERROR ENTRADA", "Falta el estado del agua.", null);
         return;
     }
     if (objeto.algas.trim() == "") {
         banderaError = true;
-        alert("Falta el estado de las algas.");
+        // alert("Falta el estado de las algas.");
+        showModal("ERROR ENTRADA", "Falta el estado de las algas.", null);
         return;
     }
     if (objeto.supAgua.trim() == "") {
         banderaError = true;
-        alert("Falta el estado de la superficie del agua.");
+        // alert("Falta el estado de la superficie del agua.");
+        showModal("ERROR ENTRADA", "Falta el estado de la superficie del agua.", null);
         return;
     }
 }
