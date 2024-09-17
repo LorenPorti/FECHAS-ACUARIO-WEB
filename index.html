@@ -174,9 +174,6 @@
             <!-- Entrada del NO3 -->
             <span class="input-group-text text-bg-danger">NO3 (ppm)</span>
             <input type="number" value="" min="0" max="50" class="roboto-medium-italic form-control" id="no3Input" />
-            <!-- Entrada del KH -->
-            <!-- <span class="input-group-text text-bg-success">KH (dKH)</span>
-            <input type="number" value="" min="0" max="10" step="0.5" class="roboto-medium-italic form-control" id="khInput" /> -->
         </div>
 
         <div class="input-group mt-2 custom-border">
@@ -186,9 +183,6 @@
             <!-- Entrada de la temperatura -->
             <span class="input-group-text text-bg-primary">Temp. (ºC)</span>
             <input type="number" value="" min="0" max="32" class="roboto-medium-italic form-control" id="tempInput" />
-            <!-- Entrada del NO3 -->
-            <!-- <span class="input-group-text text-bg-danger">NO3 (ppm)</span>
-            <input type="number" value="" min="0" max="50" class="roboto-medium-italic form-control" id="no3Input" /> -->
         </div>
 
         <div class="input-group mt-2 custom-border">
@@ -363,9 +357,9 @@
     </script> -->
 
     <script type="module">
-        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, obtenerCorreo } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas(); procesarAlgas();
-        procesarAgua(); procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => { window.location.reload(); });document.getElementById("obtener").addEventListener("click",
-        () => { obtenerCorreo(); })
+        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, obtenerCorreo,reiniciarDatos } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas();
+        procesarAlgas(); procesarAgua(); procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => {reiniciarDatos()
+        });document.getElementById("obtener").addEventListener("click", () => { obtenerCorreo(); })
     </script>
 
     <script>

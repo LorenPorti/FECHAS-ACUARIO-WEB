@@ -12,6 +12,12 @@ export async function obtenerNumAcuario() {
     }
 }
 
+export async function reiniciarDatos() {
+    let reslt = await showModal("REINICIAR TODOS LOS CUADROS DE ENTRADAS", "» Al reiniciar todos los cuadros de entradas se limpiaran.\n\n" +
+        "» EL valor que estuviera en algún cuadro de entrada se borrará.", "Reiniciar");
+    if (!reslt) return;
+    window.location.reload();
+}
 
 export async function procesarAcuariosJson() {
     // const numAcuario = await obtenerNumAcuario(); // Llama a obtenerNumAcuario y espera a que se complete
