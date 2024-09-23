@@ -121,17 +121,26 @@
             <h2 class="roboto-regular p-2 m-0">Toma Datos de Acuario</h2>
             <div class="dropdown">
                 <button class="btn btn-link text-white dropdown-toggle custom-dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-sharp fa-solid fa-ellipsis-vertical"></i>
-        </button>
+                    <i class="fa-sharp fa-solid fa-ellipsis-vertical"></i>
+                </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" id="menuCabecera">
                     <li>
                         <a class="dropdown-item georgia-bold" href="#" id="enviar">Enviar por correo</a>
                     </li>
                     <!-- <li>
-                        <a class="dropdown-item georgia-bold" href="#" id="obtener">Correos enviados</a>
+                        <a class="dropdown-item georgia-bold" href="#" id="obtener">Ver Correo enviado</a>
                     </li> -->
                     <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li>
                         <a class="dropdown-item georgia-bold" href="#" id="reiniciar">Reinicar datos</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item georgia-bold" href="#" id="guardarDatos">Guardar datos actuales</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item georgia-bold" href="#" id="recuperarDatos">Recuperar datos</a>
                     </li>
                 </ul>
             </div>
@@ -355,11 +364,11 @@
         });
       })();
     </script> -->
-
     <script type="module">
-        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo, obtenerCorreo,reiniciarDatos } from "./paraEsto.js"; procesarAcuariosJson(); procesarInyeccion(); procesarPlantas();
-        procesarAlgas(); procesarAgua(); procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click", () => {reiniciarDatos()
-        });document.getElementById("obtener").addEventListener("click", () => { obtenerCorreo(); })
+        import { procesarAcuariosJson, procesarInyeccion, procesarPlantas, procesarAlgas, procesarAgua, procesarSup, procesarAcuarios, enviarCorreo/* , obtenerCorreo */,reiniciarDatos,guardarDatos, recuperarDatos} from "./paraEsto.js"; procesarAcuariosJson();
+        procesarInyeccion(); procesarPlantas(); procesarAlgas(); procesarAgua(); procesarSup(); procesarAcuarios(); document.getElementById("enviar").addEventListener("click", () => { enviarCorreo(); }); document.getElementById("reiniciar").addEventListener("click",
+        () => {reiniciarDatos() });/* document.getElementById("obtener").addEventListener("click", () => { obtenerCorreo(); }); */document.getElementById("guardarDatos").addEventListener("click", () => { guardarDatos(); });document.getElementById("recuperarDatos").addEventListener("click",
+        () => { recuperarDatos(); })
     </script>
 
     <script>
@@ -636,6 +645,8 @@
             }
         });
     </script>
+
+
 </body>
 
 </html>

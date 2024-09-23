@@ -178,8 +178,86 @@ export async function enviarCorreo() {
         );
 }
 
+
+//*************OBTENER CORREOS************************/
 export async function obtenerCorreo() {
-    showModal("LISTA DE CORREOS ENVIADOS", "muchos correos", "Correos Enviados");
+    await showModal(
+        "LISTA DE CORREOS ENVIADOS",
+        "muchos correos",
+        "Correos Enviados"
+    );
+
+}
+
+export async function guardarDatos() {
+    let resultado = await showModal(
+        "GUARDAR DATOS ACTUALES",
+        "Los datos actuales tal como están en sus cuadros de entradas, se guardaran temporalmente en un archivo. Estos datos se pueden recuperar con la opción del menú «Recuperar datos».\n\n" +
+        "Los datos guardados se perderán al reiniciar la página.",
+        "Guardar datos"
+    );
+    if (!resultado) return;
+
+    // Recopilar datos
+    let fecha;
+    if (document.getElementById("dateInput").value == "NaN") { fecha = ""; } else { fecha = document.getElementById("dateInput").value; }
+    const jsonData = {
+        acuarioNum: document.getElementById("acuarios").textContent.substring(1, 2),
+        tituloAcuario: document.getElementById("acuarios").textContent.substring(5),
+        fecha: fecha,
+        pH: document.getElementById("phInput").value,
+        KH: document.getElementById("khInput").value,
+        temp: document.getElementById("tempInput").value,
+        NO3: document.getElementById("no3Input").value,
+        inyCO2: document.getElementById("inyeccion").textContent,
+        plantas: document.getElementById("plantas").textContent,
+        algas: document.getElementById("algas").textContent,
+        agua: document.getElementById("agua").textContent,
+        supAgua: document.getElementById("superficie").textContent,
+        coment1: document.getElementById("comentario_1").value,
+        coment2: document.getElementById("comentario_2").value,
+        coment3: document.getElementById("comentario_3").value,
+        coment4: document.getElementById("comentario_4").value,
+        coment5: document.getElementById("comentario_5").value,
+    };
+
+
+    // Convertir jsonData a string y guardarlo en el Local Storage
+    localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
+
+    await showModal("GUARDAR DATOS", "Los datos contenidos en los inputs se han guardado.\n\n" +
+        "Usar «Recuperar Datos» para recargarlos.\n\n" + "Los datos guardados se perderán al reiniciar la página.", null);
+
+}
+
+export async function recuperarDatos() {
+    let resultado = await showModal("RECUPERAR DATOS", "Los datos que se han guardado con la opción «Guardar datos», se pueden recuperar y sustituiránLos datos que se han guardado con la opción «Guardar datos», se pueden recuperar y sustituirán  a los actuales en sus cuadros de entradas correspondientes.\n\n" + "Los datos guardados se perderán al reiniciar la página.", "Recuperar datos");
+    if (!resultado) return;
+
+    // Recuperar los datos guardados
+    const datosGuardados = localStorage.getItem("datosAcuario");
+
+    // Si existen datos, cargarlos en el formulario
+    if (datosGuardados) {
+        const jsonData = JSON.parse(datosGuardados);
+
+        document.getElementById("acuarios").textContent = "Acuario num. " + jsonData.acuarioNum + ": " + jsonData.tituloAcuario;
+        document.getElementById("dateInput").value = jsonData.fecha;
+        document.getElementById("phInput").value = jsonData.pH;
+        document.getElementById("khInput").value = jsonData.KH;
+        document.getElementById("tempInput").value = jsonData.temp;
+        document.getElementById("no3Input").value = jsonData.NO3;
+        document.getElementById("inyeccion").textContent = jsonData.inyCO2;
+        document.getElementById("plantas").textContent = jsonData.plantas;
+        document.getElementById("algas").textContent = jsonData.algas;
+        document.getElementById("agua").textContent = jsonData.agua;
+        document.getElementById("superficie").textContent = jsonData.supAgua;
+        document.getElementById("comentario_1").value = jsonData.coment1;
+        document.getElementById("comentario_2").value = jsonData.coment2;
+        document.getElementById("comentario_3").value = jsonData.coment3;
+        document.getElementById("comentario_4").value = jsonData.coment4;
+        document.getElementById("comentario_5").value = jsonData.coment5;
+    }
 }
 
 // Convierte un valor Date al formato "17 jul 2024"
@@ -270,7 +348,7 @@ function transformarFecha(dateString) {
 }
 
 // Función para mostrar el modal y devolver una promesa que se resuelve con true o false
-// Si se pone a null el botonAvanzar solo se muestra el boton cancelar con el texto "Enterado"
+// Si se pone a null el botonAvanzar solo se muestra el boton cancelar con el texto "Vale"
 function showModal(title, message, botonAvanzar) {
     return new Promise((resolve) => {
         // Actualiza el título y el contenido del modal
@@ -286,7 +364,7 @@ function showModal(title, message, botonAvanzar) {
             document.getElementById("cancelButton").innerText = "Cancelar";
         } else {
             document.getElementById("sendEmailButton").hidden = true;
-            document.getElementById("cancelButton").innerText = "Enterado";
+            document.getElementById("cancelButton").innerText = "Vale";
             document.getElementById("cancelButton").classList.remove('btn-secondary');
             document.getElementById("cancelButton").classList.add('btn-primary');
         }
