@@ -111,6 +111,10 @@
         .dropdown {
             margin-left: auto;
         }
+        
+        .modal-body {
+            text-align: justify;
+        }
     </style>
 </head>
 
@@ -375,19 +379,19 @@
         // Primer filtro. accordion-button las entradas una a una
         // si se ha hecho una entrada con datos adecuados cambia el color del fondo de titulo del elemento
         // Controla la entrada de la fecha********************
-        document
-            .getElementById("dateInput")
-            .addEventListener("change", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("span");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("Fecha")) {
-                            element.classList.remove("text-bg-secondary");
-                            element.classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        // document
+        //     .getElementById("dateInput")
+        //     .addEventListener("change", (event) => {
+        //         if (event.returnValue) {
+        //             const elements = document.querySelectorAll("span");
+        //             elements.forEach((element) => {
+        //                 if (element.textContent.includes("Fecha")) {
+        //                     element.classList.remove("text-bg-secondary");
+        //                     element.classList.add("text-bg-light");
+        //                 }
+        //             });
+        //         }
+        //     });
         // Controla las entradas del pH********************
         document.getElementById("phInput").addEventListener("input", function(event) {
             let value = this.value;
@@ -422,17 +426,17 @@
                 this.value = 6;
             }
         });
-        document.getElementById("phInput").addEventListener("change", (event) => {
-            if (event.returnValue) {
-                const elements = document.querySelectorAll("span");
-                elements.forEach((element) => {
-                    if (element.textContent.includes("pH")) {
-                        element.classList.remove("text-bg-warning");
-                        element.classList.add("text-bg-light");
-                    }
-                });
-            }
-        });
+        // document.getElementById("phInput").addEventListener("change", (event) => {
+        //     if (event.returnValue) {
+        //         const elements = document.querySelectorAll("span");
+        //         elements.forEach((element) => {
+        //             if (element.textContent.includes("pH")) {
+        //                 element.classList.remove("text-bg-warning");
+        //                 element.classList.add("text-bg-light");
+        //             }
+        //         });
+        //     }
+        // });
         // Controla las entradas del KH********************
         document.getElementById("khInput").addEventListener("input", function(event) {
             let value = this.value;
@@ -468,17 +472,17 @@
                 this.value = 2;
             }
         });
-        document.getElementById("khInput").addEventListener("change", (event) => {
-            if (event.returnValue) {
-                const elements = document.querySelectorAll("span");
-                elements.forEach((element) => {
-                    if (element.textContent.includes("KH")) {
-                        element.classList.remove("text-bg-success");
-                        element.classList.add("text-bg-light");
-                    }
-                });
-            }
-        });
+        // document.getElementById("khInput").addEventListener("change", (event) => {
+        //     if (event.returnValue) {
+        //         const elements = document.querySelectorAll("span");
+        //         elements.forEach((element) => {
+        //             if (element.textContent.includes("KH")) {
+        //                 element.classList.remove("text-bg-success");
+        //                 element.classList.add("text-bg-light");
+        //             }
+        //         });
+        //     }
+        // });
 
         // Controla las entradas de la temperatura********************
         document.getElementById("tempInput").addEventListener("input", function(event) {
@@ -502,17 +506,17 @@
                 this.value = 25;
             }
         });
-        document.getElementById("tempInput").addEventListener("change", (event) => {
-            if (event.returnValue) {
-                const elements = document.querySelectorAll("span");
-                elements.forEach((element) => {
-                    if (element.textContent.includes("Temp.")) {
-                        element.classList.remove("text-bg-primary");
-                        element.classList.add("text-bg-light");
-                    }
-                });
-            }
-        });
+        // document.getElementById("tempInput").addEventListener("change", (event) => {
+        //     if (event.returnValue) {
+        //         const elements = document.querySelectorAll("span");
+        //         elements.forEach((element) => {
+        //             if (element.textContent.includes("Temp.")) {
+        //                 element.classList.remove("text-bg-primary");
+        //                 element.classList.add("text-bg-light");
+        //             }
+        //         });
+        //     }
+        // });
 
         // Controla las entradas de nitratos********************
         document.getElementById("no3Input").addEventListener("input", function(event) {
@@ -540,110 +544,110 @@
             }
         });
 
-        document.getElementById("no3Input").addEventListener("change", (event) => {
-            if (event.returnValue) {
-                const elements = document.querySelectorAll("span");
-                elements.forEach((element) => {
-                    if (element.textContent.includes("NO3")) {
-                        element.classList.remove("text-bg-danger");
-                        element.classList.add("text-bg-light");
-                    }
-                });
-            }
-        });
+        // document.getElementById("no3Input").addEventListener("change", (event) => {
+        //     if (event.returnValue) {
+        //         const elements = document.querySelectorAll("span");
+        //         elements.forEach((element) => {
+        //             if (element.textContent.includes("NO3")) {
+        //                 element.classList.remove("text-bg-danger");
+        //                 element.classList.add("text-bg-light");
+        //             }
+        //         });
+        //     }
+        // });
 
         // Controla la entrada del número de acuario********************
-        document
-            .getElementById("menuAcuarios")
-            .addEventListener("click", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("a");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("Selecc. acuario")) {
-                            element.classList.add("text-bg-light");
-                            document
-                                .getElementById("contentAcuarios")
-                                .classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        // document
+        //     .getElementById("menuAcuarios")
+        //     .addEventListener("click", (event) => {
+        //         if (event.returnValue) {
+        //             const elements = document.querySelectorAll("a");
+        //             elements.forEach((element) => {
+        //                 if (element.textContent.includes("Selecc. acuario")) {
+        //                     element.classList.add("text-bg-light");
+        //                     document
+        //                         .getElementById("contentAcuarios")
+        //                         .classList.add("text-bg-light");
+        //                 }
+        //             });
+        //         }
+        //     });
         // Controla las entradas inyección de CO2********************
-        document
-            .getElementById("menuInyeccion")
-            .addEventListener("click", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("a");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("Inyección CO2")) {
-                            element.classList.add("text-bg-light");
-                            document
-                                .getElementById("contentInyeccion")
-                                .classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        // document
+        //     .getElementById("menuInyeccion")
+        //     .addEventListener("click", (event) => {
+        //         if (event.returnValue) {
+        //             const elements = document.querySelectorAll("a");
+        //             elements.forEach((element) => {
+        //                 if (element.textContent.includes("Inyección CO2")) {
+        //                     element.classList.add("text-bg-light");
+        //                     document
+        //                         .getElementById("contentInyeccion")
+        //                         .classList.add("text-bg-light");
+        //                 }
+        //             });
+        //         }
+        //     });
         // Controla las entradas del estado de las plantas********************
-        document
-            .getElementById("menuPlantas")
-            .addEventListener("click", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("a");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("Estado plantas")) {
-                            element.classList.add("text-bg-light");
-                            document
-                                .getElementById("contentPlantas")
-                                .classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        // document
+        //     .getElementById("menuPlantas")
+        //     .addEventListener("click", (event) => {
+        //         if (event.returnValue) {
+        //             const elements = document.querySelectorAll("a");
+        //             elements.forEach((element) => {
+        //                 if (element.textContent.includes("Estado plantas")) {
+        //                     element.classList.add("text-bg-light");
+        //                     document
+        //                         .getElementById("contentPlantas")
+        //                         .classList.add("text-bg-light");
+        //                 }
+        //             });
+        //         }
+        //     });
         // Controla las entradas del estado del agua********************
-        document.getElementById("menuAgua").addEventListener("click", (event) => {
-            if (event.returnValue) {
-                const elements = document.querySelectorAll("a");
-                elements.forEach((element) => {
-                    if (element.textContent.includes("Estado del agua")) {
-                        element.classList.add("text-bg-light");
-                        document
-                            .getElementById("contentAgua")
-                            .classList.add("text-bg-light");
-                    }
-                });
-            }
-        });
+        // document.getElementById("menuAgua").addEventListener("click", (event) => {
+        //     if (event.returnValue) {
+        //         const elements = document.querySelectorAll("a");
+        //         elements.forEach((element) => {
+        //             if (element.textContent.includes("Estado del agua")) {
+        //                 element.classList.add("text-bg-light");
+        //                 document
+        //                     .getElementById("contentAgua")
+        //                     .classList.add("text-bg-light");
+        //             }
+        //         });
+        //     }
+        // });
         // Controla las entradas de la cantidad de algas********************
-        document
-            .getElementById("menuAlgas")
-            .addEventListener("click", (event) => {
-                if (event.returnValue) {
-                    const elements = document.querySelectorAll("a");
-                    elements.forEach((element) => {
-                        if (element.textContent.includes("Estado de algas")) {
-                            element.classList.add("text-bg-light");
-                            document
-                                .getElementById("contentAlgas")
-                                .classList.add("text-bg-light");
-                        }
-                    });
-                }
-            });
+        // document
+        //     .getElementById("menuAlgas")
+        //     .addEventListener("click", (event) => {
+        //         if (event.returnValue) {
+        //             const elements = document.querySelectorAll("a");
+        //             elements.forEach((element) => {
+        //                 if (element.textContent.includes("Estado de algas")) {
+        //                     element.classList.add("text-bg-light");
+        //                     document
+        //                         .getElementById("contentAlgas")
+        //                         .classList.add("text-bg-light");
+        //                 }
+        //             });
+        //         }
+        //     });
         // Controla las entradas de la superficie del agua********************
-        document.getElementById("menuSup").addEventListener("click", (event) => {
-            if (event.returnValue) {
-                const elements = document.querySelectorAll("a");
-                elements.forEach((element) => {
-                    if (element.textContent.includes("Estado sup. agua")) {
-                        element.classList.add("text-bg-light");
-                        document
-                            .getElementById("contentSup")
-                            .classList.add("text-bg-light");
-                    }
-                });
-            }
-        });
+        // document.getElementById("menuSup").addEventListener("click", (event) => {
+        //     if (event.returnValue) {
+        //         const elements = document.querySelectorAll("a");
+        //         elements.forEach((element) => {
+        //             if (element.textContent.includes("Estado sup. agua")) {
+        //                 element.classList.add("text-bg-light");
+        //                 document
+        //                     .getElementById("contentSup")
+        //                     .classList.add("text-bg-light");
+        //             }
+        //         });
+        //     }
+        // });
     </script>
 
 

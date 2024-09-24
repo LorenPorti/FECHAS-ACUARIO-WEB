@@ -14,9 +14,25 @@ export async function obtenerNumAcuario() {
 
 export async function reiniciarDatos() {
     let reslt = await showModal("REINICIAR TODOS LOS CUADROS DE ENTRADAS", "» Al reiniciar todos los cuadros de entradas se limpiaran.\n\n" +
-        "» EL valor que estuviera en algún cuadro de entrada se borrará.", "Reiniciar");
+        "» EL texto que estuviera en algún cuadro de comentario se borrará.", "Reiniciar");
     if (!reslt) return;
-    window.location.reload();
+
+    const inputs = document.querySelectorAll('textarea'); // Selecciona todos los inputs de comentarios
+    inputs.forEach(input => input.value = ''); // Limpia cada textarea
+
+    document.getElementById("acuarios").innerHTML = "&nbsp;";
+    document.getElementById("dateInput").value = "";
+    document.getElementById("phInput").value = "";
+    document.getElementById("khInput").value = "";
+    document.getElementById("tempInput").value = "";
+    document.getElementById("no3Input").value = "";
+    document.getElementById("plantas").innerHTML = "&nbsp;";
+    document.getElementById("inyeccion").innerHTML = "&nbsp;";
+    document.getElementById("agua").innerHTML = "&nbsp;";
+    document.getElementById("algas").innerHTML = "&nbsp;";
+    document.getElementById("superficie").innerHTML = "&nbsp;";
+
+    // window.location.reload();
 }
 
 export async function procesarAcuariosJson() {
@@ -176,10 +192,19 @@ export async function obtenerCorreo() {
 
 
 export async function guardarDatos() {
+
+    const dispositivo = detectarDispositivo();
+    let txtAdd;
+    if (dispositivo == "escritorio") {
+        txtAdd = "\n\n» Los datos guardados se perderán al reiniciar la página."; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
+    } else {
+        txtAdd = "";
+    }
+
     let resultado = await showModal(
         "GUARDAR DATOS ACTUALES",
-        "Los datos actuales tal como están en sus cuadros de entradas, se guardaran temporalmente en un archivo. Estos datos se pueden recuperar con la opción del menú «Recuperar datos».\n\n" +
-        "Los datos guardados se perderán al reiniciar la página.",
+        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
+        txtAdd,
         "Guardar datos"
     );
     if (!resultado) return;
@@ -211,13 +236,26 @@ export async function guardarDatos() {
     // Convertir jsonData a string y guardarlo en el Local Storage
     localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
 
-    await showModal("GUARDAR DATOS", "Los datos contenidos en los inputs se han guardado.\n\n" +
-        "Usar «Recuperar Datos» para recargarlos.\n\n" + "Los datos guardados se perderán al reiniciar la página.", null);
+    // await showModal("GUARDAR DATOS", "» Los datos contenidos en los inputs se han guardado.\n\n" +
+    //     "» Usar «Recuperar Datos» para recargarlos." +
+    //     txtAdd, null);
 
 }
 
 export async function recuperarDatos() {
-    let resultado = await showModal("RECUPERAR DATOS", "Los datos que se han guardado con la opción «Guardar datos», se pueden recuperar y sustituiránLos datos que se han guardado con la opción «Guardar datos», se pueden recuperar y sustituirán  a los actuales en sus cuadros de entradas correspondientes.\n\n" + "Los datos guardados se perderán al reiniciar la página.", "Recuperar datos");
+    const dispositivo = detectarDispositivo();
+    // console.log("Dispositivo:", dispositivo);
+    let txtAdd;
+    if (dispositivo == "escritorio") {
+        txtAdd = "\n\n» Los datos guardados se perderán al reiniciar la página.";
+    } else {
+        txtAdd = "";
+    }
+
+    let resultado = await showModal("RECUPERAR DATOS", "» Los datos que se han guardado con la opción «Guardar datos»,  actualizarán y sustituirán a los actuales en sus cuadros de entradas correspondientes. Incluso los datos vacíos." +
+        txtAdd,
+        "Recuperar datos"
+    );
     if (!resultado) return;
 
     // Recuperar los datos guardados
@@ -243,6 +281,15 @@ export async function recuperarDatos() {
         document.getElementById("comentario_3").value = jsonData.coment3;
         document.getElementById("comentario_4").value = jsonData.coment4;
         document.getElementById("comentario_5").value = jsonData.coment5;
+    }
+}
+
+function detectarDispositivo() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes("android") || userAgent.includes("iphone") || userAgent.includes("ipad")) {
+        return "móvil"; // Dispositivo móvil
+    } else {
+        return "escritorio"; // Dispositivo de escritorio
     }
 }
 
