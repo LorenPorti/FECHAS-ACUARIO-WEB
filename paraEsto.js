@@ -20,10 +20,6 @@ export async function reiniciarDatos() {
 }
 
 export async function procesarAcuariosJson() {
-    // const numAcuario = await obtenerNumAcuario(); // Llama a obtenerNumAcuario y espera a que se complete
-    // alert(numAcuario); // Muestra el valor obtenido
-    // Aquí puedes usar `numAcuario` o `numDelAcuario` ya que ambos deberían tener el mismo valor
-
     // Carga los datos de acuarios.json y los muestra en el dropmenu
     try {
         const response = await fetch("./acuarios.json");
@@ -39,16 +35,6 @@ export async function procesarAcuariosJson() {
             )
             .join("");
 
-        // Al seleccionar el acuario escribe la información en la cabecera
-        let titulo = document.getElementById("tituloAcuario");
-        let numero = document.getElementById("numeroAcuario");
-        document
-            .getElementById("menuAcuarios")
-            .addEventListener("click", function(event) {
-                const selectedText = event.target.textContent;
-                // titulo.textContent = `${selectedText.substring(5)}`;
-                numero.textContent = `Acuario num. ${selectedText.substring(0, 3)}:`;
-            });
     } catch (error) {
         console.error("Error fetching JSON:", error);
     }
@@ -178,7 +164,6 @@ export async function enviarCorreo() {
         );
 }
 
-
 //*************OBTENER CORREOS************************/
 export async function obtenerCorreo() {
     await showModal(
@@ -188,6 +173,7 @@ export async function obtenerCorreo() {
     );
 
 }
+
 
 export async function guardarDatos() {
     let resultado = await showModal(
@@ -241,7 +227,7 @@ export async function recuperarDatos() {
     if (datosGuardados) {
         const jsonData = JSON.parse(datosGuardados);
 
-        document.getElementById("acuarios").textContent = "Acuario num. " + jsonData.acuarioNum + ": " + jsonData.tituloAcuario;
+        document.getElementById("acuarios").textContent = "(" + jsonData.acuarioNum + ") " + jsonData.tituloAcuario;
         document.getElementById("dateInput").value = jsonData.fecha;
         document.getElementById("phInput").value = jsonData.pH;
         document.getElementById("khInput").value = jsonData.KH;
