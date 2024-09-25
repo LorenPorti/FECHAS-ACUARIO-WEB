@@ -46,7 +46,7 @@ export async function procesarAcuariosJson() {
         document.getElementById("menuAcuarios").innerHTML = acuarios
             .map(
                 (acuario) => `
-            <li><a class="dropdown-item montserrat-medium-italic" href="#">(${acuario.Num})  ${acuario.Nombre}</a></li>
+            <li><a class="dropdown-item montserrat-medium-italic" href="#">(${acuario.Num}) ${acuario.Nombre}</a></li>
         `
             )
             .join("");
@@ -122,7 +122,7 @@ export async function enviarCorreo() {
     // Recopilar datos
     const jsonData = {
         acuarioNum: document.getElementById("acuarios").textContent.substring(1, 2),
-        tituloAcuario: document.getElementById("acuarios").textContent.substring(5),
+        tituloAcuario: document.getElementById("acuarios").textContent.substring(4),
         fecha: formatDate(document.getElementById("dateInput").value),
         pH: document.getElementById("phInput").value,
         KH: document.getElementById("khInput").value,
@@ -170,7 +170,7 @@ export async function enviarCorreo() {
             function(response) {
                 console.log("SUCCESS!", response.status, response.text);
                 // alert(`Email enviado correctamente a «${CORREO_ELECTRONICO}».`);
-                showModal("ENVÍO DEL EMAIL", `Email enviado correctamente a «${CORREO_ELECTRONICO}».`, null);
+                showModal("ENVÍO DEL EMAIL", `Email enviado a «${CORREO_ELECTRONICO}».`, null);
             },
             function(error) {
                 console.log("FAILED...", error);
@@ -214,7 +214,7 @@ export async function guardarDatos() {
     if (document.getElementById("dateInput").value == "NaN") { fecha = ""; } else { fecha = document.getElementById("dateInput").value; }
     const jsonData = {
         acuarioNum: document.getElementById("acuarios").textContent.substring(1, 2),
-        tituloAcuario: document.getElementById("acuarios").textContent.substring(5),
+        tituloAcuario: document.getElementById("acuarios").textContent.substring(4),
         fecha: fecha,
         pH: document.getElementById("phInput").value,
         KH: document.getElementById("khInput").value,
