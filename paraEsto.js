@@ -170,7 +170,7 @@ export async function enviarCorreo() {
             function(response) {
                 console.log("SUCCESS!", response.status, response.text);
                 // alert(`Email enviado correctamente a «${CORREO_ELECTRONICO}».`);
-                showModal("ENVÍO DEL EMAIL", `Email enviado a «${CORREO_ELECTRONICO}».`, null);
+                showModal("ENVÍO DEL EMAIL", `Enviado a «${CORREO_ELECTRONICO}».`, null);
             },
             function(error) {
                 console.log("FAILED...", error);
