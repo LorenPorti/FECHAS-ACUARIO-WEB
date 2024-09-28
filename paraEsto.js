@@ -281,7 +281,12 @@ export async function recuperarDatos() {
     if (datosGuardados) {
         const jsonData = JSON.parse(datosGuardados);
 
-        document.getElementById("acuarios").textContent = "(" + jsonData.acuarioNum + ") " + jsonData.tituloAcuario;
+        if (jsonData.acuarioNum != "") {
+            document.getElementById("acuarios").textContent =
+                "(" + jsonData.acuarioNum + ") " + jsonData.tituloAcuario;
+        } else {
+            document.getElementById("acuarios").innerHTML = "&nbsp;";
+        }
         document.getElementById("dateInput").value = jsonData.fecha;
         document.getElementById("phInput").value = jsonData.pH;
         document.getElementById("khInput").value = jsonData.KH;
