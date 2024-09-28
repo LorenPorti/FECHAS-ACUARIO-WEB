@@ -109,15 +109,31 @@ export function procesarSup() {
 
 // *************Enviar correo***************
 let banderaError = false;
-const CORREO_ELECTRONICO = "lorenporti@outlook.com";
-export async function enviarCorreo() {
+let CORREO_ELECTRONICO = "lorenporti@outlook.com";
+export async function enviarCorreo(gestor) {
+
+    if (gestor == "gmail") {
+        CORREO_ELECTRONICO = "lorenporti47@gmail.com";
+    }
     // Enviar correo usando EmailJS
     // Inicializar EmailJS
-    emailjs.init("IZrWZg4ZaagQIFsUX"); // Tu publicKey de EmailJS
+    let publicKey; // Tu publicKey de EmailJS
+    let service; // Tu service de EmailJS
+    let template;
 
-    // const selectedText = event.target.textContent;
-    // titulo.textContent = `${selectedText.substring(5)}`;
-    // numero.textContent = `Acuario num. ${selectedText.substring(0, 3)}:`;
+    if (gestor == "outlook") {
+        publicKey = "IZrWZg4ZaagQIFsUX"; // Tu publicKey de EmailJS
+        service = "service_esxltkm"; // Tu service de EmailJS
+        template = "template_i35yyct"; // Tu template de EmailJS
+    }
+
+    if (gestor == "gmail") {
+        publicKey = "IZrWZg4ZaagQIFsUX"; // Tu publicKey de EmailJS
+        service = "service_t6e0444"; // Tu service de EmailJS
+        template = "template_hj2vaym"; // Tu template de EmailJS
+    }
+
+    emailjs.init(publicKey);
 
     // Recopilar datos
     const jsonData = {
@@ -165,7 +181,7 @@ export async function enviarCorreo() {
     };
 
     emailjs
-        .send("service_esxltkm", "template_i35yyct", templateParams) // Reemplaza con tu Service ID y Template ID
+        .send(service, template, templateParams) // Reemplaza con tu Service ID y Template ID
         .then(
             function(response) {
                 console.log("SUCCESS!", response.status, response.text);
