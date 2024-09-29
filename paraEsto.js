@@ -263,19 +263,39 @@ export async function recuperarDatos() {
     // console.log("Dispositivo:", dispositivo);
     let txtAdd;
     if (dispositivo == "escritorio") {
-        txtAdd = "\n\n» Los datos guardados se perderán al reiniciar la página.";
+        txtAdd =
+            "\n\n" +
+            "<hr>" +
+            "» Los datos guardados se perderán al reiniciar la página.";
     } else {
         txtAdd = "";
     }
 
-    let resultado = await showModal("RECUPERAR DATOS", "» Los datos que se han guardado con la opción «Guardar datos»,  actualizarán y sustituirán a los actuales en sus cuadros de entradas correspondientes. Incluso los datos vacíos." +
+    // Recuperar los datos guardados
+    const datosGuardados = localStorage.getItem("datosAcuario");
+    const valorDatosGuardados = JSON.parse(datosGuardados);
+
+    let resultado = await showModal(
+        "RECUPERAR DATOS",
+        "» A continuación se ven los datos que se han guardado con la opción «Guardar datos»,  estos actualizarán y sustituirán a los actuales en sus cuadros de entradas correspondientes. Incluso los datos vacíos.\n" +
+        "<hr>" /* <hr> línea de separación */ +
+        "<p class='georgia-black-italic text-black'>" +
+        "Número del acuario: (" + valorDatosGuardados.acuarioNum + ")<br>" +
+        `Título del acuario: ${valorDatosGuardados.tituloAcuario}` + "<br>" +
+        `Fecha: ${convertirFecha(valorDatosGuardados.fecha)}` + "<br>" +
+        "» (pH = " + valorDatosGuardados.pH + ") » (NO3 = " + valorDatosGuardados.NO3 + ") » (KH = " + valorDatosGuardados.KH + ") » (Temp = " + valorDatosGuardados.temp + ")<br>" + "» (Iny. CO2 = " + valorDatosGuardados.inyCO2 + ") » (Plantas = " + valorDatosGuardados.plantas + ")<br> " +
+        "» (Agua = " + valorDatosGuardados.agua + ") » (Algas = " + valorDatosGuardados.algas + ")<br> " +
+        "» (Sup. Agua = " + valorDatosGuardados.supAgua + ")<br> " +
+        "» Coment 1: " + valorDatosGuardados.coment1 + "<br>" +
+        "» Coment 2: " + valorDatosGuardados.coment2 + "<br>" +
+        "» Coment 3: " + valorDatosGuardados.coment3 + "<br>" +
+        "» Coment 4: " + valorDatosGuardados.coment4 + "<br>" +
+        "» Coment 5: " + valorDatosGuardados.coment5 + "<br>" +
+        "</p>" +
         txtAdd,
         "Recuperar datos"
     );
     if (!resultado) return;
-
-    // Recuperar los datos guardados
-    const datosGuardados = localStorage.getItem("datosAcuario");
 
     // Si existen datos, cargarlos en el formulario
     if (datosGuardados) {
@@ -401,13 +421,29 @@ function transformarFecha(dateString) {
     return `${year}-${formattedMonth}-${formattedDay}`;
 }
 
+//Convierte un valor de la forma  "2024-08-04" a "4 ago 2024"
+function convertirFecha(fecha) {
+    const meses = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+
+    // Crear un objeto Date a partir de la cadena de fecha
+    const date = new Date(fecha);
+
+    // Obtener el día, mes y año
+    const dia = date.getDate();
+    const mes = meses[date.getMonth()];
+    const anio = date.getFullYear();
+
+    // Formatear la fecha como "4 ago 2024"
+    return `${dia} ${mes} ${anio}`;
+}
+
 // Función para mostrar el modal y devolver una promesa que se resuelve con true o false
 // Si se pone a null el botonAvanzar solo se muestra el boton cancelar con el texto "Vale"
 function showModal(title, message, botonAvanzar) {
     return new Promise((resolve) => {
         // Actualiza el título y el contenido del modal
         document.getElementById("modalLabel").innerText = title;
-        document.querySelector(".modal-body").innerText = message;
+        document.querySelector(".modal-body").innerHTML = message;
         if (botonAvanzar != null) {
             document.getElementById("sendEmailButton").hidden = false;
             document.getElementById("sendEmailButton").innerText = botonAvanzar;
