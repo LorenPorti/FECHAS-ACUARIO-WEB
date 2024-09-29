@@ -286,11 +286,11 @@ export async function recuperarDatos() {
         "» (pH = " + valorDatosGuardados.pH + ") » (NO3 = " + valorDatosGuardados.NO3 + ") » (KH = " + valorDatosGuardados.KH + ") » (Temp = " + valorDatosGuardados.temp + ")<br>" + "» (Iny. CO2 = " + valorDatosGuardados.inyCO2 + ") » (Plantas = " + valorDatosGuardados.plantas + ")<br> " +
         "» (Agua = " + valorDatosGuardados.agua + ") » (Algas = " + valorDatosGuardados.algas + ")<br> " +
         "» (Sup. Agua = " + valorDatosGuardados.supAgua + ")<br> " +
-        "» Coment 1: " + valorDatosGuardados.coment1 + "<br>" +
-        "» Coment 2: " + valorDatosGuardados.coment2 + "<br>" +
-        "» Coment 3: " + valorDatosGuardados.coment3 + "<br>" +
-        "» Coment 4: " + valorDatosGuardados.coment4 + "<br>" +
-        "» Coment 5: " + valorDatosGuardados.coment5 + "<br>" +
+        "» Coment. 1: " + valorDatosGuardados.coment1 + "<br>" +
+        "» Coment. 2: " + valorDatosGuardados.coment2 + "<br>" +
+        "» Coment. 3: " + valorDatosGuardados.coment3 + "<br>" +
+        "» Coment. 4: " + valorDatosGuardados.coment4 + "<br>" +
+        "» Coment. 5: " + valorDatosGuardados.coment5 + "<br>" +
         "</p>" +
         txtAdd,
         "Recuperar datos"
