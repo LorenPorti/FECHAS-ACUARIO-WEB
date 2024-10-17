@@ -212,7 +212,10 @@ export async function guardarDatos() {
     const dispositivo = detectarDispositivo();
     let txtAdd;
     if (dispositivo == "escritorio") {
-        txtAdd = "\n\n» Los datos guardados se perderán al reiniciar la página."; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
+        txtAdd =
+            "\n\n" +
+            "<hr>" +
+            '» Si la aplicación es de escritorio, los datos se guardaran en un archivo llamado "temporal.json". Sobre escribirlo si existe.'; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
     } else {
         txtAdd = "";
     }
@@ -248,9 +251,12 @@ export async function guardarDatos() {
         coment5: document.getElementById("comentario_5").value,
     };
 
-
-    // Convertir jsonData a string y guardarlo en el Local Storage
-    localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
+    if (dispositivo == "escritorio") {
+        GuardarDatosTemporales(jsonData);
+    } else {
+        // Convertir jsonData a string y guardarlo en el Local Storage
+        localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
+    }
 
     // await showModal("GUARDAR DATOS", "» Los datos contenidos en los inputs se han guardado.\n\n" +
     //     "» Usar «Recuperar Datos» para recargarlos." +
@@ -259,21 +265,35 @@ export async function guardarDatos() {
 }
 
 export async function recuperarDatos() {
-    const dispositivo = detectarDispositivo();
+    let txtAdd = "";
+    /* const dispositivo = detectarDispositivo();
     // console.log("Dispositivo:", dispositivo);
     let txtAdd;
     if (dispositivo == "escritorio") {
         txtAdd =
             "\n\n" +
             "<hr>" +
-            "» Los datos guardados se perderán al reiniciar la página.";
+            '» Los datos estan guardados en un archivo "temporal.json".';
     } else {
         txtAdd = "";
-    }
+    } */
 
+    await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
+
+    let valorDatosGuardados;
+    let datosGuardados;
     // Recuperar los datos guardados
-    const datosGuardados = localStorage.getItem("datosAcuario");
-    const valorDatosGuardados = JSON.parse(datosGuardados);
+    if (detectarDispositivo == "movil") {
+        datosGuardados = localStorage.getItem("datosAcuario");
+        valorDatosGuardados = JSON.parse(datosGuardados);
+    } else {
+        try {
+            valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
+        } catch (error) {
+            console.error("Error al recuperar los datos temporales:", error);
+            return; // Salir si hay un error
+        }
+    }
 
     let resultado = await showModal(
         "RECUPERAR DATOS",
@@ -282,7 +302,7 @@ export async function recuperarDatos() {
         "<p class='georgia-black-italic text-black'>" +
         "Número del acuario: (" + valorDatosGuardados.acuarioNum + ")<br>" +
         `Título del acuario: ${valorDatosGuardados.tituloAcuario}` + "<br>" +
-        `Fecha: ${convertirFecha(valorDatosGuardados.fecha)}` + "<br>" +
+        `Fecha: ${valorDatosGuardados.fecha ? convertirFecha(valorDatosGuardados.fecha) : ""}` + "<br>" + // Condición para la fecha
         "» (pH = " + valorDatosGuardados.pH + ") » (NO3 = " + valorDatosGuardados.NO3 + ") » (KH = " + valorDatosGuardados.KH + ") » (Temp = " + valorDatosGuardados.temp + ")<br>" + "» (Iny. CO2 = " + valorDatosGuardados.inyCO2 + ") » (Plantas = " + valorDatosGuardados.plantas + ")<br> " +
         "» (Agua = " + valorDatosGuardados.agua + ") » (Algas = " + valorDatosGuardados.algas + ")<br> " +
         "» (Sup. Agua = " + valorDatosGuardados.supAgua + ")<br> " +
@@ -295,43 +315,103 @@ export async function recuperarDatos() {
         txtAdd,
         "Recuperar datos"
     );
+
     if (!resultado) return;
 
     // Si existen datos, cargarlos en el formulario
-    if (datosGuardados) {
-        const jsonData = JSON.parse(datosGuardados);
+    if (valorDatosGuardados) {
 
-        if (jsonData.acuarioNum != "") {
+        if (valorDatosGuardados.acuarioNum != "") {
             document.getElementById("acuarios").textContent =
-                "(" + jsonData.acuarioNum + ") " + jsonData.tituloAcuario;
+                "(" + valorDatosGuardados.acuarioNum + ") " + valorDatosGuardados.tituloAcuario;
         } else {
             document.getElementById("acuarios").innerHTML = "&nbsp;";
         }
-        document.getElementById("dateInput").value = jsonData.fecha;
-        document.getElementById("phInput").value = jsonData.pH;
-        document.getElementById("khInput").value = jsonData.KH;
-        document.getElementById("tempInput").value = jsonData.temp;
-        document.getElementById("no3Input").value = jsonData.NO3;
-        document.getElementById("inyeccion").textContent = jsonData.inyCO2;
-        document.getElementById("plantas").textContent = jsonData.plantas;
-        document.getElementById("algas").textContent = jsonData.algas;
-        document.getElementById("agua").textContent = jsonData.agua;
-        document.getElementById("superficie").textContent = jsonData.supAgua;
-        document.getElementById("comentario_1").value = jsonData.coment1;
-        document.getElementById("comentario_2").value = jsonData.coment2;
-        document.getElementById("comentario_3").value = jsonData.coment3;
-        document.getElementById("comentario_4").value = jsonData.coment4;
-        document.getElementById("comentario_5").value = jsonData.coment5;
+        document.getElementById("dateInput").value = valorDatosGuardados.fecha;
+        document.getElementById("phInput").value = valorDatosGuardados.pH;
+        document.getElementById("khInput").value = valorDatosGuardados.KH;
+        document.getElementById("tempInput").value = valorDatosGuardados.temp;
+        document.getElementById("no3Input").value = valorDatosGuardados.NO3;
+        document.getElementById("inyeccion").textContent = valorDatosGuardados.inyCO2;
+        document.getElementById("plantas").textContent = valorDatosGuardados.plantas;
+        document.getElementById("algas").textContent = valorDatosGuardados.algas;
+        document.getElementById("agua").textContent = valorDatosGuardados.agua;
+        document.getElementById("superficie").textContent = valorDatosGuardados.supAgua;
+        document.getElementById("comentario_1").value = valorDatosGuardados.coment1;
+        document.getElementById("comentario_2").value = valorDatosGuardados.coment2;
+        document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
+        document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
+        document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
     }
 }
 
 function detectarDispositivo() {
     const userAgent = navigator.userAgent.toLowerCase();
     if (userAgent.includes("android") || userAgent.includes("iphone") || userAgent.includes("ipad")) {
-        return "móvil"; // Dispositivo móvil
+        return "movil"; // Dispositivo móvil
     } else {
         return "escritorio"; // Dispositivo de escritorio
     }
+}
+
+// Función para guardar los datos como un archivo JSON
+function GuardarDatosTemporales(datosTemporales) {
+
+    let jsonStr = JSON.stringify(datosTemporales, null, 2);
+    let blob = new Blob([jsonStr], { type: "application/json" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "temporal.json"; // Nombre del archivo que se descarga
+    link.click();
+}
+
+// Función para recuperar datos desde un archivo JSON
+function recuperarDatosTemporales() {
+    return new Promise((resolve, reject) => {
+        // Crear el input file de manera programática
+        let archivoInput = document.createElement('input');
+        archivoInput.type = 'file';
+        archivoInput.accept = '.json'; // Solo archivos JSON
+
+        // Simular el clic en el input para abrir el diálogo de selección de archivos
+        archivoInput.click();
+
+        // Escuchar cuando se seleccione un archivo
+        archivoInput.addEventListener('change', function() {
+            const file = archivoInput.files[0]; // Obtener el archivo seleccionado
+
+            if (file) {
+                // Verificar si el nombre del archivo es "temporal.json"
+                if (file.name === "temporal.json") {
+                    const reader = new FileReader();
+
+                    // Leer el contenido del archivo
+                    reader.onload = function(e) {
+                        const contenidoArchivo = e.target.result;
+
+                        // Parsear el archivo como JSON
+                        try {
+                            const datos = JSON.parse(contenidoArchivo);
+                            console.log('Datos JSON cargados:', datos);
+                            resolve(datos); // Devolver los datos JSON
+                        } catch (error) {
+                            console.error('Error al parsear JSON:', error);
+                            reject('Error al parsear JSON'); // Rechazar la promesa en caso de error
+                        }
+                    };
+
+                    // Leer el archivo como texto
+                    reader.readAsText(file);
+                } else {
+                    showModal("NOMBRE DEL ARCHIVO", 'El archivo seleccionado debe ser "temporal.json".', null);
+                    reject('Archivo no válido'); // Rechazar si el archivo no es "temporal.json"
+                }
+            } else {
+                showModal("ERROR ARCHIVO", 'No se seleccionó ningún archivo.', null);
+                reject('No se seleccionó archivo'); // Rechazar si no se selecciona archivo
+            }
+        });
+    });
 }
 
 // Convierte un valor Date al formato "17 jul 2024"
