@@ -206,6 +206,38 @@ export async function obtenerCorreo() {
 
 }
 
+export async function guardarDatos2() {
+    // Recopilar datos
+    let fecha;
+    if (document.getElementById("dateInput").value == "NaN") { fecha = ""; } else { fecha = document.getElementById("dateInput").value; }
+    const jsonData = {
+        acuarioNum: document.getElementById("acuarios").textContent.substring(1, 2),
+        tituloAcuario: document.getElementById("acuarios").textContent.substring(4),
+        fecha: fecha,
+        pH: document.getElementById("phInput").value,
+        KH: document.getElementById("khInput").value,
+        temp: document.getElementById("tempInput").value,
+        NO3: document.getElementById("no3Input").value,
+        inyCO2: document.getElementById("inyeccion").textContent,
+        plantas: document.getElementById("plantas").textContent,
+        algas: document.getElementById("algas").textContent,
+        agua: document.getElementById("agua").textContent,
+        supAgua: document.getElementById("superficie").textContent,
+        coment1: document.getElementById("comentario_1").value,
+        coment2: document.getElementById("comentario_2").value,
+        coment3: document.getElementById("comentario_3").value,
+        coment4: document.getElementById("comentario_4").value,
+        coment5: document.getElementById("comentario_5").value,
+    };
+
+    let jsonStr = JSON.stringify(jsonData, null, 2);
+    let blob = new Blob([jsonStr], { type: "application/json" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+
+    link.download = "temporal.json"; // Nombre del archivo que se descarga
+    link.click();
+}
 
 export async function guardarDatos() {
 
