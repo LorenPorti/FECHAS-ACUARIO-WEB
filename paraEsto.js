@@ -266,27 +266,31 @@ export async function guardarDatos() {
 
 export async function recuperarDatos() {
     let txtAdd = "";
-    /* const dispositivo = detectarDispositivo();
-    // console.log("Dispositivo:", dispositivo);
-    let txtAdd;
-    if (dispositivo == "escritorio") {
-        txtAdd =
-            "\n\n" +
-            "<hr>" +
-            '» Los datos estan guardados en un archivo "temporal.json".';
-    } else {
-        txtAdd = "";
-    } */
-
-    await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
+    const dispositivo = detectarDispositivo();
+    // console.log("Dispositivo:", dispositivo);    
+    // if (dispositivo == "escritorio") {
+    //     txtAdd =
+    //         "\n\n" +
+    //         "<hr>" +
+    //         '» Los datos estan guardados en un archivo "temporal.json".';
+    // } else {
+    //     txtAdd = "";
+    // } 
 
     let valorDatosGuardados;
     let datosGuardados;
     // Recuperar los datos guardados
-    if (detectarDispositivo == "movil") {
+    if (dispositivo == "movil") {
         datosGuardados = localStorage.getItem("datosAcuario");
+        if (datosGuardados == null) {
+            await showModal("RECUPERAR VACÍO", "No existen datos para recuperar", null);
+            return;
+        }
         valorDatosGuardados = JSON.parse(datosGuardados);
     } else {
+
+        await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
+
         try {
             valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
         } catch (error) {
