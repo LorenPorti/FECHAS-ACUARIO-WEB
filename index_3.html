@@ -51,7 +51,7 @@
                 /* Ajusta el tamaño para mejor legibilidad en pantallas pequeñas */
             }
             #nombreAcuario {
-                font-size: 4vw;
+                font-size: 5.5vw;
                 /* Asegura que el título no desborde en pantallas pequeñas */
                 max-width: 80%;
             }
@@ -258,7 +258,7 @@
             /* Degradado azul suave */
             color: white;
             /* Color de texto blanco para las cabeceras */
-            padding: 3px 6px !important;
+            padding: 3px 0px !important;
             /* Forzar el padding con !important */
             text-align: center;
             /* Alinea el texto a la izquierda */
@@ -266,7 +266,6 @@
             /* Hace el texto en negrita */
             border-right: 1px solid #ccc;
             /* Línea vertical fina entre las columnas */
-            border-radius: 6px, 6px, 0px, 0px;
         }
         
         #sfDataGrid th:last-child,
@@ -279,7 +278,7 @@
         
         .header-font {
             font-family: roboto;
-            font-size: 0.95em;
+            font-size: 1em;
             /* Reducción de tamaño de la fuente de la cabecera */
             font-weight: bold;
             /* Mantener la negrita si se desea */
@@ -289,7 +288,13 @@
         /* Reducir aún más el tamaño de la fuente */
         
         .small-font {
-            font-size: 0.83em;
+            font-size: 0.85em;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            /* Puedes usar un valor más pequeño como 0.7em si es necesario */
+        }
+        
+        .medium-font {
+            font-size: 0.97em;
             font-family: Georgia, 'Times New Roman', Times, serif;
             /* Puedes usar un valor más pequeño como 0.7em si es necesario */
         }
@@ -346,7 +351,7 @@
     <div class="container-fluid p-2 bg-primary text-white text-center fixed-header">
         <div class="d-flex justify-content-center align-items-center position-relative centerVertical">
             <!-- Título centrado -->
-            <h4 class="roboto-regular-italic" id="nombreAcuario">Mi acuario de aquí probando largo</h4>
+            <h3 class="roboto-regular-italic" id="nombreAcuario">Mi acuario de aquí probando largo</h3>
 
             <!-- Ícono de menú Font Awesome alineado a la derecha -->
             <div class="position-absolute end-0" id="iconoMenu">
@@ -423,23 +428,15 @@
 
     <div class="container">
 
-        <!-- DataGrid con ID sfDataGrid -->
-        <!-- <table id="cabeceraDatagrid" style="border-radius: 6px,6px,0,0;">
-            <thead>
-                <tr>
-                    <th class="header-font" width="50">Fecha</th>
-                    <th class="header-font">pH</th>
-                    <th class="header-font">KH</th>
-                    <th class="header-font">tmpºC</th>
-                    <th class="header-font">CO2</th>
-                    <th class="header-font">NO3</th>
-                </tr>
-            </thead>
-        </table> -->
-        <div style="display: flex; flex-direction: row;">
-            <h5 class="header-font" style="width: 100px !important;">Fecha</h5>
-            <h5 class="header-font" style="width: 35px !important;">pH</h5>
-            <h5 class="header-font" style="width: 35px !important;">KH</h5>
+
+        <div style="display: flex; flex-direction: row;" id="tableHeader">
+            <p class="header-font" id="columnaFecha" style="margin: 0; padding: 0;">Fecha</p>
+            <p class="header-font" style="margin: 0; padding: 0;">pH</p>
+            <p class="header-font" style="margin: 0; padding: 0;">KH</p>
+            <p class="header-font" style="margin: 0; padding: 0;">t ºC</p>
+            <p class="header-font" style="margin: 0; padding: 0;">CO2</p>
+            <p class="header-font" style="margin: 0; padding: 0;">NO3</p>
+            <p class="header-font" id="columnaIyCO2" style="margin: 0; padding: 0;">IyCO2</p>
         </div>
         <table id="sfDataGrid" class="datagrid hideScrollbar" style="width: 100%; border-collapse: collapse;"></table>
 
@@ -484,7 +481,7 @@
             <!-- Cuadro de Comentario -->
             <div id="comentarioContainer">
                 <!-- Comentario de la fila seleccionada -->
-                <textarea id="comentarioBox" class="comentario hideScrollbar georgia-medium-italic" readonly></textarea>
+                <textarea id="comentarioBox" class="comentario hideScrollbar georgia-medium-italic medium-font" readonly></textarea>
             </div>
 
         </div>

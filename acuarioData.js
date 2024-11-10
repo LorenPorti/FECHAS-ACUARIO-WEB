@@ -25,7 +25,7 @@ function initializeGrid(data) {
     const gridElement = document.getElementById("sfDataGrid");
 
     // Limpiar el contenido previo
-    gridElement.innerHTML = '';
+    gridElement.innerHTML = "";
 
     // // Crear la cabecera de las columnas (sin "Inyección CO2")
     // const headers = ["Fecha", "pH", "KH", "tmpºC", "CO2", "NO3"]; // Sin "inyeccCO2"
@@ -41,45 +41,53 @@ function initializeGrid(data) {
 
     // gridElement.appendChild(headerRow);
 
+    let anchoFecha = 0;
+
     // Crear las filas de los datos
-    data.forEach(item => {
+    data.forEach((item) => {
         const dataRow = document.createElement("tr");
 
         // Fecha
         const dateCell = document.createElement("td");
         dateCell.textContent = item.Fecha;
-        dateCell.classList.add("small-font"); // Aplicar la clase de fuente pequeña
+        dateCell.classList.add("medium-font"); // Aplicar la clase de fuente pequeña
         dataRow.appendChild(dateCell);
 
         // pH (con un decimal)
         const phCell = document.createElement("td");
         phCell.textContent = item.pH.toFixed(1); // Formatear con un decimal
-        phCell.classList.add("small-font");
+        phCell.classList.add("medium-font");
         dataRow.appendChild(phCell);
 
         // KH (con un decimal)
         const khCell = document.createElement("td");
         khCell.textContent = item.KH.toFixed(1);
-        khCell.classList.add("small-font");
+        khCell.classList.add("medium-font");
         dataRow.appendChild(khCell);
 
         // Temp
         const tempCell = document.createElement("td");
         tempCell.textContent = item.temp;
-        tempCell.classList.add("small-font");
+        tempCell.classList.add("medium-font");
         dataRow.appendChild(tempCell);
 
         // CO2 (con dos decimales)
         const co2Cell = document.createElement("td");
         co2Cell.textContent = item.CO2.toFixed(2);
-        co2Cell.classList.add("small-font");
+        co2Cell.classList.add("medium-font");
         dataRow.appendChild(co2Cell);
 
         // NO3
         const no3Cell = document.createElement("td");
         no3Cell.textContent = item.NO3;
-        no3Cell.classList.add("small-font");
+        no3Cell.classList.add("medium-font");
         dataRow.appendChild(no3Cell);
+
+        // Crear la columna IyCO2 con el icono correspondiente
+        const inyCO2Cell = document.createElement("td");
+        inyCO2Cell.classList.add("medium-font");
+        inyCO2Cell.innerHTML = agregarIconoIyCO2(item.inyeccCO2); // Asignar el icono según el valor de item.inyeccCO2
+        dataRow.appendChild(inyCO2Cell);
 
         // Añadir la fila a la tabla
         gridElement.appendChild(dataRow);
@@ -99,6 +107,60 @@ function initializeGrid(data) {
             showDetails(item); // Llamar a la función que muestra los detalles
         });
     });
+
+    // Pone el ancho de columna con !important
+
+    // Obtener la primera fila de datos en la tabla
+    const primeraFila = document.querySelector("#sfDataGrid tr");
+
+    if (!primeraFila) return; // Salir si no hay filas de datos
+
+    // Obtener los elementos de cabecera
+    const columnasCabecera = document.querySelectorAll(
+        "#tableHeader .header-font"
+    );
+
+    // Obtener las celdas de la primera fila de datos
+    const columnasDatos = primeraFila.querySelectorAll("td");
+
+    // Ajustar el ancho de cada columna de la cabecera según la primera fila de datos
+    columnasCabecera.forEach((columnaCabecera, index) => {
+        let anchoCelda = columnasDatos[index].getBoundingClientRect().width;
+
+        // Si es la columna "Fecha", añade 3 píxeles adicionales
+        if (columnaCabecera.id === "columnaFecha") { anchoCelda += 3; }
+
+        // Ajustar el ancho de la columna "IyCO2" agregando 2 píxeles o asignando un valor fijo
+        if (columnaCabecera.id === "columnaIyCO2") {
+            anchoCelda = 50; // Ancho fijo para "IyCO2" para albergar un icono
+        }
+
+        // Asignar el ancho con !important
+        columnaCabecera.style.setProperty("width", `${anchoCelda}px`, "important");
+    });
+}
+
+// Función para agregar iconos a la columna "IyCO2"
+function agregarIconoIyCO2(inyCO2Value) {
+    let iconoImagen = "";
+
+    // Determinar el icono correspondiente según el valor
+    switch (inyCO2Value) {
+        case 1:
+            iconoImagen = "imagenes/CO2 con Levadura.png"; // Ruta del icono para 1
+            break;
+        case 2:
+            iconoImagen = "imagenes/CO2 con Botella Presión.png"; // Ruta del icono para 2
+            break;
+        case 3:
+            iconoImagen = "imagenes/Sin CO2.png"; // Ruta del icono para 3
+            break;
+        default:
+            iconoImagen = "imagenes/default.png"; // Ruta de un icono por defecto si el valor no es 1, 2, o 3
+            break;
+    }
+
+    return `<img src="${iconoImagen}" alt="CO2 Icon" style="width: 32px; height: 32px;" />`; // Puedes ajustar el tamaño del icono aquí
 }
 
 // Función para resaltar la fila seleccionada
@@ -114,10 +176,10 @@ function initializeGrid(data) {
 // Función para mostrar detalles de la fila seleccionada
 function showDetails(item) {
     // Mostrar los valores del item en la consola (puedes hacer algo más con ellos)
-    console.log("Inyección CO2:", item.inyeccCO2);
-    console.log("Plantas:", item.plantas);
-    console.log("Agua:", item.agua);
-    console.log("Superficie Agua:", item.sup_agua);
+    // console.log("Inyección CO2:", item.inyeccCO2);
+    // console.log("Plantas:", item.plantas);
+    // console.log("Agua:", item.agua);
+    // console.log("Superficie Agua:", item.sup_agua);
     // console.log("Algas:", item.algas);
     // console.log("Comentario:", item.comentario);
 
