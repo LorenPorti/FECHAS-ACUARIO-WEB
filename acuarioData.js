@@ -226,13 +226,14 @@ function mostrarDetallesConEstado(item) {
     document.getElementById("checkSupAgua").textContent = (aguaEstado === 0 || aguaEstado === 1) ? '👍' :
         aguaEstado === 2 ? '✋' : '👎';
 
-    // Algas (0 bien, 1-2 regular, 3 mal)
+    // Agua (0-1 bien, 2 regular, 3 mal)
     const algasEstado = item.algas;
-    const algasClase = obtenerClaseDeEstado(algasEstado, 0, 2, 3);
+    const algasClase = obtenerClaseDeEstado(item.algas);
     document.getElementById("detalleAlgas").classList.add(algasClase);
-    document.getElementById("iconoAlgas").src = algasEstado === 0 ? 'icono_bien.png' :
-        algasEstado <= 2 ? 'icono_regular.png' :
-        'icono_mal.png';
+    document.getElementById("iconoAlgas").src = (algasEstado === 0 || algasEstado === 1) ? '/imagenes/iconoAlgasBien.png' :
+        algasEstado === 2 ? '/imagenes/iconoAlgasRegular.png' : '/imagenes/iconoAlgasMal.png';
+    document.getElementById("checkAlgas").textContent = (algasEstado === 0 || algasEstado === 1) ? '👍' :
+        algasEstado === 2 ? '✋' : '👎';
 
     // Iny. CO2 (1 levadura, 2 B. presión, 3 Sin CO2)
     const inyCO2Estado = item.inyeccCO2;

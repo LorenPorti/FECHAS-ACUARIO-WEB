@@ -294,7 +294,7 @@
         }
         
         .medium-font {
-            font-size: 0.97em;
+            font-size: 0.835em;
             font-family: Georgia, 'Times New Roman', Times, serif;
             /* Puedes usar un valor más pequeño como 0.7em si es necesario */
         }
@@ -307,7 +307,7 @@
         /* Resaltar la fila seleccionada */
         
         .selected {
-            background: linear-gradient(to bottom, #d1a153, #997232);
+            background: linear-gradient(to bottom, #d1a153, #73511b);
             /* Color de fondo cuando se selecciona una fila */
             color: white;
             /* Color del texto cuando la fila está seleccionada */
@@ -470,10 +470,11 @@
                 </div>
 
                 <div id="detalleAlgas" class="detalle">
-                    <span id="algasIcono">🦠</span> Algas
-                </div>
-                <div id="detalleInyCO2" class="detalle">
-                    <span id="inyCO2Icono">🥤</span> Iny. CO2
+                    <img id="iconoAlgas" src="#" class="detalleIcono">
+                    <div class="foodDetalle">
+                        <div class="detalle-texto">Algas </div>
+                        <div class="detalle-texto-Check" id="checkAlgas">✔️</div>
+                    </div>
                 </div>
 
             </div>
