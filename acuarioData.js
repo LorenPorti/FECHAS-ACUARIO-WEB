@@ -27,19 +27,19 @@ function initializeGrid(data) {
     // Limpiar el contenido previo
     gridElement.innerHTML = '';
 
-    // Crear la cabecera de las columnas (sin "Inyección CO2")
-    const headers = ["Fecha", "pH", "KH", "tmpºC", "CO2", "NO3"]; // Sin "inyeccCO2"
-    const headerRow = document.createElement("tr");
+    // // Crear la cabecera de las columnas (sin "Inyección CO2")
+    // const headers = ["Fecha", "pH", "KH", "tmpºC", "CO2", "NO3"]; // Sin "inyeccCO2"
+    // const headerRow = document.createElement("tr");
 
-    // Crear las celdas de la cabecera con la clase "header-font"
-    headers.forEach(header => {
-        const th = document.createElement("th");
-        th.textContent = header;
-        th.classList.add("header-font"); // Asegurarse de agregar la clase correctamente
-        headerRow.appendChild(th);
-    });
+    // // Crear las celdas de la cabecera con la clase "header-font"
+    // headers.forEach(header => {
+    //     const th = document.createElement("th");
+    //     th.textContent = header;
+    //     th.classList.add("header-font"); // Asegurarse de agregar la clase correctamente
+    //     headerRow.appendChild(th);
+    // });
 
-    gridElement.appendChild(headerRow);
+    // gridElement.appendChild(headerRow);
 
     // Crear las filas de los datos
     data.forEach(item => {
@@ -140,9 +140,9 @@ function mostrarDetallesConEstado(item) {
     const plantasEstado = item.plantas; // Valor de 'plantas' en el objeto 'item
     const plantasClase = obtenerClaseDeEstado(item.plantas);
     document.getElementById("detallePlantas").classList.add(plantasClase);
-    document.getElementById("iconoPlantas").src = (plantasEstado === 0 || plantasEstado === 1) ? '/imagenes/iconoPlantasBien.png' :
-        plantasEstado === 2 ? '/imagenes/iconoPlantasRegular.png' :
-        '/imagenes/iconoPlantasMal.png';
+    document.getElementById("iconoPlantas").src = (plantasEstado === 0 || plantasEstado === 1) ? 'imagenes/iconoPlantasBien.png' :
+        plantasEstado === 2 ? 'imagenes/iconoPlantasRegular.png' :
+        'imagenes/iconoPlantasMal.png';
     document.getElementById("checkPlantas").textContent = (plantasEstado === 0 || plantasEstado === 1) ? '👍' :
         plantasEstado === 2 ? '✋' : '👎';
 
@@ -150,8 +150,8 @@ function mostrarDetallesConEstado(item) {
     const aguaEstado = item.agua;
     const aguaClase = obtenerClaseDeEstado(item.agua);
     document.getElementById("detalleAgua").classList.add(aguaClase);
-    document.getElementById("iconoAgua").src = (plantasEstado === 0 || plantasEstado === 1) ? '/imagenes/iconoAguaBien.png' :
-        plantasEstado === 2 ? '/imagenes/iconoAguaRegular.png' : '/imagenes/iconoAguaMal.png';
+    document.getElementById("iconoAgua").src = (aguaEstado === 0 || aguaEstado === 1) ? '/imagenes/iconoAguaBien.png' :
+        aguaEstado === 2 ? '/imagenes/iconoAguaRegular.png' : '/imagenes/iconoAguaMal.png';
     document.getElementById("checkAgua").textContent = (aguaEstado === 0 || aguaEstado === 1) ? '👍' :
         aguaEstado === 2 ? '✋' : '👎';
 

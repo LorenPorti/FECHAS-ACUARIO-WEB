@@ -17,6 +17,46 @@
     <link rel="manifest" href="/manifest.json">
 
     <style>
+        /* Adaptación a pantallas pequeñas */
+        
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 5px;
+            }
+            /* Ajustar el ancho al 100% en móviles */
+            .datagrid,
+            .lower-section,
+            #detallesContainer,
+            .comentario {
+                width: 100% !important;
+                margin: 0;
+                /* Elimina márgenes para evitar desbordamientos */
+            }
+            /* Ajusta el tamaño de los detalles */
+            .detalle {
+                width: 24%;
+                /* Permite que los elementos se distribuyan en filas */
+                padding: 5px;
+            }
+            #sfDataGrid {
+                width: 100%;
+                height: auto;
+                /* Permite que el DataGrid se adapte al contenido en móviles */
+            }
+            /* Aumentar el tamaño de fuente en pantallas pequeñas si es necesario */
+            .detalle-texto,
+            .detalle-texto-Check {
+                font-size: 0.9em;
+                /* Ajusta el tamaño para mejor legibilidad en pantallas pequeñas */
+            }
+            #nombreAcuario {
+                font-size: 4vw;
+                /* Asegura que el título no desborde en pantallas pequeñas */
+                max-width: 80%;
+            }
+        }
+        
         .custom-dropdown-toggle {
             font-size: 1.5em;
             padding: 0;
@@ -90,7 +130,7 @@
         
         .datagrid {
             border: 2px solid #007BFF;
-            border-radius: 5px;
+            border-radius: 0px, 0px, 5px, 5px;
             height: 350px;
             /* Altura ajustada para el DataGrid */
             background-color: #e0f3ff;
@@ -213,7 +253,7 @@
             /* Línea vertical fina entre las columnas */
         }
         
-        #sfDataGrid th {
+        .header-font {
             background: linear-gradient(to bottom, #66aaff, #4d94ff);
             /* Degradado azul suave */
             color: white;
@@ -226,6 +266,7 @@
             /* Hace el texto en negrita */
             border-right: 1px solid #ccc;
             /* Línea vertical fina entre las columnas */
+            border-radius: 6px, 6px, 0px, 0px;
         }
         
         #sfDataGrid th:last-child,
@@ -249,6 +290,7 @@
         
         .small-font {
             font-size: 0.83em;
+            font-family: Georgia, 'Times New Roman', Times, serif;
             /* Puedes usar un valor más pequeño como 0.7em si es necesario */
         }
         /* Estilo para la fila seleccionada */
@@ -290,6 +332,11 @@
         
         .detalle-texto-Check {
             font-size: 18px;
+        }
+        /* Ocultar barras de desplazamiento en DataGrid y comentarios manteniendo el scroll */
+        
+        .hideScrollbar::-webkit-scrollbar {
+            display: none;
         }
     </style>
 </head>
@@ -377,7 +424,24 @@
     <div class="container">
 
         <!-- DataGrid con ID sfDataGrid -->
-        <table id="sfDataGrid" class="datagrid" style="width: 100%; border-collapse: collapse;"></table>
+        <!-- <table id="cabeceraDatagrid" style="border-radius: 6px,6px,0,0;">
+            <thead>
+                <tr>
+                    <th class="header-font" width="50">Fecha</th>
+                    <th class="header-font">pH</th>
+                    <th class="header-font">KH</th>
+                    <th class="header-font">tmpºC</th>
+                    <th class="header-font">CO2</th>
+                    <th class="header-font">NO3</th>
+                </tr>
+            </thead>
+        </table> -->
+        <div style="display: flex; flex-direction: row;">
+            <h5 class="header-font" style="width: 100px !important;">Fecha</h5>
+            <h5 class="header-font" style="width: 35px !important;">pH</h5>
+            <h5 class="header-font" style="width: 35px !important;">KH</h5>
+        </div>
+        <table id="sfDataGrid" class="datagrid hideScrollbar" style="width: 100%; border-collapse: collapse;"></table>
 
         <!-- Sección Inferior -->
         <div class="lower-section">
@@ -420,7 +484,7 @@
             <!-- Cuadro de Comentario -->
             <div id="comentarioContainer">
                 <!-- Comentario de la fila seleccionada -->
-                <textarea id="comentarioBox" class="comentario georgia-medium-italic" readonly></textarea>
+                <textarea id="comentarioBox" class="comentario hideScrollbar georgia-medium-italic" readonly></textarea>
             </div>
 
         </div>
