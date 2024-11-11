@@ -54,6 +54,11 @@
                 font-size: 5.5vw;
                 /* Asegura que el título no desborde en pantallas pequeñas */
                 max-width: 80%;
+                white-space: nowrap;
+                /* Evita el desbordamiento */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                /* Muestra '...' si el texto es demasiado largo */
             }
         }
         
@@ -83,19 +88,6 @@
             right: 100%;
             top: auto;
             margin-top: -15px;
-        }
-        /* Ajustar tamaño del texto para el título del acuario */
-        
-        #nombreAcuario {
-            /* font-size: 5vw; */
-            /* Ajustable según el tamaño de pantalla */
-            white-space: nowrap;
-            /* Evita el desbordamiento */
-            overflow: hidden;
-            text-overflow: ellipsis;
-            /* Muestra '...' si el texto es demasiado largo */
-            max-width: 85%;
-            /* Asegura que no desborde el contenedor */
         }
         
         .centerVertical {
@@ -131,7 +123,7 @@
         .datagrid {
             border: 2px solid #007BFF;
             border-radius: 0px, 0px, 5px, 5px;
-            height: 350px;
+            height: 340px;
             /* Altura ajustada para el DataGrid */
             background-color: #e0f3ff;
             margin-bottom: 10px;
@@ -206,10 +198,19 @@
             border-radius: 5px;
             padding: 10px;
             background-color: #e9f9e9;
-            height: 150px;
+            height: 140px;
             /* Altura ajustada para Comentario */
             overflow-y: auto;
             /* Scroll vertical */
+            text-align: justify;
+            /* Justifica el texto dentro del cuadro */
+            padding: 5px;
+            font-size: 0.9rem;
+            /* Tamaño de fuente */
+            width: 100%;
+            /* Asegura que el cuadro ocupe todo el ancho */
+            resize: none;
+            /* Evitar que el cuadro de texto sea redimensionado */
         }
         /* Adaptación a pantallas pequeñas */
         
@@ -312,19 +313,6 @@
             color: white;
             /* Color del texto cuando la fila está seleccionada */
         }
-        /* Estilo para el cuadro de comentarios         */
-        
-        .comentario {
-            text-align: justify;
-            /* Justifica el texto dentro del cuadro */
-            padding: 5px;
-            font-size: 0.9rem;
-            /* Tamaño de fuente */
-            width: 100%;
-            /* Asegura que el cuadro ocupe todo el ancho */
-            resize: none;
-            /* Evitar que el cuadro de texto sea redimensionado */
-        }
         /* Estilos para el contenedor de los textos */
         
         .foodDetalle {
@@ -360,9 +348,10 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <!-- Enlaces directos -->
-                    <li><a class="dropdown-item georgia-bold" href="#">Ir a la fecha inicial</a></li>
-                    <li><a class="dropdown-item georgia-bold" href="#">Ir a la fecha final</a></li>
+                    <li><a id="ir-a-fecha-inicial" class="dropdown-item georgia-bold" href="#">Ir a la fecha inicial</a></li>
+                    <li><a id="ir-a-fecha-final" class="dropdown-item georgia-bold" href="#">Ir a la fecha final</a></li>
                     <li><a class="dropdown-item georgia-bold" href="#">Ir a Fecha</a></li>
+                    <li><a class="dropdown-item georgia-bold" id="irASeleccion" href="#">Ir a Selección</a></li>
                     <li>
                         <hr class="dropdown-divider dropdown-divider-custom">
                     </li>
@@ -490,19 +479,8 @@
 
     <script src="acuarioData.js"></script>
     <script>
-        // Función para cargar el acuario seleccionado
-        let numero = 1;
-
-        function loadSelectedAcuario(acuarioNumber) {
-            acuarioNumber = numero;
-            // const acuarioNumber = document.getElementById('acuarioSelect').value;
-            loadAcuarioData(acuarioNumber);
-        }
-
-        // Cargar el acuario por defecto (1)
-        window.onload = function() {
-            loadSelectedAcuario();
-        };
+        // Ejecutar la función al cargar la página
+        window.onload = cargarAcuarioSeleccionado;
     </script>
 
     <!-- Bootstrap y Font Awesome JS (Al final del body) -->

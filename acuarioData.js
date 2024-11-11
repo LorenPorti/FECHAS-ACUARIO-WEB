@@ -41,8 +41,6 @@ function initializeGrid(data) {
 
     // gridElement.appendChild(headerRow);
 
-    let anchoFecha = 0;
-
     // Crear las filas de los datos
     data.forEach((item) => {
         const dataRow = document.createElement("tr");
@@ -138,6 +136,15 @@ function initializeGrid(data) {
         // Asignar el ancho con !important
         columnaCabecera.style.setProperty("width", `${anchoCelda}px`, "important");
     });
+
+    // Seleccionar automáticamente la última fila y hacer scroll hasta ella
+    const lastRow = gridElement.lastElementChild;
+    selectedRow = lastRow;
+    if (lastRow) {
+        lastRow.classList.add("selected"); // Resalta la última fila
+        lastRow.scrollIntoView({ behavior: "auto", block: "center" }); // Hace scroll hasta la última fila
+        showDetails(data[data.length - 1]); // Muestra los detalles de la última fila
+    }
 }
 
 // Función para agregar iconos a la columna "IyCO2"
@@ -205,8 +212,8 @@ function mostrarDetallesConEstado(item) {
     document.getElementById("iconoPlantas").src = (plantasEstado === 0 || plantasEstado === 1) ? 'imagenes/iconoPlantasBien.png' :
         plantasEstado === 2 ? 'imagenes/iconoPlantasRegular.png' :
         'imagenes/iconoPlantasMal.png';
-    document.getElementById("checkPlantas").textContent = (plantasEstado === 0 || plantasEstado === 1) ? '👍' :
-        plantasEstado === 2 ? '✋' : '👎';
+    document.getElementById("checkPlantas").textContent = (plantasEstado === 0 || plantasEstado === 1) ? '✔️' :
+        plantasEstado === 2 ? '⛔' : '❌';
 
     // Agua (0-1 bien, 2 regular, 3 mal)
     const aguaEstado = item.agua;
@@ -214,8 +221,8 @@ function mostrarDetallesConEstado(item) {
     document.getElementById("detalleAgua").classList.add(aguaClase);
     document.getElementById("iconoAgua").src = (aguaEstado === 0 || aguaEstado === 1) ? '/imagenes/iconoAguaBien.png' :
         aguaEstado === 2 ? '/imagenes/iconoAguaRegular.png' : '/imagenes/iconoAguaMal.png';
-    document.getElementById("checkAgua").textContent = (aguaEstado === 0 || aguaEstado === 1) ? '👍' :
-        aguaEstado === 2 ? '✋' : '👎';
+    document.getElementById("checkAgua").textContent = (aguaEstado === 0 || aguaEstado === 1) ? '✔️' :
+        aguaEstado === 2 ? '⛔' : '❌';
 
     // Agua (0-1 bien, 2 regular, 3 mal)
     const sup_aguaEstado = item.sup_agua;
@@ -223,8 +230,8 @@ function mostrarDetallesConEstado(item) {
     document.getElementById("detalleSupAgua").classList.add(sup_aguaClase);
     document.getElementById("iconoSupAgua").src = (sup_aguaEstado === 0 || sup_aguaEstado === 1) ? '/imagenes/iconoSupAguaBien.png' :
         sup_aguaEstado === 2 ? '/imagenes/iconoSupAguaRegular.png' : '/imagenes/iconoSupAguaMal.png';
-    document.getElementById("checkSupAgua").textContent = (aguaEstado === 0 || aguaEstado === 1) ? '👍' :
-        aguaEstado === 2 ? '✋' : '👎';
+    document.getElementById("checkSupAgua").textContent = (aguaEstado === 0 || aguaEstado === 1) ? '✔️' :
+        aguaEstado === 2 ? '⛔' : '❌';
 
     // Agua (0-1 bien, 2 regular, 3 mal)
     const algasEstado = item.algas;
@@ -232,8 +239,8 @@ function mostrarDetallesConEstado(item) {
     document.getElementById("detalleAlgas").classList.add(algasClase);
     document.getElementById("iconoAlgas").src = (algasEstado === 0 || algasEstado === 1) ? '/imagenes/iconoAlgasBien.png' :
         algasEstado === 2 ? '/imagenes/iconoAlgasRegular.png' : '/imagenes/iconoAlgasMal.png';
-    document.getElementById("checkAlgas").textContent = (algasEstado === 0 || algasEstado === 1) ? '👍' :
-        algasEstado === 2 ? '✋' : '👎';
+    document.getElementById("checkAlgas").textContent = (algasEstado === 0 || algasEstado === 1) ? '✔️' :
+        algasEstado === 2 ? '⛔' : '❌';
 
     // Iny. CO2 (1 levadura, 2 B. presión, 3 Sin CO2)
     const inyCO2Estado = item.inyeccCO2;
@@ -252,4 +259,86 @@ function obtenerClaseDeEstado(valor) {
         return 'estado-mal'; // Rojo para "mal"
     }
     return ''; // Clase vacía si no se encuentra el valor
+}
+
+// Función para cargar el archivo JSON desde GitHub
+function cargarAcuarioSeleccionado() {
+    const fileUrl = `${githubBaseUrl}acuarioActual.json`; // URL completa para el archivo en GitHub
+    fetch(fileUrl)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo JSON: ' + response.statusText);
+            }
+            return response.json(); // Convertir la respuesta a JSON
+        })
+        .then(function(data) {
+            console.log("Datos cargados:", data); // Verificar que los datos se cargaron correctamente
+
+            // Obtener el número de acuario del archivo JSON
+            const numAcuario = data[0] && data[0].numAcuario ? data[0].numAcuario : "No disponible";
+
+            loadAcuarioData(numAcuario);
+
+            // Mostrar el número de acuario en el elemento HTML
+            document.getElementById("acuarioSeleccionado").textContent = numAcuario;
+        })
+        .catch(function(error) {
+            console.log("Error al cargar el acuario:", error);
+            document.getElementById("acuarioSeleccionado").textContent = "Error al cargar";
+        });
+}
+
+document.getElementById("irASeleccion").addEventListener("click", function(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+    irACeldaSeleccionada(); // Llama a la función para hacer scroll a la fila seleccionada
+});
+
+// Manejar clic en la opción "Ir a la fecha inicial"
+document.getElementById("ir-a-fecha-inicial").addEventListener("click", function() {
+    // Desplazarse a la primera fila
+    const primeraFila = document.querySelector("#sfDataGrid tr:first-child");
+    if (primeraFila) {
+        // Desplazar a la fila inicial
+        primeraFila.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        // Seleccionar la primera fila
+        // Eliminar la selección de cualquier fila previamente seleccionada
+        const selectedRow = document.querySelector("#sfDataGrid .selected");
+        if (selectedRow) {
+            selectedRow.classList.remove("selected");
+        }
+
+        // Marcar la fila inicial como seleccionada
+        primeraFila.classList.add("selected");
+    }
+});
+
+// Manejar clic en la opción "Ir a la fecha final"
+document.getElementById("ir-a-fecha-final").addEventListener("click", function() {
+    // Obtener la última fila de la tabla
+    const ultimaFila = document.querySelector("#sfDataGrid tr:last-child");
+    if (ultimaFila) {
+        // Desplazarse a la fila final
+        ultimaFila.scrollIntoView({ behavior: "auto", block: "end" });
+
+        // Seleccionar la última fila
+        // Eliminar la selección de cualquier fila previamente seleccionada
+        const selectedRow = document.querySelector("#sfDataGrid .selected");
+        if (selectedRow) {
+            selectedRow.classList.remove("selected");
+        }
+
+        // Marcar la fila final como seleccionada
+        ultimaFila.classList.add("selected");
+    }
+});
+
+// Función para desplazarse a la fila seleccionada
+function irACeldaSeleccionada() {
+    if (selectedRow) {
+        // Desplazar a la fila seleccionada y centrarla en la vista
+        selectedRow.scrollIntoView({ behavior: "auto", block: "center" });
+    } else {
+        console.log("No hay ninguna fila seleccionada.");
+    }
 }
