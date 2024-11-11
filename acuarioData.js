@@ -1,6 +1,8 @@
 // URL base de GitHub para los archivos JSON
 const githubBaseUrl = "https://raw.githubusercontent.com/LorenPorti/FECHAS-ACUARIO-WEB/main/"; // Reemplaza con la URL base de tu repositorio
 
+let data = []; // Declarar data globalmente
+
 // Función para cargar los datos de un acuario específico desde GitHub
 function loadAcuarioData(acuarioNumber) {
     const fileName = `acuarioNum${acuarioNumber}.json`;
@@ -13,7 +15,10 @@ function loadAcuarioData(acuarioNumber) {
             }
             return response.json();
         })
-        .then(data => initializeGrid(data))
+        .then(jsonData => {
+            data = jsonData; // Asignar datos a la variable global
+            initializeGrid(data); // Llamar a la función para inicializar la tabla
+        })
         .catch(error => console.error(`Error al cargar el archivo:`, error));
 }
 
@@ -90,19 +95,19 @@ function initializeGrid(data) {
         // Añadir la fila a la tabla
         gridElement.appendChild(dataRow);
 
-        // Añadir un evento de click a la fila para seleccionarla
+        // Almacenar la fila seleccionada al hacer clic
         dataRow.addEventListener("click", function() {
-            // Eliminar la selección de cualquier fila previamente seleccionada
-            const selectedRow = gridElement.querySelector(".selected");
-            if (selectedRow) {
+            // Desmarcar la fila previamente seleccionada, si existe
+            if (selectedRow !== null) {
                 selectedRow.classList.remove("selected");
             }
+            dataRow.classList.add("selected"); // Marcar la nueva fila como seleccionada
+            selectedRow = dataRow; // Actualizar la fila seleccionada
 
-            // Marcar la fila seleccionada
-            dataRow.classList.add("selected");
+            // Guardar el índice de la fila seleccionada en sessionStorage
+            sessionStorage.setItem("selectedRowIndex", dataRow.rowIndex);
 
-            // Mostrar detalles al hacer clic en la fila
-            showDetails(item); // Llamar a la función que muestra los detalles
+            showDetails(data[dataRow.rowIndex]);
         });
     });
 
@@ -290,55 +295,67 @@ function cargarAcuarioSeleccionado() {
 
 document.getElementById("irASeleccion").addEventListener("click", function(event) {
     event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-    irACeldaSeleccionada(); // Llama a la función para hacer scroll a la fila seleccionada
-});
+    const gridElement = document.getElementById("sfDataGrid");
+    const selectedRowIndex = sessionStorage.getItem("selectedRowIndex");
 
-// Manejar clic en la opción "Ir a la fecha inicial"
-document.getElementById("ir-a-fecha-inicial").addEventListener("click", function() {
-    // Desplazarse a la primera fila
-    const primeraFila = document.querySelector("#sfDataGrid tr:first-child");
-    if (primeraFila) {
-        // Desplazar a la fila inicial
-        primeraFila.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        // Seleccionar la primera fila
-        // Eliminar la selección de cualquier fila previamente seleccionada
-        const selectedRow = document.querySelector("#sfDataGrid .selected");
-        if (selectedRow) {
-            selectedRow.classList.remove("selected");
-        }
-
-        // Marcar la fila inicial como seleccionada
-        primeraFila.classList.add("selected");
+    if (selectedRowIndex !== null) {
+        selectedRow = gridElement.children[selectedRowIndex]; // Recuperar la fila seleccionada
+        selectedRow.scrollIntoView({ behavior: "auto", block: "center" });
+        selectedRow.classList.add("selected"); // Marcar la fila al hacer scroll
+    } else {
+        console.log("No hay fila seleccionada.");
     }
 });
 
 // Manejar clic en la opción "Ir a la fecha final"
 document.getElementById("ir-a-fecha-final").addEventListener("click", function() {
-    // Obtener la última fila de la tabla
-    const ultimaFila = document.querySelector("#sfDataGrid tr:last-child");
-    if (ultimaFila) {
-        // Desplazarse a la fila final
-        ultimaFila.scrollIntoView({ behavior: "auto", block: "end" });
+    const gridElement = document.getElementById("sfDataGrid");
+    const lastIndex = gridElement.children.length - 1;
+    if (lastIndex >= 0) {
+        const ultimaFila = gridElement.children[lastIndex];
 
-        // Seleccionar la última fila
         // Eliminar la selección de cualquier fila previamente seleccionada
-        const selectedRow = document.querySelector("#sfDataGrid .selected");
-        if (selectedRow) {
+        if (selectedRow !== null) {
             selectedRow.classList.remove("selected");
         }
 
-        // Marcar la fila final como seleccionada
+        // Marcar la última fila como seleccionada
         ultimaFila.classList.add("selected");
+        selectedRow = ultimaFila;
+
+        // Guardar el índice de la última fila en sessionStorage
+        sessionStorage.setItem("selectedRowIndex", lastIndex);
+
+        // Desplazar a la última fila
+        ultimaFila.scrollIntoView({ behavior: "auto", block: "center" });
     }
+
+    // Mostrar detalles de la última fila
+    showDetails(data[data.length - 1]);
 });
 
-// Función para desplazarse a la fila seleccionada
-function irACeldaSeleccionada() {
-    if (selectedRow) {
-        // Desplazar a la fila seleccionada y centrarla en la vista
-        selectedRow.scrollIntoView({ behavior: "auto", block: "center" });
-    } else {
-        console.log("No hay ninguna fila seleccionada.");
+// Manejar clic en la opción "Ir a la fecha inicial"
+document.getElementById("ir-a-fecha-inicial").addEventListener("click", function() {
+    const gridElement = document.getElementById("sfDataGrid");
+    const primeraFila = gridElement.children[0];
+
+    if (primeraFila) {
+        // Eliminar la selección de cualquier fila previamente seleccionada
+        if (selectedRow !== null) {
+            selectedRow.classList.remove("selected");
+        }
+
+        // Marcar la primera fila como seleccionada
+        primeraFila.classList.add("selected");
+        selectedRow = primeraFila;
+
+        // Guardar el índice de la primera fila en sessionStorage
+        sessionStorage.setItem("selectedRowIndex", 0);
+
+        // Desplazar a la primera fila
+        primeraFila.scrollIntoView({ behavior: "auto", block: "start" });
     }
-}
+
+    // Mostrar detalles de la primera fila
+    showDetails(data[0]);
+});
