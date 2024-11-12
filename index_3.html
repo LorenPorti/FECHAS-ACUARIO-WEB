@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="libreria/estilo.css" />
 
     <link rel="manifest" href="/manifest.json">
-
     <style>
         /* Adaptación a pantallas pequeñas */
         
@@ -83,7 +82,7 @@
         }
         /* Posicionar el submenú a la izquierda del menú principal */
         
-        .dropdown-menu .dropdown-submenu .dropdown-menu {
+        .dropdown-menu .dropdown-submenu {
             left: auto;
             right: 100%;
             top: auto;
@@ -331,6 +330,10 @@
         .hideScrollbar::-webkit-scrollbar {
             display: none;
         }
+        
+        #dateInput {
+            border: 0px;
+        }
     </style>
 </head>
 
@@ -350,7 +353,13 @@
                     <!-- Enlaces directos -->
                     <li><a id="ir-a-fecha-inicial" class="dropdown-item georgia-bold" href="#">Ir a la fecha inicial</a></li>
                     <li><a id="ir-a-fecha-final" class="dropdown-item georgia-bold" href="#">Ir a la fecha final</a></li>
-                    <li><a class="dropdown-item georgia-bold" href="#">Ir a Fecha</a></li>
+                    <!-- <li><a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha">Ir a Fecha</a></li> -->
+                    <li>
+                        <div style="position: relative;">
+                            <label for="dateInput" id="datePlaceholder" class="georgia-bold" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">Ir a Fecha</label>
+                            <input type="date" id="dateInput" class="georgia-bold" style="color: transparent;">
+                        </div>
+                    </li>
                     <li><a class="dropdown-item georgia-bold" id="irASeleccion" href="#">Ir a Selección</a></li>
                     <li>
                         <hr class="dropdown-divider dropdown-divider-custom">
@@ -477,7 +486,11 @@
         </div>
     </div>
 
+
+    <!-- Cargar los scripts con defer para que no bloqueen la carga de la página -->
     <script src="acuarioData.js"></script>
+
+    <!-- Luego incluye acuarioData.js -->
     <script>
         // Ejecutar la función al cargar la página
         window.onload = cargarAcuarioSeleccionado;
@@ -486,6 +499,7 @@
     <!-- Bootstrap y Font Awesome JS (Al final del body) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
 </body>
 
 </html>
