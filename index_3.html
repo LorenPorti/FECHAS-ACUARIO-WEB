@@ -330,6 +330,51 @@
         .hideScrollbar::-webkit-scrollbar {
             display: none;
         }
+        /* Estilo para contenedor y posición de elementos */
+        
+        .menu-fecha {
+            position: relative;
+            display: inline-block;
+            margin-left: 16px;
+            /* Posicionar a la izquierda */
+        }
+        
+        #dateInput {
+            position: absolute;
+            left: 0;
+            /* Alineado a la izquierda */
+            top: 100%;
+            /* Colocar debajo del elemento "Ir a Fecha" y a la izquierda */
+            margin-top: 0px;
+            /* Espacio entre los elementos */
+            z-index: 1000;
+            /* Asegura que el selector aparezca encima */
+            width: 150px !important;
+        }
+        
+        #dateInputContainer {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 8px;
+            z-index: 1000;
+            width: 150px;
+        }
+        /* Estilos para el dateInput y el texto */
+        
+        .date-label {
+            font-family: "Roboto", sans-serif;
+            font-weight: bold;
+            background-color: #f8f9fa;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .date-input {
+            font-family: "Georgia", serif;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -349,14 +394,7 @@
                     <!-- Enlaces directos -->
                     <li><a id="ir-a-fecha-inicial" class="dropdown-item georgia-bold" href="#">Ir a la fecha inicial</a></li>
                     <li><a id="ir-a-fecha-final" class="dropdown-item georgia-bold" href="#">Ir a la fecha final</a></li>
-                    <!-- <li><a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha">Ir a Fecha</a></li> -->
-                    <li>
-                        <!-- Entrada de la fecha -->
-                        <div class="input-group custom-border mt-2">
-                            <span class="input-group-text text-bg-secondary">Fecha</span>
-                            <input type="date" id="dateInput" class="roboto-medium-italic" />
-                        </div>
-                    </li>
+                    <li><a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha">Ir a Fecha</a></li>
                     <li><a class="dropdown-item georgia-bold" id="irASeleccion" href="#">Ir a Selección</a></li>
                     <li>
                         <hr class="dropdown-divider dropdown-divider-custom">
@@ -418,12 +456,16 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- Contenedor del selector de fecha -->
+            <div id="dateInputContainer" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 8px;">
+                <p class="roboto-bold text-bg-secondary">Seleccionar una Fecha:</p>
+                <input type="date" id="dateInput" class="georgia-bold">
+            </div>
         </div>
     </div>
 
     <div class="container">
-
-
         <div style="display: flex; flex-direction: row;" id="tableHeader">
             <p class="header-font" id="columnaFecha" style="margin: 0; padding: 0;">Fecha</p>
             <p class="header-font" style="margin: 0; padding: 0;">pH</p>
