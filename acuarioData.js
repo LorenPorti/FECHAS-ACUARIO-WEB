@@ -2,11 +2,12 @@
 const githubBaseUrl = "https://raw.githubusercontent.com/LorenPorti/FECHAS-ACUARIO-WEB/main/"; // Reemplaza con la URL base de tu repositorio
 
 let data = []; // Declarar data globalmente
+let dataConfig = {};
 
 // Función para cargar los datos de un acuario específico desde GitHub
 function loadAcuarioData(acuarioNumber) {
-    const fileName = `acuarioNum${acuarioNumber}.json`;
-    const fileUrl = `${githubBaseUrl}${fileName}`; // URL completa para el archivo en GitHub
+    let fileName = `acuarioNum${acuarioNumber}.json`;
+    let fileUrl = `${githubBaseUrl}${fileName}`; // URL completa para el archivo en GitHub
 
     fetch(fileUrl)
         .then(response => {
@@ -19,7 +20,25 @@ function loadAcuarioData(acuarioNumber) {
             data = jsonData; // Asignar datos a la variable global
             initializeGrid(data); // Llamar a la función para inicializar la tabla
         })
-        .catch(error => console.error(`Error al cargar el archivo:`, error));
+        .catch(error => console.log(`Error al cargar el archivo:`, error));
+
+    // Configuración
+    fileName = `acuarioNum${acuarioNumber}Config.json`;
+    fileUrl = `${githubBaseUrl}${fileName}`; // URL completa para el archivo en GitHub
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`No se pudo cargar el archivo ${fileName} desde GitHub`);
+            }
+            return response.json();
+        })
+        .then(configData => {
+            dataConfig = configData[0]; // Guardar la configuración en la variable global
+
+            // Mostrar el nombre del acuario en la interfaz
+            document.getElementById("nombreAcuario").textContent = dataConfig.nombreDelAcuario;
+        })
+        .catch(error => console.log(`Error al cargar el archivo:`, error));
 }
 
 // Variable para almacenar la fila seleccionada
@@ -307,6 +326,7 @@ document.getElementById("irASeleccion").addEventListener("click", function(event
     }
 });
 
+//************************************************
 // Manejar clic en la opción "Ir a la fecha final"
 document.getElementById("ir-a-fecha-final").addEventListener("click", function() {
     const gridElement = document.getElementById("sfDataGrid");
@@ -334,6 +354,7 @@ document.getElementById("ir-a-fecha-final").addEventListener("click", function()
     showDetails(data[data.length - 1]);
 });
 
+//************************************************
 // Manejar clic en la opción "Ir a la fecha inicial"
 document.getElementById("ir-a-fecha-inicial").addEventListener("click", function() {
     const gridElement = document.getElementById("sfDataGrid");
@@ -358,4 +379,121 @@ document.getElementById("ir-a-fecha-inicial").addEventListener("click", function
 
     // Mostrar detalles de la primera fila
     showDetails(data[0]);
+});
+
+//************************************************
+//Función para Ir a Fecha
+document.getElementById("dateInput").addEventListener("change", function(event) {
+    const selectedDate = new Date(event.target.value);
+    const firstDate = parseToDate(data[0].Fecha); // Fecha inicial del DataGrid
+    const lastDate = parseToDate(data[data.length - 1].Fecha); // Fecha final del DataGrid    
+
+    // Validar si la fecha seleccionada es un domingo
+    if (selectedDate.getDay() !== 0) {
+        // 0 es domingo
+        alert("La fecha seleccionada debe ser un domingo.");
+        event.target.value = ""; // Limpiar la fecha seleccionada
+        return;
+    }
+
+    // Validar si la fecha está dentro del rango de fechas
+    if (selectedDate < firstDate || selectedDate > lastDate) {
+        alert(
+            `La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`
+        );
+        event.target.value = ""; // Limpiar la fecha seleccionada
+        return;
+    }
+
+    // Si la fecha es válida, ir a la fila correspondiente
+    const rowIndex = getRowIndexByDate(selectedDate);
+    if (rowIndex !== -1) {
+        // Si se encuentra la fila correspondiente, seleccionarla y hacer scroll
+        selectAndScrollToRow(rowIndex);
+    }
+});
+
+// Función para obtener el índice de la fila correspondiente a la fecha seleccionada
+function getRowIndexByDate(selectedDate) {
+    for (let i = 0; i < data.length; i++) {
+        const rowDate = parseToDate(data[i].Fecha);
+        if (rowDate.toDateString() === selectedDate.toDateString()) {
+            return i; // Retorna el índice de la fila correspondiente
+        }
+    }
+    return -1; // Si no se encuentra la fecha, retornar -1
+}
+
+// Función para seleccionar y hacer scroll a la fila correspondiente
+function selectAndScrollToRow(rowIndex) {
+    const gridElement = document.getElementById("sfDataGrid");
+    const row = gridElement.children[rowIndex];
+
+    if (row) {
+        // Marcar la fila como seleccionada
+        if (selectedRow !== null) {
+            selectedRow.classList.remove("selected");
+        }
+        row.classList.add("selected");
+        selectedRow = row;
+
+        // Guardar el índice de la fila seleccionada
+        sessionStorage.setItem("selectedRowIndex", rowIndex);
+
+        // Desplazar la fila al centro de la vista
+        row.scrollIntoView({ behavior: "auto", block: "center" });
+
+        // Mostrar detalles de la fila seleccionada
+        showDetails(data[rowIndex]);
+    }
+}
+
+function parseToDate(dateString) {
+    const months = {
+        "ene": 0,
+        "feb": 1,
+        "mar": 2,
+        "abr": 3,
+        "may": 4,
+        "jun": 5,
+        "jul": 6,
+        "ago": 7,
+        "sep": 8,
+        "oct": 9,
+        "nov": 10,
+        "dic": 11
+    };
+
+    // Limpiar el mes (quitar el punto)
+    const cleanedDateString = dateString.replace(".", "").toLowerCase();
+
+    // Separar la fecha en día, mes y año
+    const [day, month, year] = cleanedDateString.split(" ");
+
+    // Crear el objeto Date usando el formato "year, monthIndex, day"
+    const date = new Date(year, months[month], day);
+
+    return date;
+}
+
+// Seleccionar el menú y el input de la fecha
+const dateInput = document.querySelector(".dropdown-menu-end");
+
+// Agregar evento para ocultar el menú después de seleccionar una fecha
+dateInput.addEventListener("change", function() {
+    dateInput.style.display = "none"; // Ocultar el menú añadiendo la clase 'hidden'
+});
+
+// Agregar evento al icono del menú para mostrar el menú al hacer clic
+const menuIcon = document.getElementById("iconoMenu"); // Cambia "menuIconId" por el id del icono del menú
+menuIcon.addEventListener("click", function() {
+    if (dateInput.style.display === "block") {
+        // Ocultar el menú si ya está visible
+        dateInput.style.display = "none";
+    } else {
+        // Ajustar posición y mostrar el menú
+        dateInput.style.left = "auto";
+        dateInput.style.right = "100%";
+        dateInput.style.display = "block";
+    }
 });
