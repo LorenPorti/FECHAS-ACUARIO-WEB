@@ -350,7 +350,8 @@
             z-index: 1000;
             /* Asegura que el selector aparezca encima */
             width: 150px !important;
-            height: 40px;
+            height: 35px;
+            background: linear-gradient(to bottom, #ece9eb, #ecbcd6);
         }
         
         #dateInputContainer {
@@ -459,7 +460,7 @@
             </div>
 
             <!-- Contenedor del selector de fecha -->
-            <div id="dateInputContainer" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 8px;">
+            <div id="dateInputContainer" style="display: none !important; position: absolute; background: white; border: 1px solid #ccc; padding: 8px;">
                 <p class="roboto-bold text-bg-secondary">Seleccionar una Fecha:</p>
                 <input type="date" id="dateInput" class="georgia-bold">
             </div>

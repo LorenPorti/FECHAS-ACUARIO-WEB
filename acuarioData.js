@@ -400,46 +400,57 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     dateInputContainer.style.top = `${rect.bottom + window.scrollY}px`;
     dateInputContainer.style.display = "block"; // Mostrar el selector de fecha
 
-    // Ocultar el selector de fecha al seleccionar una fecha
-    dateInput.addEventListener("change", function() {
-        dateInputContainer.style.display = "none"; // Ocultar después de seleccionar la fecha
-    });
+    // Manejar selección de fecha
+    dateInput.addEventListener("change", function onDateChange(event) {
+        const selectedDate = new Date(event.target.value);
+        const firstDate = parseToDate(data[0].Fecha);
+        const lastDate = parseToDate(data[data.length - 1].Fecha);
 
-    // Ocultar el selector si se hace clic fuera de él
-    document.addEventListener("click", function ocultarSelectorFecha(evento) {
-        if (!event.target.contains(evento.target) && !dateInputContainer.contains(evento.target)) {
+        // Validar que la fecha seleccionada sea un domingo
+        if (selectedDate.getDay() !== 0) {
+            alert("La fecha seleccionada debe ser un domingo.");
+            event.target.value = ""; // Limpiar la fecha seleccionada
+            return;
+        }
+
+        const minDate = new Date(firstDate);
+        const maxDate = new Date(lastDate);
+        maxDate.setDate(maxDate.getDate() + 1);
+        minDate.setDate(minDate.getDate() - 1);
+
+        if (!(selectedDate >= minDate && selectedDate <= maxDate)) {
+            alert(`La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`);
+            event.target.value = ""; // Limpiar la fecha seleccionada
+            return;
+        }
+
+        // Obtener el índice de la fila
+        const rowIndex = getRowIndexByDate(selectedDate);
+        if (rowIndex !== -1) {
+            selectAndScrollToRow(rowIndex); // Seleccionar y hacer scroll a la fila
+
+            // Ocultar el selector de fecha y limpiar el input
             dateInputContainer.style.display = "none";
-            document.removeEventListener("click", ocultarSelectorFecha); // Eliminar el evento para evitar múltiples llamadas
+            dateInput.value = ""; // Limpiar el valor del input
+            dateInput.blur();
+
+            // Quitar el evento para evitar múltiples llamadas
+            dateInput.removeEventListener("change", onDateChange);
         }
     });
 
-    // const selectedDate = new Date(event.target.value);
-    // const firstDate = parseToDate(data[0].Fecha); // Fecha inicial del DataGrid
-    // const lastDate = parseToDate(data[data.length - 1].Fecha); // Fecha final del DataGrid
+    // Manejar clic fuera del selector para ocultarlo
+    function ocultarSelectorFecha(evento) {
+        if (!dateInputContainer.contains(evento.target) && evento.target !== dateInput) {
+            dateInputContainer.style.display = "none";
+            document.removeEventListener("click", ocultarSelectorFecha);
+        }
+    }
 
-    // // Validar si la fecha seleccionada es un domingo
-    // if (selectedDate.getDay() !== 0) {
-    //     // 0 es domingo
-    //     alert("La fecha seleccionada debe ser un domingo.");
-    //     event.target.value = ""; // Limpiar la fecha seleccionada
-    //     return;
-    // }
-
-    // // Validar si la fecha está dentro del rango de fechas
-    // if (selectedDate < firstDate || selectedDate > lastDate) {
-    //     alert(
-    //         `La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`
-    //     );
-    //     event.target.value = ""; // Limpiar la fecha seleccionada
-    //     return;
-    // }
-
-    // // Si la fecha es válida, ir a la fila correspondiente
-    // const rowIndex = getRowIndexByDate(selectedDate);
-    // if (rowIndex !== -1) {
-    //     // Si se encuentra la fila correspondiente, seleccionarla y hacer scroll
-    //     selectAndScrollToRow(rowIndex);
-    // }
+    // Asegurarse de que el evento de clic se registre después de mostrar el selector
+    setTimeout(() => {
+        document.addEventListener("click", ocultarSelectorFecha);
+    }, 0);
 });
 
 // Función para obtener el índice de la fila correspondiente a la fecha seleccionada
@@ -504,25 +515,3 @@ function parseToDate(dateString) {
 
     return date;
 }
-
-// // Seleccionar el menú y el input de la fecha
-// const dateInput = document.querySelector(".dropdown-menu-end");
-
-// // Agregar evento para ocultar el menú después de seleccionar una fecha
-// dateInput.addEventListener("change", function() {
-//     dateInput.style.display = "none"; // Ocultar el menú añadiendo la clase 'hidden'
-// });
-
-// // Agregar evento al icono del menú para mostrar el menú al hacer clic
-// const menuIcon = document.getElementById("iconoMenu"); // Cambia "menuIconId" por el id del icono del menú
-// menuIcon.addEventListener("click", function() {
-//     if (dateInput.style.display === "block") {
-//         // Ocultar el menú si ya está visible
-//         dateInput.style.display = "none";
-//     } else {
-//         // Ajustar posición y mostrar el menú
-//         dateInput.style.left = "auto";
-//         dateInput.style.right = "100%";
-//         dateInput.style.display = "block";
-//     }
-// });
