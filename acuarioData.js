@@ -390,17 +390,7 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     const dateInputContainer = document.getElementById("dateInputContainer");
     const dateInput = document.getElementById("dateInput");
 
-    const fechaSeleccionada = parseToDate(data[selectedRow.rowIndex].Fecha);
-    fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
-
-    // Verificar si hay una fecha seleccionada
-    if (fechaSeleccionada) {
-        // Configurar el valor del input de fecha con la fecha seleccionada
-        dateInput.valueAsDate = fechaSeleccionada;
-    } else {
-        // Si no hay una fecha seleccionada, puedes configurar un valor por defecto, por ejemplo, la fecha de hoy
-        dateInput.valueAsDate = new Date();
-    }
+    FechaASelector(); //Poner la fecha de la selcción en el selector de fechas
 
     if (!dateInputContainer || !dateInput) {
         console.error("No se encontraron los elementos necesarios para mostrar el selector de fecha.");
@@ -413,6 +403,8 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     dateInputContainer.style.top = `${rect.bottom + window.scrollY}px`;
     dateInputContainer.style.display = "block"; // Mostrar el selector de fecha
 
+    let baderaFechaCorrecta = true; //utilizada para indicar si la fecha del selector está en el orden prefijado (No domingo o fuera intervalo primera-última fecha)
+
     // Manejar selección de fecha
     dateInput.addEventListener("change", function onDateChange(event) {
         const selectedDate = new Date(event.target.value);
@@ -422,7 +414,9 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
         // Validar que la fecha seleccionada sea un domingo
         if (selectedDate.getDay() !== 0) {
             alert("La fecha seleccionada debe ser un domingo.");
-            event.target.value = ""; // Limpiar la fecha seleccionada
+            event.target.value = ""; // Limpiar la fecha seleccionada del selector
+            FechaASelector(); //Poner la fecha de la selección en el selector de fechas
+            baderaFechaCorrecta = false;
             return;
         }
 
@@ -434,10 +428,13 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
         if (!(selectedDate >= minDate && selectedDate <= maxDate)) {
             alert(`La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`);
             event.target.value = ""; // Limpiar la fecha seleccionada
+            FechaASelector(); //Poner la fecha de la selección en el selector de fechas
+            baderaFechaCorrecta = false;
             return;
         }
 
-        dateInputContainer.style.display = "none";
+        //Si la fecha no es domingo o esta fuera del intervalo (primera-útlima fecha), mantener el selector visible
+        if (baderaFechaCorrecta == false) dateInputContainer.style.display = "none";
 
         // Obtener el índice de la fila
         const rowIndex = getRowIndexByDate(selectedDate);
@@ -467,6 +464,23 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
         document.addEventListener("click", ocultarSelectorFecha);
     }, 0);
 });
+
+//Funcion para mostrar en el selector de fechas la fecha seleccionada
+function FechaASelector() {
+    const fechaSeleccionada = parseToDate(data[selectedRow.rowIndex].Fecha);
+    fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
+    // Verificar si hay una fecha seleccionada
+    if (fechaSeleccionada) {
+        // Configurar el valor del input de fecha con la fecha seleccionada
+        dateInput.valueAsDate = fechaSeleccionada;
+    } else {
+        // Si no hay una fecha seleccionada, puedes configurar un valor por defecto, por ejemplo, la fecha de hoy
+        dateInput.valueAsDate = new Date();
+    }
+
+    return fechaSeleccionada;
+}
 
 // Función para obtener el índice de la fila correspondiente a la fecha seleccionada
 function getRowIndexByDate(selectedDate) {
