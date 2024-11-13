@@ -1,3 +1,4 @@
+// ParaEsto.js
 export let numDelAcuario = null; // Inicializa la variable
 
 export async function obtenerNumAcuario() {
@@ -108,6 +109,13 @@ export function procesarSup() {
 }
 
 // *************Enviar correo***************
+//En el gestor de correos, por ejemplo en eM client, si se crea una carpeta DATOS CAMPO EMAIL en la cuenta gmail,
+//y esta no está repetida en outlook, el correo enviado se descarga en la carpeta DATOS CAMPO EMAIL, aunque 
+//esta no sea Outlook.
+//Cuando en la página web (Código fuente), en index.html, se pone la siguiente línea
+//document.getElementById("enviar").addEventListener("click", () => { enviarCorreo("outlook"); }); con la variante
+//enviarCorreo("gmail"), se puede incluir en el texto los caracteres "\r\n", si esto ocurre se debe incluir el siguiente
+//código acuario.Coment?.Replace("\r\n", " ")
 let banderaError = false;
 let CORREO_ELECTRONICO = "lorenporti@outlook.com";
 export async function enviarCorreo(gestor) {
@@ -419,7 +427,7 @@ function recuperarDatosTemporales() {
 }
 
 // Convierte un valor Date al formato "17 jul 2024"
-function formatDate(dateString) {
+export function formatDate(dateString) {
     // Convertir la cadena de fecha a un objeto Date
     const date = new Date(dateString);
 
@@ -447,7 +455,7 @@ function formatDate(dateString) {
 
 
 // convierte un valor de la forma "17 jul 2024" a Date
-function parseDateString(dateString) {
+export function parseDateString(dateString) {
     const months = [
         "ene",
         "feb",
