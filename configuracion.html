@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración del Acuario</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="libreria/estilo.css" />
+    <style>
+        #configForm {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-family: 'georgia';
+            font-style: italic;
+            font-weight: bold;
+            font-size: 16px;
+            color: rgb(54, 53, 53);
+        }
+        
+        .form-control {
+            font-family: 'montserrat';
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .fondo {
+            background: linear-gradient(to bottom, #dfeaef, #d8e5e9);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 montserrat-regular small-font"><dt>Configuración del Acuario</dt></h2>
+        <form id="configForm">
+            <!-- Nombre del Acuario -->
+            <div class="mb-3">
+                <label for="nombreDelAcuario" class="form-label">Nombre del Acuario</label>
+                <input type="text" class="form-control text-secondary fondo" id="nombreDelAcuario" required>
+            </div>
+            <div class="mb-3">
+                <label for="fechaInicial" class="form-label">Fecha Inicial</label>
+                <input type="date" class="form-control text-secondary fondo" id="fechaInicial" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="pHOpt" class="form-label">pH Óptimo</label>
+                <input type="number" class="form-control text-secondary fondo" id="pHOpt" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="KHOpt" class="form-label">KH Óptimo</label>
+                <input type="string" class="form-control text-secondary fondo" id="KHOpt" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="tempOpt" class="form-label">Temperatura Óptima</label>
+                <input type="string" class="form-control text-secondary fondo" id="tempOpt" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="dimensionesAcuario" class="form-label">Dimensiones (largo x ancho x alto - cms)</label>
+                <input type="string" class="form-control text-secondary fondo" id="dimensionesAcuario" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="volumenAcuario" class="form-label">Volumen del Acuario</label>
+                <input type="string" class="form-control text-secondary fondo" id="volumenAcuario" readonly>
+            </div>
+        </form>
+    </div>
+
+    <script src="acuarioData.js"></script>
+    <script type="module" src="acuario.js"></script>
+    <script type="module"></script>
+</body>
+
+</html>

@@ -1,8 +1,9 @@
 // URL base de GitHub para los archivos JSON
 const githubBaseUrl = "https://raw.githubusercontent.com/LorenPorti/FECHAS-ACUARIO-WEB/main/"; // Reemplaza con la URL base de tu repositorio
 
-let data = []; // Declarar data globalmente
-let dataConfig = {};
+let numAcuario; // Número del acuario actual
+let data = []; // Datos semanales del acuario seleccionado
+let dataConfig = {}; // Configuración del acuario seleccionado
 
 // Función para cargar los datos de un acuario específico desde GitHub
 function loadAcuarioData(acuarioNumber) {
@@ -33,10 +34,16 @@ function loadAcuarioData(acuarioNumber) {
             return response.json();
         })
         .then(configData => {
+            // Guardamos la configuración en localStorage
+            localStorage.setItem("dataConfig", JSON.stringify(configData[0])); // Guardar 'dataConfig' en localStorage
+            // Guardamos úmero acuario en localStorage
+            localStorage.setItem('numAcuario', numAcuario); // Guardar 'dataConfig' en localStorage
+
             dataConfig = configData[0]; // Guardar la configuración en la variable global
 
             // Mostrar el nombre del acuario en la interfaz
-            document.getElementById("nombreAcuario").textContent = dataConfig.nombreDelAcuario;
+            document.getElementById("nombreAcuario").textContent =
+                dataConfig.nombreDelAcuario;
         })
         .catch(error => console.log(`Error al cargar el archivo:`, error));
 }
@@ -299,7 +306,7 @@ function cargarAcuarioSeleccionado() {
             console.log("Datos cargados:", data); // Verificar que los datos se cargaron correctamente
 
             // Obtener el número de acuario del archivo JSON
-            const numAcuario = data[0] && data[0].numAcuario ? data[0].numAcuario : "No disponible";
+            numAcuario = data[0] && data[0].numAcuario ? data[0].numAcuario : "No disponible";
 
             loadAcuarioData(numAcuario);
 
