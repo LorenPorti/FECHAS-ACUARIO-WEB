@@ -384,10 +384,23 @@ document.getElementById("ir-a-fecha-inicial").addEventListener("click", function
 //************************************************
 //Función para Ir a Fecha
 document.getElementById("ir-a-fecha").addEventListener("click", function(event) {
+
     event.preventDefault();
 
     const dateInputContainer = document.getElementById("dateInputContainer");
     const dateInput = document.getElementById("dateInput");
+
+    const fechaSeleccionada = parseToDate(data[selectedRow.rowIndex].Fecha);
+    fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
+    // Verificar si hay una fecha seleccionada
+    if (fechaSeleccionada) {
+        // Configurar el valor del input de fecha con la fecha seleccionada
+        dateInput.valueAsDate = fechaSeleccionada;
+    } else {
+        // Si no hay una fecha seleccionada, puedes configurar un valor por defecto, por ejemplo, la fecha de hoy
+        dateInput.valueAsDate = new Date();
+    }
 
     if (!dateInputContainer || !dateInput) {
         console.error("No se encontraron los elementos necesarios para mostrar el selector de fecha.");
@@ -424,6 +437,8 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
             return;
         }
 
+        dateInputContainer.style.display = "none";
+
         // Obtener el índice de la fila
         const rowIndex = getRowIndexByDate(selectedDate);
         if (rowIndex !== -1) {
@@ -442,8 +457,8 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     // Manejar clic fuera del selector para ocultarlo
     function ocultarSelectorFecha(evento) {
         if (!dateInputContainer.contains(evento.target) && evento.target !== dateInput) {
-            dateInputContainer.style.display = "none";
             document.removeEventListener("click", ocultarSelectorFecha);
+            dateInputContainer.style.display = "none";
         }
     }
 

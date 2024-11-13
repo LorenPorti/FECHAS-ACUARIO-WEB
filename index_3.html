@@ -71,22 +71,33 @@
         .fixed-header {
             height: 60px;
         }
+        /* Espaciado entre submenús */
         
-        .dropdown-divider-custom {
-            border-top: 1px solid #ddd;
+        .dropdown-menu>li {
+            margin-bottom: 5px;
+            /* Ajusta según prefieras */
         }
-        /* Submenú visible al hacer hover */
+        /* Mostrar submenú al hacer hover, y abrirlo a la izquierda */
+        
+        .dropdown-submenu {
+            position: relative;
+        }
         
         .dropdown-submenu:hover>.dropdown-menu {
             display: block;
-        }
-        /* Posicionar el submenú a la izquierda del menú principal */
-        
-        .dropdown-menu .dropdown-submenu {
+            position: absolute;
             left: auto;
-            right: 100%;
-            top: auto;
-            margin-top: -15px;
+            right: 92%;
+            /* Esto coloca el submenú a la izquierda */
+            top: 0;
+            /* Ajusta la posición vertical según sea necesario */
+            margin-top: 0;
+        }
+        /* Separación vertical de los submenús */
+        
+        .dropdown-menu .dropdown-submenu .dropdown-menu {
+            margin-top: 20px;
+            /* Ajuste de separación vertical */
         }
         
         .centerVertical {
