@@ -58,20 +58,6 @@ function initializeGrid(data) {
     // Limpiar el contenido previo
     gridElement.innerHTML = "";
 
-    // // Crear la cabecera de las columnas (sin "Inyección CO2")
-    // const headers = ["Fecha", "pH", "KH", "tmpºC", "CO2", "NO3"]; // Sin "inyeccCO2"
-    // const headerRow = document.createElement("tr");
-
-    // // Crear las celdas de la cabecera con la clase "header-font"
-    // headers.forEach(header => {
-    //     const th = document.createElement("th");
-    //     th.textContent = header;
-    //     th.classList.add("header-font"); // Asegurarse de agregar la clase correctamente
-    //     headerRow.appendChild(th);
-    // });
-
-    // gridElement.appendChild(headerRow);
-
     // Crear las filas de los datos
     data.forEach((item) => {
         const dataRow = document.createElement("tr");
@@ -201,26 +187,8 @@ function agregarIconoIyCO2(inyCO2Value) {
     return `<img src="${iconoImagen}" alt="CO2 Icon" style="width: 32px; height: 32px;" />`; // Puedes ajustar el tamaño del icono aquí
 }
 
-// Función para resaltar la fila seleccionada
-/* function highlightRow(selectedRow) {
-    // Elimina cualquier resalte previo
-    document.querySelectorAll("#sfDataGrid tr").forEach(row => {
-        row.classList.remove("selected-row");
-    });
-    // Añade la clase de resalte a la fila seleccionada
-    selectedRow.classList.add("selected-row");
-} */
-
 // Función para mostrar detalles de la fila seleccionada
 function showDetails(item) {
-    // Mostrar los valores del item en la consola (puedes hacer algo más con ellos)
-    // console.log("Inyección CO2:", item.inyeccCO2);
-    // console.log("Plantas:", item.plantas);
-    // console.log("Agua:", item.agua);
-    // console.log("Superficie Agua:", item.sup_agua);
-    // console.log("Algas:", item.algas);
-    // console.log("Comentario:", item.comentario);
-
     // Obtener el comentario de la fila seleccionada
     const comment = item.comentario;
 
@@ -294,29 +262,46 @@ function obtenerClaseDeEstado(valor) {
 
 // Función para cargar el archivo JSON desde GitHub
 function cargarAcuarioSeleccionado() {
-    const fileUrl = `${githubBaseUrl}acuarioActual.json`; // URL completa para el archivo en GitHub
-    fetch(fileUrl)
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('No se pudo cargar el archivo JSON: ' + response.statusText);
-            }
-            return response.json(); // Convertir la respuesta a JSON
-        })
-        .then(function(data) {
-            console.log("Datos cargados:", data); // Verificar que los datos se cargaron correctamente
+    // Comprobar si numAcuario ya está almacenado en localStorage
+    if (localStorage.getItem('numAcuario')) {
+        // Si existe, lo usamos directamente
+        numAcuario = localStorage.getItem('numAcuario');
+        loadAcuarioData(numAcuario); // Cargar los datos del acuario usando el número guardado en localStorage
 
-            // Obtener el número de acuario del archivo JSON
-            numAcuario = data[0] && data[0].numAcuario ? data[0].numAcuario : "No disponible";
+        // Actualizar el elemento HTML con el número de acuario
+        document.getElementById("acuarioSeleccionado").textContent = numAcuario;
+        console.log("Cargado desde localStorage:", numAcuario);
 
-            loadAcuarioData(numAcuario);
+    } else {
+        // Si no está en localStorage, cargar desde el archivo JSON en GitHub
+        const fileUrl = `${githubBaseUrl}acuarioActual.json`; // URL completa para el archivo en GitHub
 
-            // Mostrar el número de acuario en el elemento HTML
-            document.getElementById("acuarioSeleccionado").textContent = numAcuario;
-        })
-        .catch(function(error) {
-            console.log("Error al cargar el acuario:", error);
-            document.getElementById("acuarioSeleccionado").textContent = "Error al cargar";
-        });
+        fetch(fileUrl)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar el archivo JSON: ' + response.statusText);
+                }
+                return response.json(); // Convertir la respuesta a JSON
+            })
+            .then(function(data) {
+                console.log("Datos cargados:", data); // Verificar que los datos se cargaron correctamente
+
+                // Obtener el número de acuario del archivo JSON
+                numAcuario = data[0] && data[0].numAcuario ? data[0].numAcuario : "No disponible";
+
+                // Guardar el número de acuario en localStorage
+                localStorage.setItem('numAcuario', numAcuario);
+
+                loadAcuarioData(numAcuario); // Cargar los datos del acuario usando el número obtenido
+
+                // Mostrar el número de acuario en el elemento HTML
+                document.getElementById("acuarioSeleccionado").textContent = numAcuario;
+            })
+            .catch(function(error) {
+                console.log("Error al cargar el acuario:", error);
+                document.getElementById("acuarioSeleccionado").textContent = "Error al cargar";
+            });
+    }
 }
 
 document.getElementById("irASeleccion").addEventListener("click", function(event) {
@@ -410,8 +395,6 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     dateInputContainer.style.top = `${rect.bottom + window.scrollY}px`;
     dateInputContainer.style.display = "block"; // Mostrar el selector de fecha
 
-    let baderaFechaCorrecta = true; //utilizada para indicar si la fecha del selector está en el orden prefijado (No domingo o fuera intervalo primera-última fecha)
-
     // Manejar selección de fecha
     dateInput.addEventListener("change", function onDateChange(event) {
         const selectedDate = new Date(event.target.value);
@@ -423,7 +406,7 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
             alert("La fecha seleccionada debe ser un domingo.");
             event.target.value = ""; // Limpiar la fecha seleccionada del selector
             FechaASelector(); //Poner la fecha de la selección en el selector de fechas
-            baderaFechaCorrecta = false;
+            dateInputContainer.style.display = "block";
             return;
         }
 
@@ -433,15 +416,16 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
         minDate.setDate(minDate.getDate() - 1);
 
         if (!(selectedDate >= minDate && selectedDate <= maxDate)) {
-            alert(`La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`);
+            alert(
+                `La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`
+            );
             event.target.value = ""; // Limpiar la fecha seleccionada
             FechaASelector(); //Poner la fecha de la selección en el selector de fechas
-            baderaFechaCorrecta = false;
+            dateInputContainer.style.display = "block";
             return;
         }
 
-        //Si la fecha no es domingo o esta fuera del intervalo (primera-útlima fecha), mantener el selector visible
-        if (baderaFechaCorrecta == false) dateInputContainer.style.display = "none";
+        dateInputContainer.style.display = "none";
 
         // Obtener el índice de la fila
         const rowIndex = getRowIndexByDate(selectedDate);
@@ -550,4 +534,88 @@ function parseToDate(dateString) {
     const date = new Date(year, months[month], day);
 
     return date;
+}
+
+//*************************************************
+function mostrarModalGestionAcuarios() {
+    // Verifica si ya hay datos en LocalStorage
+    let acuarios = JSON.parse(localStorage.getItem('acuarios'));
+
+    if (!acuarios) {
+        // Cargar datos desde acuarios.json si no están en LocalStorage
+        fetch(githubBaseUrl + 'acuarios.json')
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('acuarios', JSON.stringify(data)); // Guardar en LocalStorage
+                mostrarListaAcuarios(data); // Mostrar la lista en el modal
+            })
+            .catch(error => console.log('Error al cargar acuarios:', error));
+    } else {
+        // Usar los datos de LocalStorage
+        mostrarListaAcuarios(acuarios);
+    }
+
+    // Abre el modal de gestión de acuarios
+    const modal = new bootstrap.Modal(document.getElementById('gestionAcuariosModal'));
+    modal.show();
+
+    // Al cerrar el modal, cargar el acuario seleccionado
+    document.getElementById('gestionAcuariosModal').addEventListener('hidden.bs.modal', () => {
+        const numAcuario = localStorage.getItem('numAcuario');
+        if (numAcuario) {
+            cargarAcuarioSeleccionado(); //Funcion que se llama cuando se cierra el mModal de acuarios
+        }
+    }, { once: true });
+}
+
+function mostrarListaAcuarios(acuarios) {
+    const listaAcuarios = document.getElementById('listaAcuarios');
+    listaAcuarios.innerHTML = ''; // Limpiar lista antes de agregar acuarios
+
+    acuarios.forEach(acuario => {
+        const item = document.createElement('li');
+        if (acuario.Nombre === dataConfig.nombreDelAcuario) {
+            item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'text-bg-success');
+        } else item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+        item.textContent = `(${acuario.Num}) ${acuario.Nombre} (${acuario.Fecha})`;
+
+        const seleccionarBtn = document.createElement('button');
+        seleccionarBtn.classList.add('btn', 'btn-primary', 'btn-sm');
+        seleccionarBtn.textContent = 'Seleccionar';
+        seleccionarBtn.onclick = () => resaltarAcuarioSeleccionado(acuario.Num);
+
+        item.appendChild(seleccionarBtn);
+        listaAcuarios.appendChild(item);
+    });
+}
+
+function seleccionarAcuario(numAcuario) {
+    // Actualiza el LocalStorage con el nuevo acuario seleccionado
+    localStorage.setItem('numAcuario', numAcuario);
+
+    // Recargar los datos del acuario seleccionado
+    loadAcuarioData(numAcuario);
+
+    // Cierra el modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('gestionAcuariosModal'));
+    modal.hide();
+
+    // Mensaje de confirmación (opcional)
+    alert(`Acuario ${numAcuario} seleccionado correctamente.`);
+}
+
+// Función para resaltar el acuario seleccionado
+function resaltarAcuarioSeleccionado(numAcuario) {
+    // Actualizar el valor de numAcuario en localStorage
+    localStorage.setItem('numAcuario', numAcuario);
+
+    // Actualizar el estilo de los acuarios en la lista
+    const listaItems = document.querySelectorAll('#listaAcuarios .list-group-item');
+    listaItems.forEach(item => item.classList.remove('text-bg-success'));
+
+    // Resaltar el acuario recién seleccionado
+    const seleccionado = [...listaItems].find(item => item.textContent.includes(`(${numAcuario})`));
+    if (seleccionado) {
+        seleccionado.classList.add('text-bg-success');
+    }
 }

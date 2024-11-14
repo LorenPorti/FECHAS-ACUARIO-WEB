@@ -417,7 +417,7 @@
                     <li class="dropdown-submenu">
                         <a class="dropdown-item dropdown-toggle georgia-bold" href="#">Acuarios</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item georgia-bold" href="#">Gestión de Acuarios</a></li>
+                            <li><a class="dropdown-item georgia-bold" href="#" onclick="mostrarModalGestionAcuarios()">Gestión de Acuarios</a></li>
                             <li><a class="dropdown-item georgia-bold" href="configuracion.html">Configuración</a></li>
                         </ul>
                     </li>
@@ -538,11 +538,29 @@
         </div>
     </div>
 
+    <!-- Modal de Gestión de Acuarios -->
+    <div class="modal fade" id="gestionAcuariosModal" tabindex="-1" aria-labelledby="gestionAcuariosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gestionAcuariosLabel">Gestión de Acuarios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="listaAcuarios" class="list-group">
+                        <!-- Aquí se cargarán los acuarios desde acuarios.json -->
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Cargar los scripts con defer para que no bloqueen la carga de la página -->
     <script src="acuarioData.js"></script>
 
-    <!-- Luego incluye acuarioData.js -->
     <script>
         // Ejecutar la función al cargar la página
         window.onload = cargarAcuarioSeleccionado;
