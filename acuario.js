@@ -12,7 +12,7 @@ function cargarConfiguracion() {
 
     // Accedemos al formulario en configuracion.html
     document.getElementById('nombreDelAcuario').value = `(${numAcuario}) ${dataConfig.nombreDelAcuario}` || '';
-    document.getElementById('fechaInicial').value = `inicio ${datosAcuario[0].Fecha}  -final ${datosAcuario[datosAcuario.length - 1].Fecha}-` || '';
+    document.getElementById('fechaInicial').value = `${datosAcuario[0].Fecha}/${datosAcuario[datosAcuario.length - 1].Fecha}  Datos = ${addThousandsSeparatorManual((datosAcuario.length))}` || '';
     document.getElementById('pHOpt').value = `${dataConfig.pHOpt.toString().replace('.', ',')}  -media = ${ValorMedio("pH").toString().replace('.', ',')}-` || '';
     document.getElementById("KHOpt").value = `${dataConfig.KHOpt.toString().replace('.', ',')} (dKH)  -media = ${ValorMedio("KH").toString().replace('.', ',')} (dKH)-` || "";
     document.getElementById('tempOpt').value = `${dataConfig.tempOpt.toString().replace('.', ',')} ºC  -media = ${ValorMedio("temperatura").toString().replace('.', ',')} ºC-` || '';
@@ -42,6 +42,12 @@ function ValorMedio(elemento) {
     }
 
     return (suma / datosAcuario.length).toFixed(1);
+}
+
+function addThousandsSeparatorManual(numero) {
+    let [integerPart, decimalPart] = numero.toString().split('.');
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Añade puntos a miles
+    return decimalPart ? `${integerPart},${decimalPart}` : integerPart;
 }
 
 // Llamamos a la función al cargar la página
