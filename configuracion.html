@@ -31,11 +31,34 @@
         .fondo {
             background: linear-gradient(to bottom, #dfeaef, #d8e5e9);
         }
+        
+        .btn-volver {
+            display: block;
+            width: 100%;
+            background: linear-gradient(to bottom, #cfacc4, #7c2453);
+            color: white;
+            padding: 10px 0;
+            /* Reduce el relleno vertical para hacer el botón más bajo */
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            /* Ajusta el tamaño de fuente si es necesario */
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        
+        .btn-volver:hover {
+            background: linear-gradient(to bottom, #7c2453, #cfacc4);
+            /* Azul más oscuro */
+        }
     </style>
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5" style="margin-top: 10px !important;">
         <h2 class="text-center mb-4 montserrat-regular small-font"><dt>Configuración del Acuario</dt></h2>
         <form id="configForm">
             <!-- Nombre del Acuario -->
@@ -68,6 +91,7 @@
                 <input type="string" class="form-control text-secondary fondo" id="volumenAcuario" readonly>
             </div>
         </form>
+        <button onclick="window.location.href='index_3.html'" class="btn-volver">Volver a la Página Principal</button>
     </div>
 
     <script src="acuarioData.js"></script>
