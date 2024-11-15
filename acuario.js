@@ -7,16 +7,41 @@ function cargarConfiguracion() {
     let numAcuario = localStorage.getItem('numAcuario');
 
     dataConfig = JSON.parse(storedDataConfig); // Convertir JSON a objeto
+    const storedDatosAcuario = localStorage.getItem('datosAcuario');
+    datosAcuario = JSON.parse(storedDatosAcuario);
 
     // Accedemos al formulario en configuracion.html
     document.getElementById('nombreDelAcuario').value = `(${numAcuario}) ${dataConfig.nombreDelAcuario}` || '';
-    document.getElementById('fechaInicial').value = dataConfig.fechaInicial.split('T')[0] || '';
-    // document.getElementById('fechaFinal').value = dataConfig.fechaFinal.split('T')[0] || '';
-    document.getElementById('pHOpt').value = dataConfig.pHOpt || '';
-    document.getElementById("KHOpt").value = `${dataConfig.KHOpt} (dKH)` || "";
-    document.getElementById('tempOpt').value = `${dataConfig.tempOpt} ºC` || '';
+    document.getElementById('fechaInicial').value = `inicio ${datosAcuario[0].Fecha}  -final ${datosAcuario[datosAcuario.length - 1].Fecha}-` || '';
+    document.getElementById('pHOpt').value = `${dataConfig.pHOpt.toString().replace('.', ',')}  -media = ${ValorMedio("pH").toString().replace('.', ',')}-` || '';
+    document.getElementById("KHOpt").value = `${dataConfig.KHOpt.toString().replace('.', ',')} (dKH)  -media = ${ValorMedio("KH").toString().replace('.', ',')} (dKH)-` || "";
+    document.getElementById('tempOpt').value = `${dataConfig.tempOpt.toString().replace('.', ',')} ºC  -media = ${ValorMedio("temperatura").toString().replace('.', ',')} ºC-` || '';
     document.getElementById('dimensionesAcuario').value = `${dataConfig.largoAcuario} x ${dataConfig.anchoAcuario} x ${dataConfig.altoAcuario}` || '';
     document.getElementById('volumenAcuario').value = `${Number(dataConfig.largoAcuario*dataConfig.anchoAcuario*dataConfig.altoAcuario/1000).toFixed(0)} lt` || '';
+}
+
+function ValorMedio(elemento) {
+
+    let suma = 0;
+    switch (elemento) {
+        case "pH":
+            datosAcuario.forEach(elem => {
+                suma += elem.pH;
+            });
+            break;
+        case "KH":
+            datosAcuario.forEach(elem => {
+                suma += elem.KH;
+            });
+            break;
+        case "temperatura":
+            datosAcuario.forEach(elem => {
+                suma += elem.temp;
+            });
+            break;
+    }
+
+    return (suma / datosAcuario.length).toFixed(1);
 }
 
 // Llamamos a la función al cargar la página
