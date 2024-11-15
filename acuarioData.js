@@ -2,7 +2,7 @@
 const githubBaseUrl = "https://raw.githubusercontent.com/LorenPorti/FECHAS-ACUARIO-WEB/main/"; // Reemplaza con la URL base de tu repositorio
 
 let numAcuario; // Número del acuario actual
-let data = []; // Datos semanales del acuario seleccionado
+let datosAcuario = []; // Datos semanales del acuario seleccionado
 let dataConfig = {}; // Configuración del acuario seleccionado
 
 // Función para cargar los datos de un acuario específico desde GitHub
@@ -20,6 +20,9 @@ function loadAcuarioData(acuarioNumber) {
         .then(jsonData => {
             data = jsonData; // Asignar datos a la variable global
             initializeGrid(data); // Llamar a la función para inicializar la tabla
+
+            // Guardamos los datos del acuario (data) en localStorage
+            localStorage.setItem("datosAcuario", JSON.stringify(data));
         })
         .catch(error => console.log(`Error al cargar el archivo:`, error));
 
@@ -242,11 +245,11 @@ function mostrarDetallesConEstado(item) {
         algasEstado === 2 ? '⛔' : '❌';
 
     // Iny. CO2 (1 levadura, 2 B. presión, 3 Sin CO2)
-    const inyCO2Estado = item.inyeccCO2;
-    document.getElementById("detalleInyCO2").classList.add('bien');
-    document.getElementById("iconoInyCO2").src = inyCO2Estado === 1 ? 'levadura_icon.png' :
-        inyCO2Estado === 2 ? 'botella_presion_icon.png' :
-        'sin_co2_icon.png';
+    // const inyCO2Estado = item.inyeccCO2;
+    // document.getElementById("detalleInyCO2").classList.add('bien');
+    // document.getElementById("iconoInyCO2").src = inyCO2Estado === 1 ? 'levadura_icon.png' :
+    //     inyCO2Estado === 2 ? 'botella_presion_icon.png' :
+    //     'sin_co2_icon.png';
 }
 
 function obtenerClaseDeEstado(valor) {
@@ -269,8 +272,8 @@ function cargarAcuarioSeleccionado() {
         loadAcuarioData(numAcuario); // Cargar los datos del acuario usando el número guardado en localStorage
 
         // Actualizar el elemento HTML con el número de acuario
-        document.getElementById("acuarioSeleccionado").textContent = numAcuario;
-        console.log("Cargado desde localStorage:", numAcuario);
+        // document.getElementById("acuarioSeleccionado").textContent = numAcuario;
+        // console.log("Cargado desde localStorage:", numAcuario);
 
     } else {
         // Si no está en localStorage, cargar desde el archivo JSON en GitHub
@@ -299,7 +302,7 @@ function cargarAcuarioSeleccionado() {
             })
             .catch(function(error) {
                 console.log("Error al cargar el acuario:", error);
-                document.getElementById("acuarioSeleccionado").textContent = "Error al cargar";
+                // document.getElementById("acuarioSeleccionado").textContent = "Error al cargar";
             });
     }
 }
@@ -589,20 +592,20 @@ function mostrarListaAcuarios(acuarios) {
     });
 }
 
-function seleccionarAcuario(numAcuario) {
-    // Actualiza el LocalStorage con el nuevo acuario seleccionado
-    localStorage.setItem('numAcuario', numAcuario);
+// function seleccionarAcuario(numAcuario) {
+//     // Actualiza el LocalStorage con el nuevo acuario seleccionado
+//     localStorage.setItem('numAcuario', numAcuario);
 
-    // Recargar los datos del acuario seleccionado
-    loadAcuarioData(numAcuario);
+//     // Recargar los datos del acuario seleccionado
+//     loadAcuarioData(numAcuario);
 
-    // Cierra el modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('gestionAcuariosModal'));
-    modal.hide();
+//     // Cierra el modal
+//     const modal = bootstrap.Modal.getInstance(document.getElementById('gestionAcuariosModal'));
+//     modal.hide();
 
-    // Mensaje de confirmación (opcional)
-    alert(`Acuario ${numAcuario} seleccionado correctamente.`);
-}
+//     // Mensaje de confirmación (opcional)
+//     alert(`Acuario ${numAcuario} seleccionado correctamente.`);
+// }
 
 // Función para resaltar el acuario seleccionado
 function resaltarAcuarioSeleccionado(numAcuario) {
