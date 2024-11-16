@@ -13,7 +13,6 @@ body {
 /* Cabecera */
 
 header {
-    position: fixed;
     width: 100%;
     color: white;
     background-color: #2b5f9e;
