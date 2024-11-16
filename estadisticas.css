@@ -13,26 +13,21 @@ body {
 /* Cabecera */
 
 header {
+    position: fixed;
+    width: 100%;
     color: white;
     background-color: #2b5f9e;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
     padding: 3px;
-    width: 100%;
-    position: fixed;
-    left: 0;
 }
 
 header h1 {
     margin: 0;
     font-size: 1.2em;
     font-weight: bold;
-    /* text-align: center; */
-    display: flex;
-    flex-direction: row;
-    justify-content: baseline;
+    text-align: center;
 }
 
 header #datos-generales {
