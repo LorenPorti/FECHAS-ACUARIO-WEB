@@ -1,0 +1,69 @@
+/* General */
+
+body {
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+
+/* Cabecera */
+
+header {
+    color: white;
+    background-color: #2b5f9e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 3px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+}
+
+header #datos-generales {
+    margin-top: 5px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 10px;
+}
+
+
+/* Contenedor principal */
+
+header #total-registros main#contenedor-principal {
+    padding: 15px;
+    margin-top: 70px;
+    /* Margen superior para evitar superposición con la cabecera */
+}
+
+section {
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #2b5f9e;
+}
