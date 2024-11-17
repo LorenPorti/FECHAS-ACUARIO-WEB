@@ -29,7 +29,7 @@ header h1 {
     text-align: center;
 }
 
-header #datos-generales {
+#datos-generales {
     margin-top: 5px;
     font-size: 0.9em;
     display: flex;
@@ -39,25 +39,44 @@ header #datos-generales {
     gap: 10px;
 }
 
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
 
 /* Contenedor principal */
 
-header #total-registros main#contenedor-principal {
+main#contenedor-principal {
     padding: 15px;
-    margin-top: 70px;
+    margin-top: 45px;
     /* Margen superior para evitar superposición con la cabecera */
 }
 
 section {
     margin-bottom: 20px;
     background-color: white;
-    padding: 15px;
+    padding: 5px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    /* Habilita Flexbox */
+    flex-direction: column;
+    /* Organiza elementos verticalmente */
+    align-items: center;
+    /* Centra el contenido horizontalmente */
+    justify-content: center;
+    /* Asegura que el contenido comience desde arriba */
+    width: 100%;
+    /* Asegura que tome todo el ancho disponible */
 }
 
 section h2 {
     font-size: 1.2em;
-    margin-bottom: 10px;
-    color: #2b5f9e;
+    margin: 0;
+    /* Elimina el margen adicional */
+    color: #E88D67;
 }
