@@ -13,8 +13,8 @@
     <header class="fixed-header">
         <h1 id="cabecera">Estadist. Mi Acuario De Chilches</h1>
         <div id="datos-generales">
-            <span>Total registros: <span id="total-registros">-</span></span>
-            <span>Desde: <span id="fecha-inicial">-</span> hasta <span id="fecha-final">-</span></span>
+            <span>(<span id="fecha-inicial"></span>/<span id="fecha-final"></span>)</span>
+            <span>Registros: (<span id="total-registros">-</span>)</span>
         </div>
     </header>
 
@@ -22,7 +22,200 @@
     <main id="contenedor-principal">
         <!-- Secciones de datos -->
         <section id="parametros-clave">
-            <h2>Parámetros Clave</h2>
+            <div class="tarjeta" id="tarjetaPH">
+                <h2>pH</h2>
+                <div class="datos">
+                    <div class="fila">
+                        <span>Máximo:</span>
+                        <span class="valor maximo">7,8</span>
+                        <select class="dropdown dropdown-maximo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Mínimo:</span>
+                        <span class="valor minimo">4,2</span>
+                        <select class="dropdown dropdown-minimo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Media:</span>
+                        <span class="valor media">6,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Desviación:</span>
+                        <span class="valor desviacion">0,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Más repite:</span>
+                        <span class="valor masrepite">6,6 (123)</span>
+                        <select class="dropdown dropdown-repite">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Tendencia:</span>
+                        <span class="valor tendencia">6,3</span>
+                    </div>
+                </div>
+            </div>
+            <!-- ***************************** -->
+            <div class="tarjeta" id="tarjetaKH">
+                <h2>KH (dKH)</h2>
+                <div class="datos">
+                    <div class="fila">
+                        <span>Máximo:</span>
+                        <span class="valor maximo">7,8</span>
+                        <select class="dropdown dropdown-maximo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Mínimo:</span>
+                        <span class="valor minimo">4,2</span>
+                        <select class="dropdown dropdown-minimo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Media:</span>
+                        <span class="valor media">6,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Desviación:</span>
+                        <span class="valor desviacion">0,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Más repite:</span>
+                        <span class="valor masrepite">6,6 (123)</span>
+                        <select class="dropdown dropdown-repite">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Tendencia:</span>
+                        <span class="valor tendencia">6,3</span>
+                    </div>
+                </div>
+            </div>
+            <!-- ***************************** -->
+            <div class="tarjeta" id="tarjetaTemp">
+                <h2>Temperatura (ºC)</h2>
+                <div class="datos">
+                    <div class="fila">
+                        <span>Máximo:</span>
+                        <span class="valor maximo">7,8</span>
+                        <select class="dropdown dropdown-maximo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Mínimo:</span>
+                        <span class="valor minimo">4,2</span>
+                        <select class="dropdown dropdown-minimo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Media:</span>
+                        <span class="valor media">6,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Desviación:</span>
+                        <span class="valor desviacion">0,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Más repite:</span>
+                        <span class="valor masrepite">6,6 (123)</span>
+                        <select class="dropdown dropdown-repite">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Tendencia:</span>
+                        <span class="valor tendencia">6,3</span>
+                    </div>
+                </div>
+            </div>
+            <!-- ***************************** -->
+            <div class="tarjeta" id="tarjetaNO3">
+                <h2>NO3 (ppm)</h2>
+                <div class="datos">
+                    <div class="fila">
+                        <span>Máximo:</span>
+                        <span class="valor maximo">7,8</span>
+                        <select class="dropdown dropdown-maximo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Mínimo:</span>
+                        <span class="valor minimo">4,2</span>
+                        <select class="dropdown dropdown-minimo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Media:</span>
+                        <span class="valor media">6,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Desviación:</span>
+                        <span class="valor desviacion">0,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Más repite:</span>
+                        <span class="valor masrepite">6,6 (123)</span>
+                        <select class="dropdown dropdown-repite">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Tendencia:</span>
+                        <span class="valor tendencia">6,3</span>
+                    </div>
+                </div>
+            </div>
+            <!-- ***************************** -->
+            <div class="tarjeta" id="tarjetaCO2">
+                <h2>CO2 Disuelto (mg/l)</h2>
+                <div class="datos">
+                    <div class="fila">
+                        <span>Máximo:</span>
+                        <span class="valor maximo">7,8</span>
+                        <select class="dropdown dropdown-maximo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Mínimo:</span>
+                        <span class="valor minimo">4,2</span>
+                        <select class="dropdown dropdown-minimo">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Media:</span>
+                        <span class="valor media">6,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Desviación:</span>
+                        <span class="valor desviacion">0,4</span>
+                    </div>
+                    <div class="fila">
+                        <span>Más repite:</span>
+                        <span class="valor masrepite">6,6 (123)</span>
+                        <select class="dropdown dropdown-repite">
+                            <option value="">Seleccione fecha</option>
+                        </select>
+                    </div>
+                    <div class="fila">
+                        <span>Tendencia:</span>
+                        <span class="valor tendencia">6,3</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="estado-agua">
@@ -32,6 +225,15 @@
         <section id="combinacion-plantas-algas">
             <h2>Combinación Plantas/Algas</h2>
         </section>
+        <!-- Modal -->
+        <div id="modal-detalle" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar">&times;</span>
+                <h3>Detalles de la semana</h3>
+                <p id="detalle-fecha"></p>
+                <ul id="detalle-datos"></ul>
+            </div>
+        </div>
     </main>
 
     <script src="estadisticas.js"></script>
