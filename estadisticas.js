@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
         cargarTarjeta("NO3", datosAcuario, "#tarjetaNO3");
         // Cargar tarjeta CO2 disuelto
         cargarTarjeta("CO2", datosAcuario, "#tarjetaCO2");
+        // Cargar tarjeta inyección CO2
+        cargarTarjeta("inyeccCO2", datosAcuario, "#tarjetaInyeccCo2");
     }
 });
 
@@ -51,6 +53,9 @@ function cargarTarjeta(parametro, datosAcuario, selectorTarjeta) {
     // Seleccionar la tarjeta específica
     const tarjeta = document.querySelector(selectorTarjeta);
     if (!tarjeta) return;
+
+    if (parametro == "inyeccCO") console.log(parametro);
+
     // Seleccionar los elementos de la tarjeta con sus clases
     const maxValorElemento = tarjeta.querySelector(".valor.maximo");
     const minValorElemento = tarjeta.querySelector(".valor.minimo");
@@ -58,10 +63,18 @@ function cargarTarjeta(parametro, datosAcuario, selectorTarjeta) {
     const desvioValorElemento = tarjeta.querySelector(".valor.desviacion");
     const repiteValorElemento = tarjeta.querySelector(".valor.masrepite");
     const tendenciaValorElemento = tarjeta.querySelector(".valor.tendencia");
+    const cantidadBotellaPresion = document.querySelector("#tarjetaInyeccCo2 .valor.botellaPresion");
+    const cantidadLevadura = document.querySelector("#tarjetaInyeccCo2 .valor.Co2Levadura");
+    const cantidadSinCo2 = document.querySelector("#tarjetaInyeccCo2 .valor.SinCo2");
 
     const dropdownMaximo = tarjeta.querySelector(".dropdown-maximo");
     const dropdownMinimo = tarjeta.querySelector(".dropdown-minimo");
     const dropdownRepite = tarjeta.querySelector(".dropdown-repite");
+
+    // Seleccionar los dropdowns
+    const dropdownBotPresion = document.querySelector(".dropdown-BotPresion");
+    const dropdownCo2Levadura = document.querySelector(".dropdown-Co2Levadura");
+    const dropdownSinCo2 = document.querySelector(".dropdown-SinCo2");
 
     // Obtener los valores para el parámetro
     const values = datosAcuario.map(d => d[parametro]);
@@ -73,19 +86,36 @@ function cargarTarjeta(parametro, datosAcuario, selectorTarjeta) {
     const desviacionParametro = Math.sqrt(values.reduce((sum, val) => sum + Math.pow(val - mediaParametro, 2), 0) / values.length);
     const tendencia = calcularTendenciaEsperada(values);
     const modaParametro = calcularModa(values); // Asumiendo que ya tienes la función calcularModa
+    const repeticionBotellaPresion = contarRepeticiones(values, 2);
+    const repeticionLevadura = contarRepeticiones(values, 1);
+    const repeticionSinCo2 = contarRepeticiones(values, 3);
 
-    // Mostrar los valores en la tarjeta
-    maxValorElemento.textContent = maxValorParametro.toFixed(1).toString().replace(".", ",");
-    minValorElemento.textContent = minValorParametro.toFixed(1).toString().replace(".", ",");
-    mediaValorElemento.textContent = mediaParametro.toFixed(1).toString().replace(".", ",");
-    desvioValorElemento.textContent = desviacionParametro.toFixed(1).toString().replace(".", ",");
-    repiteValorElemento.textContent = `${modaParametro.valor.toFixed(1).toString().replace(".", ",")} - (${modaParametro.repeticiones})`;
-    tendenciaValorElemento.textContent = `${tendencia.proximoValor} - (${tendencia.interpretacion})`;
-
+    if (parametro != "inyeccCO2") {
+        // Mostrar los valores en la tarjeta
+        maxValorElemento.textContent = maxValorParametro.toFixed(1).toString().replace(".", ",");
+        minValorElemento.textContent = minValorParametro.toFixed(1).toString().replace(".", ",");
+        mediaValorElemento.textContent = mediaParametro.toFixed(1).toString().replace(".", ",");
+        desvioValorElemento.textContent = desviacionParametro.toFixed(1).toString().replace(".", ",");
+        repiteValorElemento.textContent = `${modaParametro.valor.toFixed(1).toString().replace(".", ",")} - (${modaParametro.repeticiones})`;
+        tendenciaValorElemento.textContent = `${tendencia.proximoValor} - (${tendencia.interpretacion})`;
+    } else {
+        cantidadBotellaPresion.textContent = `(${repeticionBotellaPresion})`;
+        cantidadLevadura.textContent = `(${repeticionLevadura})`;
+        cantidadSinCo2.textContent = `(${repeticionSinCo2})`;
+    }
     // Llenar los dropdowns con las fechas de los valores extremos
     llenarDropdown(datosAcuario, parametro, maxValorParametro, dropdownMaximo);
     llenarDropdown(datosAcuario, parametro, minValorParametro, dropdownMinimo);
     llenarDropdown(datosAcuario, parametro, modaParametro.valor, dropdownRepite);
+
+    // Rellenar los dropdowns usando la función existente
+    llenarDropdown(datosAcuario, "inyeccCO2", 2, dropdownBotPresion);
+    llenarDropdown(datosAcuario, "inyeccCO2", 1, dropdownCo2Levadura);
+    llenarDropdown(datosAcuario, "inyeccCO2", 3, dropdownSinCo2);
+}
+
+function contarRepeticiones(values, objetivo) {
+    return values.filter(value => value === objetivo).length;
 }
 
 /**
