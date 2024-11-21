@@ -1,0 +1,81 @@
+/* Estilos básicos para la tabla */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.dropdown-fechas {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.dropdown-fechas select {
+    padding: 8px;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+}
+
+.fondo {
+    background: #C1CFA1;
+    font-size: 14px;
+}
+
+.fondo-esquina {
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    background: #789DBC;
+    text-align: center !important;
+    /* Centrar horizontalmente */
+    vertical-align: middle;
+    /* Centrar verticalmente */
+}
+
+#tabla-plants-algas tbody td:first-child {
+    font-size: 13px;
+    font-weight: bold;
+    background: #FFB38E;
+}
+
+#cabecera-combinaciones {
+    font-size: 14px;
+}
+
+#tabla-plants-algas thead tr:first-child th:not(:first-child) {
+    writing-mode: vertical-rl;
+    /* Orientación vertical */
+    transform: rotate(180deg);
+    /* Opcional: ajusta la dirección del texto */
+    text-align: center;
+    /* Centrar el texto */
+    vertical-align: middle;
+    /* Alinear verticalmente */
+    height: 100px;
+    /* Ajusta el alto de las celdas si es necesario */
+}
+
+#tabla-plants-algas thead tr:first-child th:first-child {
+    writing-mode: horizontal-tb;
+    /* Mantener horizontal */
+    text-align: left;
+    /* Opcional */
+}

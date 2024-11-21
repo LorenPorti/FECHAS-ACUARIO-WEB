@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas</title>
     <link rel="stylesheet" href="estadisticas.css">
+    <link rel="stylesheet" href="tabla_combinaciones.css">
+    <style>
+        .btn-volver {
+            display: block;
+            width: 100%;
+            background: linear-gradient(to bottom, #cfacc4, #7c2453);
+            color: white;
+            padding: 10px 0;
+            /* Reduce el relleno vertical para hacer el botón más bajo */
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            /* Ajusta el tamaño de fuente si es necesario */
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 0px;
+        }
+        
+        .btn-volver:hover {
+            background: linear-gradient(to bottom, #7c2453, #cfacc4);
+            /* Azul más oscuro */
+        }
+    </style>
 </head>
 
 <body>
@@ -244,14 +269,34 @@
                 </div>
             </div>
         </section>
+        <!-- ************************************** -->
+        <div class="tarjeta" style="gap: 0%; width: 98%;">
+            <h2 id="cabecera-tarjeta">Combinación Plantas/Algas</h2>
+            <div id="tabla-combinaciones">
+                <table id="tabla-plants-algas">
+                    <thead>
+                        <tr>
+                            <th class="fondo-esquina">Plantas/Algas</th>
+                            <th class="fondo">Ninguna</th>
+                            <th class="fondo">Presencia</th>
+                            <th class="fondo">Cubierto</th>
+                            <th class="fondo">Muy cubierto</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
 
-        <section id="estado-agua">
-            <h2>Estado del Agua</h2>
-        </section>
+            <div class="dropdown-fechas" style="margin-top: 0%;">
+                <span id="cabecera-combinaciones">Fechas combin. Plantas/Algas:</span>
+                <select id="dropdown-fechas" class="form-select mt-2">
+                    <!-- Las fechas se llenarán dinámicamente -->
+                </select>
+            </div>
+        </div>
 
-        <section id="combinacion-plantas-algas">
-            <h2>Combinación Plantas/Algas</h2>
-        </section>
+        <button onclick="window.location.href='index_3.html'" class="btn-volver">Volver a la Página Principal</button>
+
         <!-- Modal -->
         <div id="modal-detalle" class="modal">
             <div class="modal-contenido">
@@ -264,6 +309,7 @@
     </main>
 
     <script src="estadisticas.js"></script>
+    <script src="tabla_combinaciones.js"></script>
 </body>
 
 </html>
