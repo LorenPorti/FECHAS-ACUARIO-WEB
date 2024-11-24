@@ -9,17 +9,30 @@ document.addEventListener("DOMContentLoaded", function() {
     // Si hay datos disponibles
     if (datosAcuario) {
         // Cargar tarjeta pH
-        cargarTarjeta("pH", datosAcuario, "#tarjetaPH");
+        cargarTarjeta("pH", datosAcuario, "tarjetaPH");
         // Cargar tarjeta KH
-        cargarTarjeta("KH", datosAcuario, "#tarjetaKH");
+        cargarTarjeta("KH", datosAcuario, "tarjetaKH");
         // Cargar tarjeta Temperatura
-        cargarTarjeta("temp", datosAcuario, "#tarjetaTemp");
+        cargarTarjeta("temp", datosAcuario, "tarjetaTemp");
         // Cargar tarjeta Nitrato
-        cargarTarjeta("NO3", datosAcuario, "#tarjetaNO3");
+        cargarTarjeta("NO3", datosAcuario, "tarjetaNO3");
         // Cargar tarjeta CO2 disuelto
-        cargarTarjeta("CO2", datosAcuario, "#tarjetaCO2");
+        cargarTarjeta("CO2", datosAcuario, "tarjetaCO2");
         // Cargar tarjeta inyección CO2
-        cargarTarjeta("inyeccCO2", datosAcuario, "#tarjetaInyeccCo2");
+        cargarTarjeta("inyeccCO2", datosAcuario, "tarjetaInyeccCo2");
+
+        const parametros = ['PH', 'KH', 'Temperatura', 'NO3', 'CO2', 'InyeccCo2'];
+        const valores = ['máximo', 'mínimo', 'repite'];
+
+
+
+        // parametros.forEach(parametro => {
+        //     valores.forEach(valor => {
+        //         const dropdownClass = `dropdown-${valor.toLowerCase()}`;
+        //         llenarDropdown(datosAcuario, parametro, valor, dropdownClass);
+        //     });
+        // });
+
     }
 });
 
@@ -51,10 +64,8 @@ function actualizarCabecera(datosAcuario, dataConfig) {
 //************************************************************* */
 function cargarTarjeta(parametro, datosAcuario, selectorTarjeta) {
     // Seleccionar la tarjeta específica
-    const tarjeta = document.querySelector(selectorTarjeta);
+    const tarjeta = document.getElementById(selectorTarjeta);
     if (!tarjeta) return;
-
-    if (parametro == "inyeccCO") console.log(parametro);
 
     // Seleccionar los elementos de la tarjeta con sus clases
     const maxValorElemento = tarjeta.querySelector(".valor.maximo");
@@ -103,52 +114,81 @@ function cargarTarjeta(parametro, datosAcuario, selectorTarjeta) {
         cantidadLevadura.textContent = `(${repeticionLevadura})`;
         cantidadSinCo2.textContent = `(${repeticionSinCo2})`;
     }
-    // Llenar los dropdowns con las fechas de los valores extremos
-    llenarDropdown(datosAcuario, parametro, maxValorParametro, dropdownMaximo);
-    llenarDropdown(datosAcuario, parametro, minValorParametro, dropdownMinimo);
-    llenarDropdown(datosAcuario, parametro, modaParametro.valor, dropdownRepite);
 
-    // Rellenar los dropdowns usando la función existente
-    llenarDropdown(datosAcuario, "inyeccCO2", 2, dropdownBotPresion);
-    llenarDropdown(datosAcuario, "inyeccCO2", 1, dropdownCo2Levadura);
-    llenarDropdown(datosAcuario, "inyeccCO2", 3, dropdownSinCo2);
+    if (parametro == "pH") {
+        llenarDropdown(datosAcuario, "PH", maxValorParametro, dropdownMaximo);
+        llenarDropdown(datosAcuario, "PH", minValorParametro, dropdownMinimo);
+        llenarDropdown(datosAcuario, "PH", modaParametro.valor, dropdownRepite);
+    }
+    if (parametro == "KH") {
+        llenarDropdown(datosAcuario, parametro, maxValorParametro, dropdownMaximo);
+        llenarDropdown(datosAcuario, parametro, minValorParametro, dropdownMinimo);
+        llenarDropdown(datosAcuario, parametro, modaParametro.valor, dropdownRepite);
+    }
+    if (parametro == "temp") {
+        llenarDropdown(datosAcuario, "Temp", maxValorParametro, dropdownMaximo);
+        llenarDropdown(datosAcuario, "Temp", minValorParametro, dropdownMinimo);
+        llenarDropdown(datosAcuario, "Temp", modaParametro.valor, dropdownRepite);
+    }
+    if (parametro == "NO3") {
+        llenarDropdown(datosAcuario, parametro, maxValorParametro, dropdownMaximo);
+        llenarDropdown(datosAcuario, parametro, minValorParametro, dropdownMinimo);
+        llenarDropdown(datosAcuario, parametro, modaParametro.valor, dropdownRepite);
+    }
+    if (parametro == "CO2") {
+        llenarDropdown(datosAcuario, parametro, maxValorParametro, dropdownMaximo);
+        llenarDropdown(datosAcuario, parametro, minValorParametro, dropdownMinimo);
+        llenarDropdown(datosAcuario, parametro, modaParametro.valor, dropdownRepite);
+    }
+    if (parametro == "inyeccCO2") {
+        llenarDropdown(datosAcuario, "InyeccCo2", 2, dropdownBotPresion);
+        llenarDropdown(datosAcuario, "InyeccCo2", 1, dropdownCo2Levadura);
+        llenarDropdown(datosAcuario, "InyeccCo2", 3, dropdownSinCo2);
+    }
+    // // Llenar los dropdowns con las fechas de los valores extremos
+    // if (parametro == "pH") parametro = "PH";
+    // if (parametro === "temp") parametro = "Temp";
+    // llenarDropdown(datosAcuario, parametro, maxValorParametro, dropdownMaximo);
+    // llenarDropdown(datosAcuario, parametro, minValorParametro, dropdownMinimo);
+    // llenarDropdown(datosAcuario, parametro, modaParametro.valor, dropdownRepite);
+
+    // // Rellenar los dropdowns usando la función existente
+    // llenarDropdown(datosAcuario, "InyeccCO2", 2, dropdownBotPresion);
+    // llenarDropdown(datosAcuario, "InyeccCO2", 1, dropdownCo2Levadura);
+    // llenarDropdown(datosAcuario, "InyeccCO2", 3, dropdownSinCo2);
 }
 
 function contarRepeticiones(values, objetivo) {
     return values.filter(value => value === objetivo).length;
 }
 
-/**
- * Llena un dropdown con las fechas asociadas a un valor
- * @param {Array} datosAcuario - Datos del acuario
- * @param {string} parametro - Parámetro analizado
- * @param {number} valor - Valor a buscar en los datos
- * @param {HTMLElement} dropdown - Elemento dropdown a llenar
- */
-function llenarDropdown(datosAcuario, parametro, valor, dropdown) {
-    if (!dropdown) return;
+function llenarDropdown(datosAcuario, parametro, valor, dropdownClass) {
+    // Selecciona los dropdowns según el parámetro y la clase proporcionada
+    const dropdowns = document.querySelectorAll(`#tarjeta${parametro} .${dropdownClass.classList[1]}`);
 
-    const fechas = datosAcuario
-        .filter(d => parseFloat(d[parametro]) === valor)
-        .map(d => d.Fecha);
+    if (parametro === "PH") parametro = "pH";
+    if (parametro === "Temp") parametro = "temp";
+    if (parametro === "InyeccCo2") parametro = "inyeccCO2";
 
-    dropdown.innerHTML = "";
 
-    if (fechas.length > 0) {
-        fechas.forEach((fecha, index) => {
-            const option = document.createElement("option");
+    // Recorre los dropdowns y llena sus opciones
+    dropdowns.forEach(dropdown => {
+        // Limpia las opciones existentes
+        dropdown.innerHTML = '<option value="">Seleccione fecha</option>';
+
+        // Filtra los datos según el valor (ej. 'máximo', 'mínimo', etc.)
+        const fechasFiltradas = datosAcuario
+            .filter(dato => dato[parametro] === valor) // Filtra según el valor proporcionado
+            .map(dato => dato.Fecha); // Obtiene solo las fechas
+
+        // Agrega las opciones dinámicamente
+        fechasFiltradas.forEach(fecha => {
+            const option = document.createElement('option');
             option.value = fecha;
             option.textContent = fecha;
-            if (index === 0) option.selected = true;
             dropdown.appendChild(option);
         });
-    } else {
-        const noDataOption = document.createElement("option");
-        noDataOption.value = "";
-        noDataOption.textContent = "Sin datos disponibles";
-        noDataOption.disabled = true;
-        dropdown.appendChild(noDataOption);
-    }
+    });
 }
 
 /**

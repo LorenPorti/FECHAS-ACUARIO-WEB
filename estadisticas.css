@@ -1,175 +1,296 @@
-    /* General */
-    
-    body {
-        font-family: 'Georgia', serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-color: #f9f9f9;
-        color: #333;
-    }
-    /* Cabecera */
-    
-    header {
-        width: 100%;
-        color: white;
-        background-color: #2b5f9e;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 3px;
-    }
-    
-    header h1 {
-        margin: 0;
-        font-size: 1.2em;
-        font-weight: bold;
-        text-align: center;
-    }
-    
-    #datos-generales {
-        margin-top: 5px;
-        font-size: 0.9em;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        text-align: center;
-        gap: 10px;
-    }
-    
-    .fixed-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000;
-    }
-    /* Contenedor principal */
-    
-    main#contenedor-principal {
-        padding: 15px;
-        margin-top: 45px;
-        /* Margen superior para evitar superposición con la cabecera */
-    }
-    /* Tarjeta */
-    
-    .tarjeta {
-        max-width: 1200px;
-        width: 98%;
-        /* Limita el ancho máximo de la tarjeta */
-        margin: 20px auto;
-        /* Centra horizontalmente la tarjeta */
-        padding: 5px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .tarjeta h2 {
-        font-size: 1.4em;
-        margin: 0;
-        color: #BC7C7C;
-        text-align: center;
-    }
-    /* Contenedor de los datos */
-    
-    .datos {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        /* Asegura que todo el contenido esté alineado a la izquierda */
-        gap: 10px;
-    }
-    /* Filas dentro de datos */
-    
-    .datos .fila {
-        display: flex;
-        align-items: center;
-        /* Centra verticalmente los elementos en la fila */
-        gap: 10px;
-        /* Espaciado entre los elementos de la fila */
-        width: 100%;
-        /* Asegura que la fila tome todo el ancho disponible */
-    }
-    /* Estilo para los textos */
-    
-    .datos .fila span {
-        font-weight: bold;
-        font-size: 0.9em;
-        color: #555;
-    }
-    
-    .datos .fila .valor {
-        color: #295F98;
-    }
-    
-    .datos .fila select {
-        flex-grow: 1;
-        /* Asegura que el dropdown ocupe espacio proporcional si es necesario */
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        color: #333;
-    }
-    
-    .dropdown {
-        padding: 5px;
-        font-size: 0.9em;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        width: auto;
-        /* Ajusta el ancho según el contenido */
-        margin-left: 5px;
-        /* Separación entre el valor y el dropdown */
-    }
-    /* Dropdown (desplegable) */
-    
-    .fila {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        /* Espacio entre el texto y el desplegable */
-        padding: 5px 0;
-    }
-    
-    .fila .dropdown {
-        flex: 2;
-        /* Ocupa el resto del espacio disponible */
-        max-width: 100%;
-        /* Evita desbordamientos */
-    }
-    /* Modal */
-    
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-    }
-    
-    .modal-contenido {
-        background-color: white;
-        margin: 10% auto;
-        padding: 20px;
-        border-radius: 10px;
-        width: 80%;
-        max-width: 500px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-    
-    .cerrar {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #333;
-        float: right;
-        cursor: pointer;
-    }
+            /* General */
+            
+            body {
+                font-family: 'Georgia', serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                background-color: #f9f9f9;
+                color: #333;
+            }
+            /* Cabecera */
+            
+            header {
+                width: 100%;
+                color: white;
+                background-color: #2b5f9e;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 3px;
+            }
+            
+            header h1 {
+                margin: 0;
+                font-size: 1.2em;
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            #datos-generales {
+                margin-top: 5px;
+                font-size: 0.9em;
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .fixed-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+            /* Contenedor principal */
+            
+            main#contenedor-principal {
+                padding: 15px;
+                margin-top: 45px;
+                /* Margen superior para evitar superposición con la cabecera */
+            }
+            /* Tarjeta */
+            
+            .tarjeta {
+                max-width: 1200px;
+                width: 98%;
+                /* Limita el ancho máximo de la tarjeta */
+                margin: 20px auto;
+                /* Centra horizontalmente la tarjeta */
+                padding: 5px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .tarjeta h2 {
+                font-size: 1.4em;
+                margin: 0;
+                color: #BC7C7C;
+                text-align: center;
+            }
+            /* Contenedor de los datos */
+            
+            .datos {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                /* Asegura que todo el contenido esté alineado a la izquierda */
+                gap: 10px;
+            }
+            /* Filas dentro de datos */
+            
+            .datos .fila {
+                display: flex;
+                align-items: center;
+                /* Centra verticalmente los elementos en la fila */
+                gap: 10px;
+                /* Espaciado entre los elementos de la fila */
+                width: 100%;
+                /* Asegura que la fila tome todo el ancho disponible */
+            }
+            /* Estilo para los textos */
+            
+            .datos .fila span {
+                font-weight: bold;
+                font-size: 0.9em;
+                color: #555;
+            }
+            
+            .datos .fila .valor {
+                color: #295F98;
+            }
+            
+            .datos .fila select {
+                flex-grow: 1;
+                /* Asegura que el dropdown ocupe espacio proporcional si es necesario */
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                color: #333;
+            }
+            
+            .dropdown {
+                padding: 5px;
+                font-size: 0.9em;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                width: auto;
+                /* Ajusta el ancho según el contenido */
+                margin-left: 5px;
+                /* Separación entre el valor y el dropdown */
+            }
+            
+            .dropdown-fechas {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            /* Dropdown (desplegable) */
+            
+            .fila {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                /* Espacio entre el texto y el desplegable */
+                padding: 5px 0;
+            }
+            
+            .fila .dropdown {
+                flex: 2;
+                /* Ocupa el resto del espacio disponible */
+                max-width: 100%;
+                /* Evita desbordamientos */
+            }
+            /* Modal */
+            
+            .modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+            }
+            
+            .modal-contenido {
+                background-color: white;
+                margin: 10% auto;
+                padding: 20px;
+                border-radius: 10px;
+                width: 80%;
+                max-width: 500px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            }
+            
+            .cerrar {
+                font-size: 1.5em;
+                font-weight: bold;
+                color: #333;
+                float: right;
+                cursor: pointer;
+            }
+            /* Ajuste del modal */
+            
+            .modal-content {
+                margin: 10% auto;
+                padding: 20px;
+                background-color: white;
+                border-radius: 10px;
+                width: 80%;
+                max-width: 600px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+                text-align: center;
+                /* Centra el contenido */
+            }
+            
+            .modal-header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                background-color: #89A8B2;
+                padding: 10px 20px;
+                border-bottom: 1px solid #ddd;
+                position: relative;
+                /* Para posicionar el ícono de forma independiente */
+            }
+            
+            .modal-header h2 {
+                font-size: 20px;
+                font-weight: bold;
+                margin: 0;
+                text-align: center;
+                flex: 1;
+                /* Centra el título dentro del modal */
+            }
+            
+            .modal-header .info-icon {
+                position: absolute;
+                /* Fija el icono a la izquierda */
+                left: 10px;
+                /* Margen izquierdo */
+                font-size: 24px;
+                /* Tamaño del icono */
+                color: #0078d7;
+                /* Color azul suave */
+            }
+            
+            .info-icon {
+                font-size: 1.5rem;
+                margin-right: 10px;
+                color: #0078d4;
+                font-weight: bold;
+                font-style: normal;
+            }
+            
+            .modal-body {
+                margin-top: 10px;
+                text-align: left;
+                /* Alinea el texto a la izquierda para mejor legibilidad */
+            }
+            
+            .modal-body p {
+                font-size: 13.6px;
+            }
+            
+            .comments-box {
+                width: 100%;
+                /* Asegura que el cuadro de texto se extienda por todo el modal */
+                height: 150px;
+                margin-top: 10px;
+                resize: none;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                overflow-y: auto;
+                box-sizing: border-box;
+                /* Asegura que el padding no desplace el ancho */
+                text-align: left;
+                /* Texto alineado a la izquierda */
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                /* Sombra suave */
+            }
+            
+            .modal-header .close-button {
+                position: absolute;
+                /* Permite posicionar libremente */
+                top: 10px;
+                /* Margen superior */
+                right: 10px;
+                /* Margen derecho */
+                background: none;
+                /* Elimina fondo */
+                border: none;
+                /* Elimina borde */
+                font-size: 24px;
+                /* Tamaño más grande */
+                font-weight: bold;
+                /* Resalta el icono */
+                color: #555;
+                /* Color oscuro */
+                cursor: pointer;
+                /* Indica que es clicable */
+                transition: color 0.3s ease;
+                /* Efecto al pasar el mouse */
+            }
+            
+            .modal-header .close-button:hover {
+                color: #d9534f;
+                /* Cambia a rojo al pasar el mouse */
+            }
+            
+            .smaller-font {
+                font-size: 0.7em;
+            }
