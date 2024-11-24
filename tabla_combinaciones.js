@@ -73,7 +73,7 @@ function manejarClickCelda(event) {
 function seleccionarCombinacion(plantas, algas) {
     const dropdown = document.getElementById('dropdown-fechas');
     const cabecera = document.getElementById('cabecera-combinaciones');
-    dropdown.innerHTML = ''; // Limpiar el dropdown antes de llenarlo
+    dropdown.innerHTML = '<option value="">Seleccione fecha</option>'; // Limpiar el dropdown antes de llenarlo
 
     // Obtener el estado de las plantas y algas para mostrar en el encabezado
     const estadoPlantas = getEstado('plantas', plantas);
@@ -142,7 +142,7 @@ function getEstado(tipo, valor) {
         return estadoSupAgua[valor] || '';
     } else if (tipo === 'inyCO2') {
         const estadoInyCO2 = ['Con Levadura', 'Botella a presión', 'Sin CO2'];
-        return estadoInyCO2[valor] || '';
+        return estadoInyCO2[valor - 1] || '';
     }
 
     return '';
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Crear la opción por defecto
     const optionDefault = document.createElement('option');
     optionDefault.value = '';
-    optionDefault.textContent = 'Selecciona Nudo';
+    optionDefault.textContent = 'Selecciona fecha';
     optionDefault.disabled = true;
     optionDefault.selected = true;
     dropdown.appendChild(optionDefault);
@@ -211,7 +211,7 @@ function actualizarModal(fecha) {
     document.getElementById("modal-title").textContent = valDatos.Fecha;
 
     document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic; ">DESFAVORABLE</b> (+0,002).`;
-    document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${valDatos.pH}`;
+    document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${valDatos.pH.toFixed(1).toString().replace(".", ",")}`;
     document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">H:</b> ${valDatos.KH} dKH`;
     document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${valDatos.temp} ºC`;
     document.getElementById("modalCO2").innerHTML = `<b style="color: Maroon; ">CO2:</b> ${valDatos.CO2.toFixed(2).toString().replace(".", ",")} mg/l`;
@@ -230,9 +230,11 @@ function actualizarModal(fecha) {
     modal.style.display = "block";
 }
 
+const dropdownCombiPlantasAlgas = document.getElementById("dropdown-fechas");
+
 const dropdown = document.getElementById("dropdown-fechas");
 
-document.getElementById("dropdown-fechas").addEventListener("change", (event) => {
+dropdownCombiPlantasAlgas.addEventListener("change", (event) => {
     const selectedDate = event.target.value.trim();
     if (selectedDate) {
         actualizarModal(selectedDate); // Mostrar el modal

@@ -262,3 +262,24 @@ function calcularModa(valores) {
         repeticiones: repeticiones
     };
 }
+
+// Escuchar eventos en todos los dropdowns excepto "dropdown-fechas"
+document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona todos los <select> excepto el que tiene ID "dropdown-fechas"
+    const dropdowns = document.querySelectorAll('select:not(#dropdown-fechas)');
+
+    // Iterar sobre los dropdowns seleccionados
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('change', (event) => {
+            const fechaSeleccionada = event.target.value; // Fecha seleccionada del dropdown
+            if (fechaSeleccionada) {
+                actualizarModal(fechaSeleccionada); // Actualiza el contenido del modal con la fecha y muestra el modal
+
+                // Resetear temporalmente el valor del dropdown
+                setTimeout(() => {
+                    dropdown.selectedIndex = 0; // Vuelve a "Selecciona fecha"
+                }, 100); // Espera breve para permitir al usuario reabrir el modal
+            }
+        });
+    });
+});
