@@ -8,20 +8,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/RobotoMono-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Montserrat';
-    src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .roboto-thin {
     font-family: "Roboto", sans-serif;
     font-weight: 100;
