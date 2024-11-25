@@ -80,13 +80,13 @@ function initializeGrid(data) {
 
         // pH (con un decimal)
         const phCell = document.createElement("td");
-        phCell.textContent = item.pH.toFixed(1); // Formatear con un decimal
+        phCell.textContent = item.pH.toFixed(1).replace(".", ","); // Formatear con un decimal
         phCell.classList.add("medium-font");
         dataRow.appendChild(phCell);
 
         // KH (con un decimal)
         const khCell = document.createElement("td");
-        khCell.textContent = item.KH.toFixed(1);
+        khCell.textContent = item.KH.toFixed(1).replace(".", ",");
         khCell.classList.add("medium-font");
         dataRow.appendChild(khCell);
 
@@ -98,7 +98,7 @@ function initializeGrid(data) {
 
         // CO2 (con dos decimales)
         const co2Cell = document.createElement("td");
-        co2Cell.textContent = item.CO2.toFixed(2);
+        co2Cell.textContent = item.CO2.toFixed(2).replace(".", ",");
         co2Cell.classList.add("medium-font");
         dataRow.appendChild(co2Cell);
 
