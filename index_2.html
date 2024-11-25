@@ -106,10 +106,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            /* Permite posicionar los elementos secundarios */
         }
         
-        .dropdown {
-            margin-left: auto;
+        .h2-container img {
+            position: absolute;
+            left: 0;
+        }
+        
+        .h2-container .dropdown {
+            position: absolute;
+            right: 0;
+        }
+        
+        .h2-container h2 {
+            margin: 0 auto;
+            /* Asegura que el texto esté centrado */
         }
         
         .modal-body {
@@ -122,7 +135,7 @@
     <div class="container-fluid p-2 bg-primary text-white text-center fixed-header">
         <div class="h2-container">
             <image src="imagenes/fish-email.svg" width="42" height="42" />
-            <h2 class="roboto-regular p-2 m-0">Toma Datos de Acuario</h2>
+            <h2 class="roboto-regular p-2 m-0">Toma Datos Acuario</h2>
             <div class="dropdown">
                 <button class="btn btn-link text-white dropdown-toggle custom-dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-sharp fa-solid fa-ellipsis-vertical"  style="font-size:25px;"></i>
