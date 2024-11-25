@@ -45,7 +45,14 @@ function loadAcuarioData(acuarioNumber) {
             dataConfig = configData[0]; // Guardar la configuración en la variable global
 
             // Mostrar el nombre del acuario en la interfaz
-            document.getElementById("nombreAcuario").textContent =
+            const tituloAcuario = document.getElementById("nombreAcuario");
+            if (dataConfig.nombreDelAcuario.length >= 23) //Ajusta el tamaño de letra para que encaje en el cuadro
+            {
+                tituloAcuario.style.fontSize = "125%";
+            } else {
+                tituloAcuario.style.fontSize = "145%";
+            }
+            tituloAcuario.textContent =
                 dataConfig.nombreDelAcuario;
         })
         .catch(error => console.log(`Error al cargar el archivo:`, error));
