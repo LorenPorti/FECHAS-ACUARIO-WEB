@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="libreria/estilo.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-charts-community/dist/ag-charts-community.min.js"></script>
+
 </head>
 
 <body>
@@ -28,15 +30,17 @@
         </div>
 
         <!-- Gráfico con scroll horizontal -->
-        <div class="area-grafico">
+        <!-- <div class="area-grafico">
             <canvas id="graficoLineas"></canvas>
-        </div>
+        </div> -->
 
         <!-- Leyenda vertical derecha -->
         <div class="eje-vertical derecha">
             <!-- Los valores se generarán dinámicamente -->
         </div>
     </main>
+
+    <div id="graficoLineas" style="width: 100%;"></div>
 
     <script src="grafico.js"></script>
     <script src="acuarioData.js"></script>
