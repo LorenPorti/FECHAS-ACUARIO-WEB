@@ -188,7 +188,7 @@ function inicializarGraficoAG() {
     }));
 
 
-    const chart = agCharts.AgChart.create({
+    const chart = agCharts.AgCharts.create({
         container: document.getElementById('graficoLineas'),
         autoSize: true, // Ajuste automático del tamaño
         title: {
@@ -202,6 +202,9 @@ function inicializarGraficoAG() {
                 yKey: 'pH',
                 yName: 'pH',
                 stroke: 'blue',
+                interpolation: {
+                    type: 'smooth'
+                },
                 marker: {
                     fill: 'blue', // Color del botón en la leyenda para esta serie 
                     size: 0, //Elimina los marcadores de los nodos
@@ -209,6 +212,7 @@ function inicializarGraficoAG() {
                 tooltip: {
                     renderer: (params) => ({
                         content: `Fecha: ${params.datum.fecha}<br>pH: ${params.datum.pH} eje izquierda`,
+                        backgroundColor: 'blue', // Color de fondo igual al de la serie
                     }),
                 },
             },
@@ -218,6 +222,9 @@ function inicializarGraficoAG() {
                 yKey: 'KH',
                 yName: 'KH',
                 stroke: 'green',
+                interpolation: {
+                    type: 'smooth'
+                },
                 marker: {
                     fill: 'green', // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
@@ -225,6 +232,7 @@ function inicializarGraficoAG() {
                 tooltip: {
                     renderer: (params) => ({
                         content: `Fecha: ${params.datum.fecha}<br>KH: ${params.datum.KH} eje izquierda`,
+                        backgroundColor: 'green', // Color de fondo igual al de la serie
                     }),
                 },
             },
@@ -234,6 +242,9 @@ function inicializarGraficoAG() {
                 yKey: 'NO3',
                 yName: 'NO3',
                 stroke: 'maroon',
+                interpolation: {
+                    type: 'smooth'
+                },
                 marker: {
                     fill: 'maroon', // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
@@ -241,6 +252,7 @@ function inicializarGraficoAG() {
                 tooltip: {
                     renderer: (params) => ({
                         content: `Fecha: ${params.datum.fecha}<br>NO3: ${params.datum.NO3} eje derecha`,
+                        backgroundColor: 'maroon', // Color de fondo igual al de la serie
                     }),
                 },
             },
@@ -257,12 +269,21 @@ function inicializarGraficoAG() {
                 position: 'left',
                 title: { text: 'pH - KH (dKH)' },
                 keys: ['pH', 'KH'], // Asociar ejes a estas series
-                gridStyle: [
-                    { stroke: 'gray', lineDash: [4, 4] }, // Línea punteada
-                ],
+                gridLine: {
+                    enabled: true,
+                    style: [{
+                            stroke: 'gray',
+                            lineDash: [10, 5],
+                        },
+                        {
+                            stroke: 'lightgray',
+                            lineDash: [5, 5],
+                        },
+                    ],
+                },
                 min: 0,
                 max: 10,
-                interval: { step: 1, },
+                interval: { step: 0.5, },
 
             },
             {
@@ -270,19 +291,20 @@ function inicializarGraficoAG() {
                 position: 'right',
                 title: { text: 'NO3 (ppm)' },
                 keys: ['NO3'], // Asociar eje a esta serie
-                gridStyle: [
-                    { stroke: 'red', lineDash: [4, 4] }, // Línea punteada roja
-                ],
-                tick: {
-                    interval: 1, // Establece el intervalo a 1
-                },
+                // gridLine: {
+                //     enabled: true,
+                //     style: [
+                //         { stroke: 'red', lineDash: [4, 4], }, // Línea punteada roja
+                //     ],
+                // },
+                interval: { step: 20, },
                 min: 0,
                 max: 50,
             },
         ],
     });
 
-    return chart;
+    // return chart;
 }
 
 
