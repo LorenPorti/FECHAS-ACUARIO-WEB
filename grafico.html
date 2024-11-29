@@ -23,24 +23,20 @@
     </div>
 
     <!-- Contenedor principal para el gráfico -->
-    <main class="contenedor-grafico">
-        <!-- Leyenda vertical izquierda -->
-        <div class="eje-vertical izquierda">
-            <!-- Los valores se generarán dinámicamente -->
+    <div id="graph-container">
+        <div id="graficoLineas">
+            <!-- El gráfico generado por AG Charts aquí -->
         </div>
 
-        <!-- Gráfico con scroll horizontal -->
-        <!-- <div class="area-grafico">
-            <canvas id="graficoLineas"></canvas>
-        </div> -->
-
-        <!-- Leyenda vertical derecha -->
-        <div class="eje-vertical derecha">
-            <!-- Los valores se generarán dinámicamente -->
+        <!-- Títulos de los ejes -->
+        <div id="axis-left-title" class="axis-title">
+            pH - KH (dKH)
         </div>
-    </main>
+        <div id="axis-right-title" class="axis-title">
+            NO3 (ppm)
+        </div>
+    </div>
 
-    <div id="graficoLineas" style="width: 100%;"></div>
 
     <script src="grafico.js"></script>
     <script src="acuarioData.js"></script>

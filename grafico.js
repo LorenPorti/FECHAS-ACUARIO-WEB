@@ -180,21 +180,25 @@ function inicializarGraficoAG() {
     const valoresNO3 = datosAcuario.map(dato => dato.NO3);
 
     //Selecciona los 20 primeros
-    let dataSeleccion = fechas.slice(0, 20).map((fecha, i) => ({
+    let dataSeleccion = fechas.slice(0, datosAcuario.length - 1).map((fecha, i) => ({
         fecha,
         pH: valoresPH[i],
         KH: valoresKH[i],
         NO3: valoresNO3[i],
     }));
 
+    const rangoFijo = {
+        min: 0,
+        max: 51 / fechas.length, // Mostrar 30 puntos al inicio
+    };
 
     const chart = agCharts.AgCharts.create({
         container: document.getElementById('graficoLineas'),
         autoSize: true, // Ajuste automático del tamaño
-        title: {
-            text: 'Datos del Acuario',
-            fontSize: 18,
-        },
+        // title: {
+        //     text: 'Datos del Acuario',
+        //     fontSize: 18,
+        // },
         data: dataSeleccion,
         series: [{
                 type: 'line',
@@ -261,13 +265,28 @@ function inicializarGraficoAG() {
                 type: 'category',
                 position: 'bottom',
                 title: { text: 'Fechas' },
-                label: { rotation: 45 },
                 key: 'Fecha',
+                interval: {
+                    maxSpacing: 52,
+                },
+                label: {
+                    rotation: 270,
+                    fontSize: 10, // Reducir el tamaño de la fuente en pantallas pequeñas
+                    formatter: (params) => {
+                        const index = datosAcuario.findIndex(dato => dato.Fecha === params.value);
+
+                        // Mostrar solo la fecha en el primer valor de cada año (cada 52 elementos) o cada x intervalos
+                        return index % 52 === 0 || index % 4 === 0 ? params.value : '';
+                    },
+                },
+                tick: {
+                    maxSpacing: 60, // Ajusta el espacio máximo entre las etiquetas
+                },
             },
             {
                 type: 'number',
                 position: 'left',
-                title: { text: 'pH - KH (dKH)' },
+                // title: { text: 'pH - KH (dKH)' },
                 keys: ['pH', 'KH'], // Asociar ejes a estas series
                 gridLine: {
                     enabled: true,
@@ -289,7 +308,7 @@ function inicializarGraficoAG() {
             {
                 type: 'number',
                 position: 'right',
-                title: { text: 'NO3 (ppm)' },
+                // title: { text: 'NO3 (ppm)' },
                 keys: ['NO3'], // Asociar eje a esta serie
                 // gridLine: {
                 //     enabled: true,
@@ -302,6 +321,24 @@ function inicializarGraficoAG() {
                 max: 50,
             },
         ],
+        navigator: {
+            enabled: true,
+            height: 40, // Altura del navigator
+            min: rangoFijo.min,
+            max: rangoFijo.max,
+            handles: {
+                visible: false, // Deshabilitar los controles laterales
+            },
+            mask: {
+                fill: 'rgba(150, 150, 150, 0.3)', // Color de la selección
+            },
+            listeners: {
+                rangeChange: (event) => {
+                    // Bloquear cualquier cambio al rango
+                    event.api.setNavigator({ min: rangoFijo.min, max: rangoFijo.max });
+                },
+            },
+        },
     });
 
     // return chart;
