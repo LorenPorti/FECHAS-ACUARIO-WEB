@@ -332,12 +332,6 @@ function inicializarGraficoAG() {
             mask: {
                 fill: 'rgba(150, 150, 150, 0.3)', // Color de la selección
             },
-            listeners: {
-                rangeChange: (event) => {
-                    // Bloquear cualquier cambio al rango
-                    event.api.setNavigator({ min: rangoFijo.min, max: rangoFijo.max });
-                },
-            },
         },
     });
 
