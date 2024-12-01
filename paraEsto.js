@@ -217,13 +217,23 @@ export async function obtenerCorreo() {
 
 export async function guardarDatos() {
 
-    if (checkInternetConnection() == false) {
-        return;
+    const dispositivo = detectarDispositivo();
+    let txtAdd;
+    if (dispositivo == "escritorio") {
+        txtAdd =
+            "\n\n" +
+            "<hr>" +
+            '» Si la aplicación es de escritorio, los datos se guardaran en un archivo llamado "temporal.json". Sobre escribirlo si existe.'; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
+    } else {
+        txtAdd = "";
     }
 
     let resultado = await showModal(
         "GUARDAR DATOS ACTUALES",
-        '» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en un archivo llamado "temporal.json" en el repositorio de GitHub. Estos datos se pueden recuperar con la opción del menú «Recuperar datos».', "Guardar datos");
+        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
+        txtAdd,
+        "Guardar datos"
+    );
     if (!resultado) return;
 
     // Recopilar datos
@@ -232,135 +242,71 @@ export async function guardarDatos() {
     const jsonData = {
         acuarioNum: document.getElementById("acuarios").textContent.substring(1, 2),
         tituloAcuario: document.getElementById("acuarios").textContent.substring(4),
-        fecha: fecha || "",
-        pH: document.getElementById("phInput").value || "",
-        KH: document.getElementById("khInput").value || "",
-        temp: document.getElementById("tempInput").value || "",
-        NO3: document.getElementById("no3Input").value || "",
-        inyCO2: document.getElementById("inyeccion").textContent || "",
-        plantas: document.getElementById("plantas").textContent || "",
-        algas: document.getElementById("algas").textContent || "",
-        agua: document.getElementById("agua").textContent || "",
-        supAgua: document.getElementById("superficie").textContent || "",
-        coment1: document.getElementById("comentario_1").value || "",
-        coment2: document.getElementById("comentario_2").value || "",
-        coment3: document.getElementById("comentario_3").value || "",
-        coment4: document.getElementById("comentario_4").value || "",
-        coment5: document.getElementById("comentario_5").value || "",
+        fecha: fecha,
+        pH: document.getElementById("phInput").value,
+        KH: document.getElementById("khInput").value,
+        temp: document.getElementById("tempInput").value,
+        NO3: document.getElementById("no3Input").value,
+        inyCO2: document.getElementById("inyeccion").textContent,
+        plantas: document.getElementById("plantas").textContent,
+        algas: document.getElementById("algas").textContent,
+        agua: document.getElementById("agua").textContent,
+        supAgua: document.getElementById("superficie").textContent,
+        coment1: document.getElementById("comentario_1").value,
+        coment2: document.getElementById("comentario_2").value,
+        coment3: document.getElementById("comentario_3").value,
+        coment4: document.getElementById("comentario_4").value,
+        coment5: document.getElementById("comentario_5").value,
     };
 
-    updateFileOnGitHub(jsonData);
+    if (dispositivo == "escritorio") {
+        GuardarDatosTemporales(jsonData);
+    } else {
+        // Convertir jsonData a string y guardarlo en el Local Storage
+        localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
+    }
+
+    // await showModal("GUARDAR DATOS", "» Los datos contenidos en los inputs se han guardado.\n\n" +
+    //     "» Usar «Recuperar Datos» para recargarlos." +
+    //     txtAdd, null);
+
 }
 
 export async function recuperarDatos() {
-
-    getDataFromGitHub();
-}
-
-function detectarDispositivo() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.includes("android") || userAgent.includes("iphone") || userAgent.includes("ipad")) {
-        return "movil"; // Dispositivo móvil
-    } else {
-        return "escritorio"; // Dispositivo de escritorio
-    }
-}
-
-function checkInternetConnection() {
-    if (!navigator.onLine) {
-        alert('No hay conexión a Internet. La operación no puede realizarse.');
-        return false; // Si no hay conexión, no realizamos la acción
-    }
-    return true; // Si hay conexión, continuamos con la operación
-}
-
-// Función para guardar los datos en IndexedDB (sobrescribe los existentes)
-// Reemplaza estos valores con los tuyos
-const repoOwner = 'LorenPorti'; // Tu nombre de usuario en GitHub
-const repoName = 'FECHAS-ACUARIO-WEB'; // Nombre de tu repositorio en GitHub
-const filePath = 'temporal.json'; // Ruta al archivo en tu repositorio
-const token = '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'; // El token de acceso personal de GitHub
-
-// Función para actualizar el archivo temporal.json en GitHub
-function updateFileOnGitHub(jsonData) {
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-    // Convertir jsonData a JSON string
-    const jsonString = JSON.stringify(jsonData);
-
-    // Convertir el JSON string a un Uint8Array codificado en UTF-8
-    const encoder = new TextEncoder();
-    const utf8Array = encoder.encode(jsonString); // Esto crea un Uint8Array en UTF-8
-
-    // Convertir el Uint8Array a base64
-    const base64String = btoa(String.fromCharCode(...utf8Array)); // Esto convierte el Uint8Array a base64
-
-    // Primero, obtenemos el contenido actual del archivo para obtener su SHA (necesario para actualizarlo)
-    fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Not Found') {
-                // Si el archivo no existe, lo creamos
-                updateGitHubFile(null, base64String); // Usamos base64String para el contenido
-            } else {
-                // Si el archivo existe, obtenemos el SHA para actualizarlo
-                const sha = data.sha;
-                updateGitHubFile(sha, base64String); // Usamos base64String para el contenido
-            }
-        })
-        .catch(error => console.log('Error al obtener el archivo:', error));
-}
-
-// Función para realizar la actualización o creación del archivo en GitHub
-function updateGitHubFile(sha, base64Content) {
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-    const message = sha ? 'Actualización de archivo' : 'Creación de archivo';
-
-    const data = {
-        message: message,
-        content: base64Content, // Aquí pasamos el contenido en base64
-        sha: sha // Solo es necesario si el archivo ya existe
-    };
-
-    fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            setTimeout(() => console.log('Archivo actualizado en GitHub:'), 1000);
-        })
-        .catch(error => console.log('Error al actualizar el archivo en GitHub:', error));
-}
-
-// Función para obtener el archivo temporal.json de GitHub
-export async function getDataFromGitHub() {
-
-    // URL del archivo temporal.json en tu repositorio de GitHub (será pública)
-    const url = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/master/${filePath}`;
-
+    let txtAdd = "";
+    const dispositivo = detectarDispositivo();
+    // console.log("Dispositivo:", dispositivo);    
+    // if (dispositivo == "escritorio") {
+    //     txtAdd =
+    //         "\n\n" +
+    //         "<hr>" +
+    //         '» Los datos estan guardados en un archivo "temporal.json".';
+    // } else {
+    //     txtAdd = "";
+    // } 
 
     let valorDatosGuardados;
+    let datosGuardados;
+    // Recuperar los datos guardados
+    if (dispositivo == "movil") {
+        datosGuardados = localStorage.getItem("datosAcuario");
+        if (datosGuardados == null) {
+            await showModal("RECUPERAR VACÍO", "No existen datos para recuperar", null);
+            return;
+        }
+        valorDatosGuardados = JSON.parse(datosGuardados);
+    } else {
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            procesarDatos(data);
-        })
-        .catch(error => console.log('Error al obtener los datos:', error));
-}
+        await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
 
-export async function procesarDatos(valorDatosGuardados) {
+        try {
+            valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
+        } catch (error) {
+            console.error("Error al recuperar los datos temporales:", error);
+            return; // Salir si hay un error
+        }
+    }
+
     let resultado = await showModal(
         "RECUPERAR DATOS",
         "» A continuación se ven los datos que se han guardado con la opción «Guardar datos»,  estos actualizarán y sustituirán a los actuales en sus cuadros de entradas correspondientes. Incluso los datos vacíos.\n" +
@@ -377,83 +323,58 @@ export async function procesarDatos(valorDatosGuardados) {
         "» Coment. 3: " + valorDatosGuardados.coment3 + "<br>" +
         "» Coment. 4: " + valorDatosGuardados.coment4 + "<br>" +
         "» Coment. 5: " + valorDatosGuardados.coment5 + "<br>" +
-        "</p>",
+        "</p>" +
+        txtAdd,
         "Recuperar datos"
     );
 
     if (!resultado) return;
 
-    if (valorDatosGuardados.acuarioNum != "") {
-        document.getElementById("acuarios").textContent =
-            "(" + valorDatosGuardados.acuarioNum + ") " + valorDatosGuardados.tituloAcuario;
-    } else {
-        document.getElementById("acuarios").innerHTML = "&nbsp;";
+    // Si existen datos, cargarlos en el formulario
+    if (valorDatosGuardados) {
+
+        if (valorDatosGuardados.acuarioNum != "") {
+            document.getElementById("acuarios").textContent =
+                "(" + valorDatosGuardados.acuarioNum + ") " + valorDatosGuardados.tituloAcuario;
+        } else {
+            document.getElementById("acuarios").innerHTML = "&nbsp;";
+        }
+        document.getElementById("dateInput").value = valorDatosGuardados.fecha;
+        document.getElementById("phInput").value = valorDatosGuardados.pH;
+        document.getElementById("khInput").value = valorDatosGuardados.KH;
+        document.getElementById("tempInput").value = valorDatosGuardados.temp;
+        document.getElementById("no3Input").value = valorDatosGuardados.NO3;
+        document.getElementById("inyeccion").textContent = valorDatosGuardados.inyCO2;
+        document.getElementById("plantas").textContent = valorDatosGuardados.plantas;
+        document.getElementById("algas").textContent = valorDatosGuardados.algas;
+        document.getElementById("agua").textContent = valorDatosGuardados.agua;
+        document.getElementById("superficie").textContent = valorDatosGuardados.supAgua;
+        document.getElementById("comentario_1").value = valorDatosGuardados.coment1;
+        document.getElementById("comentario_2").value = valorDatosGuardados.coment2;
+        document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
+        document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
+        document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
     }
-    document.getElementById("dateInput").value = valorDatosGuardados.fecha;
-    document.getElementById("phInput").value = valorDatosGuardados.pH;
-    document.getElementById("khInput").value = valorDatosGuardados.KH;
-    document.getElementById("tempInput").value = valorDatosGuardados.temp;
-    document.getElementById("no3Input").value = valorDatosGuardados.NO3;
-    document.getElementById("inyeccion").textContent = valorDatosGuardados.inyCO2;
-    document.getElementById("plantas").textContent = valorDatosGuardados.plantas;
-    document.getElementById("algas").textContent = valorDatosGuardados.algas;
-    document.getElementById("agua").textContent = valorDatosGuardados.agua;
-    document.getElementById("superficie").textContent = valorDatosGuardados.supAgua;
-    document.getElementById("comentario_1").value = valorDatosGuardados.coment1;
-    document.getElementById("comentario_2").value = valorDatosGuardados.coment2;
-    document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
-    document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
-    document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
 }
 
-// Función para recuperar los datos de IndexedDB
-function getData() {
+function detectarDispositivo() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes("android") || userAgent.includes("iphone") || userAgent.includes("ipad")) {
+        return "movil"; // Dispositivo móvil
+    } else {
+        return "escritorio"; // Dispositivo de escritorio
+    }
+}
 
-    // Recuperar los datos de localStorage
-    const storedData = JSON.parse(localStorage.getItem('temporal.json'));
+// Función para guardar los datos como un archivo JSON
+function GuardarDatosTemporales(datosTemporales) {
 
-    openDatabase().then((db) => {
-        const transaction = db.transaction(['acuarioDatos'], 'readonly');
-        const store = transaction.objectStore('acuarioDatos');
-
-        const request = store.get(1); // Obtener el único registro con el ID fijo
-
-        request.onsuccess = function(event) {
-            const valorDatosGuardados = event.target.result; // Solo hay un registro
-
-            if (valorDatosGuardados) {
-                console.log('Datos recuperados: ', valorDatosGuardados);
-
-                if (valorDatosGuardados.acuarioNum != "") {
-                    document.getElementById("acuarios").textContent =
-                        "(" + valorDatosGuardados.acuarioNum + ") " + valorDatosGuardados.tituloAcuario;
-                } else {
-                    document.getElementById("acuarios").innerHTML = "&nbsp;";
-                }
-                document.getElementById("dateInput").value = valorDatosGuardados.fecha;
-                document.getElementById("phInput").value = valorDatosGuardados.pH;
-                document.getElementById("khInput").value = valorDatosGuardados.KH;
-                document.getElementById("tempInput").value = valorDatosGuardados.temp;
-                document.getElementById("no3Input").value = valorDatosGuardados.NO3;
-                document.getElementById("inyeccion").textContent = valorDatosGuardados.inyCO2;
-                document.getElementById("plantas").textContent = valorDatosGuardados.plantas;
-                document.getElementById("algas").textContent = valorDatosGuardados.algas;
-                document.getElementById("agua").textContent = valorDatosGuardados.agua;
-                document.getElementById("superficie").textContent = valorDatosGuardados.supAgua;
-                document.getElementById("comentario_1").value = valorDatosGuardados.coment1;
-                document.getElementById("comentario_2").value = valorDatosGuardados.coment2;
-                document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
-                document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
-                document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
-            } else {
-                alert('No se encontraron datos guardados.');
-            }
-        };
-
-        request.onerror = function(event) {
-            console.log('Error al recuperar los datos: ', event.target.errorCode);
-        };
-    });
+    let jsonStr = JSON.stringify(datosTemporales, null, 2);
+    let blob = new Blob([jsonStr], { type: "application/json" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "temporal.json"; // Nombre del archivo que se descarga
+    link.click();
 }
 
 // Función para recuperar datos desde un archivo JSON
