@@ -61,6 +61,7 @@ html {
     /* Permitir scroll vertical si el contenido excede la altura */
     min-height: 400px;
     /* Altura mínima para el gráfico */
+    margin-top: 50px;
 }
 
 #graficoLineas {
