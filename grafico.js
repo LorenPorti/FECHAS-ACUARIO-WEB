@@ -178,6 +178,9 @@ function inicializarGraficoAG() {
     const valoresPH = datosAcuario.map(dato => dato.pH);
     const valoresKH = datosAcuario.map(dato => dato.KH);
     const valoresNO3 = datosAcuario.map(dato => dato.NO3);
+    const valoresCO2 = datosAcuario.map(dato => dato.CO2);
+    const valorestemp = datosAcuario.map(dato => dato.temp);
+    const valorestendencia = datosAcuario.map(dato => dato.tendencia);
 
     //Selecciona los 20 primeros
     let dataSeleccion = fechas.slice(0, datosAcuario.length - 1).map((fecha, i) => ({
@@ -185,6 +188,9 @@ function inicializarGraficoAG() {
         pH: valoresPH[i],
         KH: valoresKH[i],
         NO3: valoresNO3[i],
+        CO2: valoresCO2[i],
+        temp: valorestemp[i],
+        tendencia: valorestendencia[i],
     }));
 
     const rangoFijo = {
@@ -215,7 +221,7 @@ function inicializarGraficoAG() {
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>pH: ${params.datum.pH} eje izquierda`,
+                        content: `Fecha: ${params.datum.fecha}<br>pH: ${params.datum.pH} eje Izda`,
                         backgroundColor: 'blue', // Color de fondo igual al de la serie
                     }),
                 },
@@ -235,8 +241,28 @@ function inicializarGraficoAG() {
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>KH: ${params.datum.KH} eje izquierda`,
+                        content: `Fecha: ${params.datum.fecha}<br>KH: ${params.datum.KH} (dKH) eje Izda`,
                         backgroundColor: 'green', // Color de fondo igual al de la serie
+                    }),
+                },
+            },
+            {
+                type: 'line',
+                xKey: 'fecha',
+                yKey: 'CO2',
+                yName: 'CO2',
+                stroke: 'DeepSkyBlue',
+                interpolation: {
+                    type: 'smooth'
+                },
+                marker: {
+                    fill: 'DeepSkyBlue', // Color del botón en la leyenda para esta serie
+                    size: 0, //Elimina los marcadores de los nodos
+                },
+                tooltip: {
+                    renderer: (params) => ({
+                        content: `Fecha: ${params.datum.fecha}<br>CO2: ${params.datum.CO2.toFixed(2).replace(".",",")} (mg/l) eje Dcha`,
+                        backgroundColor: 'DeepSkyBlue', // Color de fondo igual al de la serie
                     }),
                 },
             },
@@ -245,18 +271,59 @@ function inicializarGraficoAG() {
                 xKey: 'fecha',
                 yKey: 'NO3',
                 yName: 'NO3',
-                stroke: 'maroon',
+                stroke: '#C96868',
                 interpolation: {
                     type: 'smooth'
                 },
                 marker: {
-                    fill: 'maroon', // Color del botón en la leyenda para esta serie
+                    fill: '#C96868', // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>NO3: ${params.datum.NO3} eje derecha`,
-                        backgroundColor: 'maroon', // Color de fondo igual al de la serie
+                        content: `Fecha: ${params.datum.fecha}<br>NO3: ${params.datum.NO3.toFixed(2).replace(".",",")} (ppm) eje Dcha`,
+                        backgroundColor: '#C96868', // Color de fondo igual al de la serie
+                    }),
+                },
+            },
+            {
+                type: 'line',
+                xKey: 'fecha',
+                yKey: 'temp',
+                yName: 'temp',
+                stroke: '#DEAA79',
+                interpolation: {
+                    type: 'smooth'
+                },
+                marker: {
+                    fill: '#DEAA79', // Color del botón en la leyenda para esta serie
+                    size: 0, //Elimina los marcadores de los nodos
+                },
+                tooltip: {
+                    renderer: (params) => ({
+                        content: `Fecha: ${params.datum.fecha}<br>temp: ${params.datum.temp} ºC eje Dcha`,
+                        backgroundColor: '#DEAA79', // Color de fondo igual al de la serie
+                    }),
+                },
+            },
+            {
+                type: 'line',
+                xKey: 'fecha',
+                yKey: 'tendencia',
+                yName: 'tendencia',
+                stroke: 'Purple',
+                strokeWidth: 4,
+                interpolation: {
+                    type: 'smooth'
+                },
+                marker: {
+                    fill: 'Purple', // Color del botón en la leyenda para esta serie
+                    size: 0, //Elimina los marcadores de los nodos
+                },
+                tooltip: {
+                    renderer: (params) => ({
+                        content: `Fecha: ${params.datum.fecha}<br>Tendencia: ${params.datum.tendencia.toFixed(2).replace(".",",")} eje Izda`,
+                        backgroundColor: 'Purple', // Color de fondo igual al de la serie
                     }),
                 },
             },
@@ -287,7 +354,7 @@ function inicializarGraficoAG() {
                 type: 'number',
                 position: 'left',
                 // title: { text: 'pH - KH (dKH)' },
-                keys: ['pH', 'KH'], // Asociar ejes a estas series
+                keys: ['pH', 'KH', "tendencia"], // Asociar ejes a estas series
                 gridLine: {
                     enabled: true,
                     style: [{
@@ -309,7 +376,7 @@ function inicializarGraficoAG() {
                 type: 'number',
                 position: 'right',
                 // title: { text: 'NO3 (ppm)' },
-                keys: ['NO3'], // Asociar eje a esta serie
+                keys: ['NO3', 'CO2', 'temp'], // Asociar eje a esta serie
                 // gridLine: {
                 //     enabled: true,
                 //     style: [
@@ -380,6 +447,15 @@ function obtenerValores(parametro) {
             break;
         case 'NO3':
             valores = datosAcuario.map(dato => dato.KH);
+            break;
+        case 'CO2':
+            valores = datosAcuario.map(dato => dato.CO2);
+            break;
+        case 'temp':
+            valores = datosAcuario.map(dato => dato.temp);
+            break;
+        case 'tendencia':
+            valores = datosAcuario.map(dato => dato.tendencia);
             break;
     }
     // Extrae los valores de pH

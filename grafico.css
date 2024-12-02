@@ -87,7 +87,7 @@ html {
 
 #axis-left-title {
     left: -7px;
-    top: 80%;
+    top: 71%;
     /* Posiciona el título a la mitad del gráfico, ajusta según necesites */
     transform: rotate(270deg);
     margin-bottom: 0%;
@@ -95,8 +95,8 @@ html {
 }
 
 #axis-right-title {
-    right: 0;
-    top: 80%;
+    right: -70px;
+    top: 79%;
     /* Posiciona el título a la mitad del gráfico, ajusta según necesites */
     transform: rotate(270deg);
     margin-bottom: 0%;
