@@ -282,7 +282,7 @@ export async function guardarDatos() {
 const repoOwner = 'LorenPorti'; // Reemplaza con tu nombre de usuario en GitHub
 const repoName = 'FECHAS-ACUARIO-WEB'; // Reemplaza con tu nombre de repositorio
 const filePath = 'temporal.json'; // Ruta al archivo temporal.json en tu repositorio
-const token = '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'; // Reemplaza con tu token de acceso personal
+const token = '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'; // Reemplaza con tu token de acceso personal
 
 function updateFileOnGitHub(jsonData) {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
