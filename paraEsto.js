@@ -214,41 +214,25 @@ export async function obtenerCorreo() {
 
 }
 
-//*************PARA UTILIZAR CONTADOR CONTROL ACTUALIZAR NETLIFY************************
-let tiempoRestante = 0;
-let intervalo = null;
-
-// Función para iniciar el contador
-function iniciarContador() {
-    tiempoRestante = 60; // 60 segundos
-
-    intervalo = setInterval(() => {
-        if (tiempoRestante > 0) {
-            tiempoRestante--;
-        } else {
-            clearInterval(intervalo); // Detener el temporizador
-            intervalo = null;
-        }
-    }, 1000);
-}
 
 export async function guardarDatos() {
 
-    // const dispositivo = detectarDispositivo();
-    // let txtAdd;
-    // if (dispositivo == "escritorio") {
-    //     txtAdd =
-    //         "\n\n" +
-    //         "<hr>" +
-    //         '» Si la aplicación es de escritorio, los datos se guardaran en un archivo llamado "temporal.json". Sobre escribirlo si existe.'; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
-    // } else {
-    //     txtAdd = "";
-    // }
+    const dispositivo = detectarDispositivo();
+    let txtAdd;
+    if (dispositivo == "escritorio") {
+        txtAdd =
+            "\n\n" +
+            "<hr>" +
+            '» Si la aplicación es de escritorio, los datos se guardaran en un archivo llamado "temporal.json". Sobre escribirlo si existe.'; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
+    } else {
+        txtAdd = "";
+    }
 
     let resultado = await showModal(
         "GUARDAR DATOS ACTUALES",
-        "» Los datos actuales tal como están en sus cuadros de entradas, se guardarán. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." + "<br>" +
-        "» El archivo con la información guardada se conserva en Netlify, y se debe esperar al menos 1 minuto antes de usar 'Recuperar datos'",
+        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
+        "<br>" + "» Permaneceran en la memoria hasta que se cierre la página o internet." +
+        txtAdd,
         "Guardar datos"
     );
     if (!resultado) return;
@@ -264,115 +248,34 @@ export async function guardarDatos() {
         KH: document.getElementById("khInput").value,
         temp: document.getElementById("tempInput").value,
         NO3: document.getElementById("no3Input").value,
-        inyCO2: document.getElementById("inyeccion").value,
-        plantas: document.getElementById("plantas").value,
-        algas: document.getElementById("algas").value,
-        agua: document.getElementById("agua").value,
-        supAgua: document.getElementById("superficie").value,
-        coment1: encodeURIComponent(document.getElementById("comentario_1").value),
-        coment2: encodeURIComponent(document.getElementById("comentario_2").value),
-        coment3: encodeURIComponent(document.getElementById("comentario_3").value),
-        coment4: encodeURIComponent(document.getElementById("comentario_4").value),
-        coment5: encodeURIComponent(document.getElementById("comentario_5").value),
+        inyCO2: document.getElementById("inyeccion").textContent,
+        plantas: document.getElementById("plantas").textContent,
+        algas: document.getElementById("algas").textContent,
+        agua: document.getElementById("agua").textContent,
+        supAgua: document.getElementById("superficie").textContent,
+        coment1: document.getElementById("comentario_1").value,
+        coment2: document.getElementById("comentario_2").value,
+        coment3: document.getElementById("comentario_3").value,
+        coment4: document.getElementById("comentario_4").value,
+        coment5: document.getElementById("comentario_5").value,
     };
 
-    // if (dispositivo == "escritorio") {
-    //     GuardarDatosTemporales(jsonData);
-    // } else {
-    //     // Convertir jsonData a string y guardarlo en el Local Storage
-    //     localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
-    // }
+    if (dispositivo == "escritorio") {
+        GuardarDatosTemporales(jsonData);
+    } else {
+        // Convertir jsonData a string y guardarlo en el Local Storage
+        localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
+    }
 
     // await showModal("GUARDAR DATOS", "» Los datos contenidos en los inputs se han guardado.\n\n" +
     //     "» Usar «Recuperar Datos» para recargarlos." +
     //     txtAdd, null);
 
-    updateFileOnGitHub(jsonData);
-
-    iniciarContador();
-
-}
-
-
-const repoOwner = 'LorenPorti'; // Reemplaza con tu nombre de usuario en GitHub
-const repoName = 'FECHAS-ACUARIO-WEB'; // Reemplaza con tu nombre de repositorio
-const filePath = 'temporal.json'; // Ruta al archivo temporal.json en tu repositorio
-const token = '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'; // Reemplaza con tu token de acceso personal
-
-function updateFileOnGitHub(jsonData) {
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-    // Primero, obtenemos el contenido actual del archivo para obtener su SHA
-    fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Not Found') {
-                // Si el archivo no existe, podemos crearlo
-                updateGitHubFile(null, jsonData); // Si el archivo no existe, pasamos 'null' para el SHA
-            } else {
-                // Si el archivo existe, obtenemos el SHA para actualizarlo
-                const sha = data.sha;
-                updateGitHubFile(sha, jsonData); // Pasamos el SHA para la actualización
-            }
-        })
-        .catch(error => console.log('Error al obtener el archivo:', error));
-}
-
-function updateGitHubFile(sha, jsonData) {
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-    // Convertir el JSON a string y luego a base64
-    const jsonString = JSON.stringify(jsonData);
-    const content = btoa(jsonString); // Convertir a base64
-
-    // Hacemos la solicitud PUT para actualizar el archivo
-    fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: 'Actualizar temporal.json', // Mensaje del commit
-                content: content, // Contenido en base64
-                sha: sha // SHA solo si el archivo existe
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.commit) {
-                console.log('Archivo actualizado en GitHub:', data.commit.url);
-            } else {
-                console.log('Error al actualizar el archivo:', data);
-            }
-        })
-        .catch(error => console.error('Error al actualizar el archivo en GitHub:', error));
-}
-
-export async function leerDatosGuardadosNetlify() {
-    try {
-        const response = await fetch('https://f-acuario.netlify.app/temporal.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log("Datos cargados:", data);
-        return data; // Devolver los datos cargados
-    } catch (error) {
-        console.error("Error:", error);
-        return null; // En caso de error, devolver null
-    }
 }
 
 export async function recuperarDatos() {
-
-    // let txtAdd = "";
-    // const dispositivo = detectarDispositivo();
+    let txtAdd = "";
+    const dispositivo = detectarDispositivo();
     // console.log("Dispositivo:", dispositivo);    
     // if (dispositivo == "escritorio") {
     //     txtAdd =
@@ -383,34 +286,27 @@ export async function recuperarDatos() {
     //     txtAdd = "";
     // } 
 
-    if (tiempoRestante > 0) {
-        alert(`Actualizando los datos guardados en Netlify. Quedan (${tiempoRestante} segundos)`);
-        return;
+    let valorDatosGuardados;
+    let datosGuardados;
+    // Recuperar los datos guardados
+    if (dispositivo == "movil") {
+        datosGuardados = localStorage.getItem("datosAcuario");
+        if (datosGuardados == null) {
+            await showModal("RECUPERAR VACÍO", "No existen datos para recuperar", null);
+            return;
+        }
+        valorDatosGuardados = JSON.parse(datosGuardados);
+    } else {
+
+        await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
+
+        try {
+            valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
+        } catch (error) {
+            console.error("Error al recuperar los datos temporales:", error);
+            return; // Salir si hay un error
+        }
     }
-
-    const valorDatosGuardados = await leerDatosGuardadosNetlify();
-
-
-    // let datosGuardados;
-    // // Recuperar los datos guardados
-    // if (dispositivo == "movil") {
-    //     datosGuardados = localStorage.getItem("datosAcuario");
-    //     if (datosGuardados == null) {
-    //         await showModal("RECUPERAR VACÍO", "No existen datos para recuperar", null);
-    //         return;
-    //     }
-    //     valorDatosGuardados = JSON.parse(datosGuardados);
-    // } else {
-
-    //     await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
-
-    //     try {
-    //         valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
-    //     } catch (error) {
-    //         console.error("Error al recuperar los datos temporales:", error);
-    //         return; // Salir si hay un error
-    //     }
-    // }
 
     let resultado = await showModal(
         "RECUPERAR DATOS",
@@ -423,14 +319,13 @@ export async function recuperarDatos() {
         "» (pH = " + valorDatosGuardados.pH + ") » (NO3 = " + valorDatosGuardados.NO3 + ") » (KH = " + valorDatosGuardados.KH + ") » (Temp = " + valorDatosGuardados.temp + ")<br>" + "» (Iny. CO2 = " + valorDatosGuardados.inyCO2 + ") » (Plantas = " + valorDatosGuardados.plantas + ")<br> " +
         "» (Agua = " + valorDatosGuardados.agua + ") » (Algas = " + valorDatosGuardados.algas + ")<br> " +
         "» (Sup. Agua = " + valorDatosGuardados.supAgua + ")<br> " +
-        "» Coment. 1: " + decodeURIComponent(valorDatosGuardados.coment1) + "<br>" +
-        "» Coment. 2: " + decodeURIComponent(valorDatosGuardados.coment2) + "<br>" +
-        "» Coment. 3: " + decodeURIComponent(valorDatosGuardados.coment3) + "<br>" +
-        "» Coment. 4: " + decodeURIComponent(valorDatosGuardados.coment4) + "<br>" +
-        "» Coment. 5: " + decodeURIComponent(valorDatosGuardados.coment5) + "<br>" +
-        "</p>",
-        /*  +
-                txtAdd, */
+        "» Coment. 1: " + valorDatosGuardados.coment1 + "<br>" +
+        "» Coment. 2: " + valorDatosGuardados.coment2 + "<br>" +
+        "» Coment. 3: " + valorDatosGuardados.coment3 + "<br>" +
+        "» Coment. 4: " + valorDatosGuardados.coment4 + "<br>" +
+        "» Coment. 5: " + valorDatosGuardados.coment5 + "<br>" +
+        "</p>" +
+        txtAdd,
         "Recuperar datos"
     );
 
@@ -455,16 +350,13 @@ export async function recuperarDatos() {
         document.getElementById("algas").textContent = valorDatosGuardados.algas;
         document.getElementById("agua").textContent = valorDatosGuardados.agua;
         document.getElementById("superficie").textContent = valorDatosGuardados.supAgua;
-        document.getElementById("comentario_1").value = decodeURIComponent(valorDatosGuardados.coment1);
-        document.getElementById("comentario_2").value = decodeURIComponent(valorDatosGuardados.coment2);
-        document.getElementById("comentario_3").value = decodeURIComponent(valorDatosGuardados.coment3);
-        document.getElementById("comentario_4").value = decodeURIComponent(valorDatosGuardados.coment4);
-        document.getElementById("comentario_5").value = decodeURIComponent(valorDatosGuardados.coment5);
+        document.getElementById("comentario_1").value = valorDatosGuardados.coment1;
+        document.getElementById("comentario_2").value = valorDatosGuardados.coment2;
+        document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
+        document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
+        document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
     }
 }
-
-// Timestamp o ID esperado (lo generas cuando subes el archivo) para comprobar si el deslpiegue del archivo 'temporal.json' se ha producido en Netlify
-let expectedTimestamp; // Esto debería coincidir con lastUpdated
 
 function detectarDispositivo() {
     const userAgent = navigator.userAgent.toLowerCase();
