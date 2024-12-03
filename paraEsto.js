@@ -214,8 +214,6 @@ export async function obtenerCorreo() {
 
 }
 
-let lastUpdated;
-
 export async function guardarDatos() {
 
     // const dispositivo = detectarDispositivo();
@@ -237,8 +235,6 @@ export async function guardarDatos() {
         "Guardar datos"
     );
     if (!resultado) return;
-
-    lastUpdated = new Date(); //Obtiene la fecha en que actualizó 'temporal.json'
 
     // Recopilar datos
     let fecha;
@@ -282,7 +278,7 @@ export async function guardarDatos() {
 const repoOwner = 'LorenPorti'; // Reemplaza con tu nombre de usuario en GitHub
 const repoName = 'FECHAS-ACUARIO-WEB'; // Reemplaza con tu nombre de repositorio
 const filePath = 'temporal.json'; // Ruta al archivo temporal.json en tu repositorio
-const token = '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'; // Reemplaza con tu token de acceso personal
+const token = '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'; // Reemplaza con tu token de acceso personal
 
 function updateFileOnGitHub(jsonData) {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
@@ -368,18 +364,6 @@ export async function recuperarDatos() {
     // } 
 
     const valorDatosGuardados = await leerDatosGuardadosNetlify();
-
-    const now = new Date(); //Obtiene la fecha de ahora
-    const tiempoTranscurrido = (now - lastUpdated) / 1000; // Tiempo en segundos desde que secreó el archivo ¡temporal.json'
-
-    //Si la solicitud de recuperar datos es menor de 35 segundos (tiempo estimado para la publicación en netlify) comunica que aún no es tiempo
-    if (tiempoTranscurrido > 35) {
-        console.log("El archivo ha sido desplegado.");
-    } else {
-        console.log(`Aún no ha pasado tiempo suficiente (${tiempoTranscurrido}s).`);
-        alert(`Han trasncurrido ${tiempoTranscurrido.toFixed(0)} segundos desde que se actualizó <temporal.json>, el archivo  aún no se ha desplegado en Netlify`);
-        return;
-    }
 
 
     // let datosGuardados;
