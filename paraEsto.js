@@ -297,7 +297,7 @@ export async function guardarDatos() {
 const repoOwner = 'LorenPorti'; // Reemplaza con tu nombre de usuario en GitHub
 const repoName = 'FECHAS-ACUARIO-WEB'; // Reemplaza con tu nombre de repositorio
 const filePath = 'temporal.json'; // Ruta al archivo temporal.json en tu repositorio
-const token = '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'; // Reemplaza con tu token de acceso personal
+// const token = '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'; // Reemplaza con tu token de acceso personal
 
 function updateFileOnGitHub(jsonData) {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
@@ -306,7 +306,7 @@ function updateFileOnGitHub(jsonData) {
     fetch(url, {
             method: 'GET',
             headers: {
-                'Authorization': `token ${token}`
+                'Authorization': `token ${'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'}`
             }
         })
         .then(response => response.json())
@@ -334,7 +334,7 @@ function updateGitHubFile(sha, jsonData) {
     fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `token ${'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'}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
