@@ -214,6 +214,24 @@ export async function obtenerCorreo() {
 
 }
 
+//*************PARA UTILIZAR CONTADOR CONTROL ACTUALIZAR NETLIFY************************
+let tiempoRestante = 0;
+let intervalo = null;
+
+// Función para iniciar el contador
+function iniciarContador() {
+    tiempoRestante = 60; // 60 segundos
+
+    intervalo = setInterval(() => {
+        if (tiempoRestante > 0) {
+            tiempoRestante--;
+        } else {
+            clearInterval(intervalo); // Detener el temporizador
+            intervalo = null;
+        }
+    }, 1000);
+}
+
 export async function guardarDatos() {
 
     // const dispositivo = detectarDispositivo();
@@ -229,9 +247,8 @@ export async function guardarDatos() {
 
     let resultado = await showModal(
         "GUARDAR DATOS ACTUALES",
-        "» Los datos actuales tal como están en sus cuadros de entradas, se guardarán. Estos datos se pueden recuperar con la opción del menú «Recuperar datos».",
-        /*  +
-                txtAdd, */
+        "» Los datos actuales tal como están en sus cuadros de entradas, se guardarán. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." + "<br>" +
+        "» El archivo con la información guardada se conserva en Netlify, y se debe esperar al menos 1 minuto antes de usar 'Recuperar datos'",
         "Guardar datos"
     );
     if (!resultado) return;
@@ -247,16 +264,16 @@ export async function guardarDatos() {
         KH: document.getElementById("khInput").value,
         temp: document.getElementById("tempInput").value,
         NO3: document.getElementById("no3Input").value,
-        inyCO2: document.getElementById("inyeccion").textContent,
-        plantas: document.getElementById("plantas").textContent,
-        algas: document.getElementById("algas").textContent,
-        agua: document.getElementById("agua").textContent,
-        supAgua: document.getElementById("superficie").textContent,
-        coment1: document.getElementById("comentario_1").value,
-        coment2: document.getElementById("comentario_2").value,
-        coment3: document.getElementById("comentario_3").value,
-        coment4: document.getElementById("comentario_4").value,
-        coment5: document.getElementById("comentario_5").value,
+        inyCO2: document.getElementById("inyeccion").value,
+        plantas: document.getElementById("plantas").value,
+        algas: document.getElementById("algas").value,
+        agua: document.getElementById("agua").value,
+        supAgua: document.getElementById("superficie").value,
+        coment1: encodeURIComponent(document.getElementById("comentario_1").value),
+        coment2: encodeURIComponent(document.getElementById("comentario_2").value),
+        coment3: encodeURIComponent(document.getElementById("comentario_3").value),
+        coment4: encodeURIComponent(document.getElementById("comentario_4").value),
+        coment5: encodeURIComponent(document.getElementById("comentario_5").value),
     };
 
     // if (dispositivo == "escritorio") {
@@ -272,13 +289,15 @@ export async function guardarDatos() {
 
     updateFileOnGitHub(jsonData);
 
+    iniciarContador();
+
 }
 
 
 const repoOwner = 'LorenPorti'; // Reemplaza con tu nombre de usuario en GitHub
 const repoName = 'FECHAS-ACUARIO-WEB'; // Reemplaza con tu nombre de repositorio
 const filePath = 'temporal.json'; // Ruta al archivo temporal.json en tu repositorio
-const token = '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'; // Reemplaza con tu token de acceso personal
+const token = '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'; // Reemplaza con tu token de acceso personal
 
 function updateFileOnGitHub(jsonData) {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
@@ -294,23 +313,24 @@ function updateFileOnGitHub(jsonData) {
         .then(data => {
             if (data.message === 'Not Found') {
                 // Si el archivo no existe, podemos crearlo
-                updateGitHubFile(null, jsonData);
+                updateGitHubFile(null, jsonData); // Si el archivo no existe, pasamos 'null' para el SHA
             } else {
                 // Si el archivo existe, obtenemos el SHA para actualizarlo
                 const sha = data.sha;
-                updateGitHubFile(sha, jsonData);
+                updateGitHubFile(sha, jsonData); // Pasamos el SHA para la actualización
             }
         })
-        .catch(error => console.error('Error al obtener el archivo:', error));
+        .catch(error => console.log('Error al obtener el archivo:', error));
 }
 
 function updateGitHubFile(sha, jsonData) {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 
-    // Preparamos el contenido en base64
-    const content = btoa(JSON.stringify(jsonData));
+    // Convertir el JSON a string y luego a base64
+    const jsonString = JSON.stringify(jsonData);
+    const content = btoa(jsonString); // Convertir a base64
 
-    // Hacemos la solicitud para actualizar el archivo
+    // Hacemos la solicitud PUT para actualizar el archivo
     fetch(url, {
             method: 'PUT',
             headers: {
@@ -320,7 +340,7 @@ function updateGitHubFile(sha, jsonData) {
             body: JSON.stringify({
                 message: 'Actualizar temporal.json', // Mensaje del commit
                 content: content, // Contenido en base64
-                sha: sha // SHA solo si el archivo existe, es necesario para actualizarlo
+                sha: sha // SHA solo si el archivo existe
             })
         })
         .then(response => response.json())
@@ -363,6 +383,11 @@ export async function recuperarDatos() {
     //     txtAdd = "";
     // } 
 
+    if (tiempoRestante > 0) {
+        alert(`Actualizando los datos guardados en Netlify. Quedan (${tiempoRestante} segundos)`);
+        return;
+    }
+
     const valorDatosGuardados = await leerDatosGuardadosNetlify();
 
 
@@ -398,11 +423,11 @@ export async function recuperarDatos() {
         "» (pH = " + valorDatosGuardados.pH + ") » (NO3 = " + valorDatosGuardados.NO3 + ") » (KH = " + valorDatosGuardados.KH + ") » (Temp = " + valorDatosGuardados.temp + ")<br>" + "» (Iny. CO2 = " + valorDatosGuardados.inyCO2 + ") » (Plantas = " + valorDatosGuardados.plantas + ")<br> " +
         "» (Agua = " + valorDatosGuardados.agua + ") » (Algas = " + valorDatosGuardados.algas + ")<br> " +
         "» (Sup. Agua = " + valorDatosGuardados.supAgua + ")<br> " +
-        "» Coment. 1: " + valorDatosGuardados.coment1 + "<br>" +
-        "» Coment. 2: " + valorDatosGuardados.coment2 + "<br>" +
-        "» Coment. 3: " + valorDatosGuardados.coment3 + "<br>" +
-        "» Coment. 4: " + valorDatosGuardados.coment4 + "<br>" +
-        "» Coment. 5: " + valorDatosGuardados.coment5 + "<br>" +
+        "» Coment. 1: " + decodeURIComponent(valorDatosGuardados.coment1) + "<br>" +
+        "» Coment. 2: " + decodeURIComponent(valorDatosGuardados.coment2) + "<br>" +
+        "» Coment. 3: " + decodeURIComponent(valorDatosGuardados.coment3) + "<br>" +
+        "» Coment. 4: " + decodeURIComponent(valorDatosGuardados.coment4) + "<br>" +
+        "» Coment. 5: " + decodeURIComponent(valorDatosGuardados.coment5) + "<br>" +
         "</p>",
         /*  +
                 txtAdd, */
@@ -430,11 +455,11 @@ export async function recuperarDatos() {
         document.getElementById("algas").textContent = valorDatosGuardados.algas;
         document.getElementById("agua").textContent = valorDatosGuardados.agua;
         document.getElementById("superficie").textContent = valorDatosGuardados.supAgua;
-        document.getElementById("comentario_1").value = valorDatosGuardados.coment1;
-        document.getElementById("comentario_2").value = valorDatosGuardados.coment2;
-        document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
-        document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
-        document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
+        document.getElementById("comentario_1").value = decodeURIComponent(valorDatosGuardados.coment1);
+        document.getElementById("comentario_2").value = decodeURIComponent(valorDatosGuardados.coment2);
+        document.getElementById("comentario_3").value = decodeURIComponent(valorDatosGuardados.coment3);
+        document.getElementById("comentario_4").value = decodeURIComponent(valorDatosGuardados.coment4);
+        document.getElementById("comentario_5").value = decodeURIComponent(valorDatosGuardados.coment5);
     }
 }
 
