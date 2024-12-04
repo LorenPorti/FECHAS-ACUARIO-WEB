@@ -1,170 +1,38 @@
+let chart = null; // Declaración global
 document.addEventListener('DOMContentLoaded', () => {
     // inicializarGrafico();
     inicializarGraficoAG();
+
+    // Esperar brevemente antes de ocultar las series
+    setTimeout(() => {
+        const series = chart.chart.series;
+        const tendenciaCO2 = series.find(s => s.properties.yKey === 'tendenciaCO2');
+        const tendenciaNO3 = series.find(s => s.properties.yKey === 'tendenciaNO3');
+
+        if (tendenciaCO2) tendenciaCO2.visible = false;
+        if (tendenciaNO3) tendenciaNO3.visible = false;
+
+        chart.chart.update(chart, {
+            series: chart.chart.series,
+        });
+    }, 100); // Ajusta el tiempo si es necesario
+
+    // Configurar eventos solo si el gráfico está inicializado
+    if (chart) {
+        const toggleTendenciaCO2 = document.getElementById('toggleTendenciaCO2');
+        const toggleTendenciaNO3 = document.getElementById('toggleTendenciaNO3');
+
+        toggleTendenciaCO2.addEventListener('change', () => {
+            actualizarVisibilidadSerie('tendenciaCO2', toggleTendenciaCO2.checked);
+        });
+
+        toggleTendenciaNO3.addEventListener('change', () => {
+            actualizarVisibilidadSerie('tendenciaNO3', toggleTendenciaNO3.checked);
+        });
+    } else {
+        console.error("El gráfico no se pudo inicializar correctamente.");
+    }
 });
-
-
-
-// function inicializarGrafico() {
-//     const ctx = document.getElementById('graficoLineas').getContext('2d');
-//     const fechas = obtenerFechasDeDatosAcuario(); // Fechas en el eje X
-//     const valoresPH = obtenerValores('pH'); // Valores de pH para el eje izquierdo
-//     const valoresKH = obtenerValores('KH'); // Valores de KH para el eje izquierdo
-//     const valoresNO3 = obtenerValores('NO3'); // Valores de KH para el eje izquierdo
-
-//     if (fechas.length === 0 || valoresPH.length === 0 || valoresKH.length === 0) {
-//         console.error("No hay datos suficientes para mostrar el gráfico.");
-//         return;
-//     }
-
-//     // Calculamos dinámicamente el rango del eje izquierdo
-//     // const minLeft = Math.min(...valoresPH, ...valoresKH);
-//     // const maxLeft = Math.max(...valoresPH, ...valoresKH);
-
-//     const chart = new Chart(ctx, {
-//         type: 'line',
-//         data: {
-//             labels: fechas.slice(0, 40), // Fechas para las primeras 5 semanas
-//             datasets: [{
-//                     label: 'pH', // Eliminamos la leyenda específica del dataset
-//                     data: valoresPH.slice(0, 52), // Los primeros 5 valores de pH
-//                     borderColor: 'blue',
-//                     borderWidth: 2,
-//                     tension: 0.2, // Suavidad de la línea
-//                     yAxisID: 'yLeft', // Se conecta con el eje izquierdo
-//                     pointRadius: 0, // Sin puntos visibles
-//                     hidden: false, // Por defecto, visible
-//                 },
-//                 {
-//                     label: 'KH', // Eliminamos la leyenda específica del dataset
-//                     data: valoresKH.slice(0, 52), // Los primeros 5 valores de KH
-//                     borderColor: 'green',
-//                     borderWidth: 2,
-//                     tension: 0.2, // Suavidad de la línea
-//                     yAxisID: 'yLeft', // También se conecta con el eje izquierdo
-//                     pointRadius: 0, // Sin puntos visibles
-//                     hidden: false, // Por defecto, visible
-//                 },
-//                 {
-//                     label: 'NO3', // Eliminamos la leyenda específica del dataset
-//                     data: valoresNO3.slice(0, 52), // Los primeros 5 valores de KH
-//                     borderColor: 'maroon',
-//                     borderWidth: 2,
-//                     tension: 0.2, // Suavidad de la línea
-//                     yAxisID: 'yRight', // También se conecta con el eje izquierdo
-//                     pointRadius: 0, // Sin puntos visibles
-//                     hidden: false, // Por defecto, visible
-//                 }
-//             ]
-//         },
-//         options: {
-//             responsive: true,
-//             maintainAspectRatio: false,
-//             interaction: {
-//                 mode: 'nearest', // Se asegura que el crosshair afecta a ambos ejes al pasar por encima
-//                 intersect: false, // Permite que el crosshair funcione incluso cuando el cursor no está sobre un punto específico
-//             },
-//             plugins: {
-//                 tooltip: {
-//                     callbacks: {
-//                         label: function(context) {
-//                             let label = context.dataset.label || '';
-//                             if (context.dataset.yAxisID === 'yRight') {
-//                                 // Color asociado al eje derecho
-//                                 return `${label}: ${context.raw} (Eje Derecho - Rojo)`;
-//                             } else {
-//                                 return `${label}: ${context.raw} (Eje Izquierdo - Gris)`;
-//                             }
-//                         },
-//                         labelColor: function(context) {
-//                             if (context.dataset.yAxisID === 'yRight') {
-//                                 return { borderColor: 'red', backgroundColor: 'red' };
-//                             } else {
-//                                 return { borderColor: 'gray', backgroundColor: 'gray' };
-//                             }
-//                         },
-//                     },
-//                 },
-//                 crosshair: {
-//                     line: {
-//                         color: 'black', // Color del cursor
-//                         width: 1, // Grosor del cursor
-//                     },
-//                     sync: {
-//                         enabled: false, // Sincronización con otros gráficos (si tienes varios)
-//                     },
-//                     zoom: {
-//                         enabled: false, // Desactiva el zoom al mover el cursor
-//                     },
-//                     callbacks: {
-//                         afterDraw: function(chart) {
-//                             // Opcional: personalizar acciones después de dibujar el cursor
-//                         },
-//                     },
-//                 },
-//                 legend: {
-//                     display: true, // Mostrar la leyenda
-//                     labels: {
-//                         color: 'black', // Color del texto de la leyenda
-//                     },
-//                     onClick: (event, legendItem, legend) => {
-//                         const datasetIndex = legendItem.datasetIndex; // Índice del dataset
-//                         const meta = chart.getDatasetMeta(datasetIndex); // Metadatos del dataset
-//                         meta.hidden = !meta.hidden; // Cambiar visibilidad
-//                         chart.update(); // Actualizar el gráfico
-//                     },
-//                 },
-//             },
-//             scales: {
-//                 x: {
-//                     title: {
-//                         display: true,
-//                         text: 'Fechas'
-//                     }
-//                 },
-//                 yLeft: {
-//                     type: 'linear',
-//                     position: 'left',
-//                     title: {
-//                         display: true,
-//                         text: 'pH - KH (dKH)' // Leyenda del eje izquierdo
-//                     },
-//                     min: 0,
-//                     max: 10,
-//                     ticks: {
-//                         stepSize: 0.5,
-//                     },
-//                     grid: {
-//                         color: 'gray',
-//                         lineWidth: 1,
-//                     }
-//                 },
-//                 yRight: {
-//                     type: 'linear',
-//                     position: 'right',
-//                     title: {
-//                         display: true,
-//                         text: 'CO2 (mg/l) - Temp. (ºC) - NO3 (ppm)',
-//                         color: 'red',
-//                     },
-//                     min: 0,
-//                     max: 50,
-//                     ticks: {
-//                         display: true,
-//                         stepSize: 1,
-//                         color: 'red',
-//                     },
-//                     grid: {
-//                         color: 'red',
-//                         lineWidth: 1,
-//                     },
-//                 }
-//             }
-//         }
-//     });
-
-//     // return chart; // Por si necesitas manipularlo posteriormente
-// }
 
 const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
 
@@ -212,7 +80,7 @@ function inicializarGraficoAG() {
         tendenciaNO3: valoresAjustadosNO3[i],
     }));
 
-    const chart = agCharts.AgCharts.create({
+    chart = agCharts.AgCharts.create({
         container: document.getElementById('graficoLineas'),
         autoSize: true, // Ajuste automático del tamaño
         // title: {
@@ -349,6 +217,8 @@ function inicializarGraficoAG() {
                 stroke: '#2e86c1',
                 strokeWidth: 3,
                 lineDash: [10, 5],
+                visible: true,
+                showInLegend: false, // Oculta esta serie en la leyenda
                 interpolation: {
                     type: 'smooth'
                 },
@@ -371,6 +241,8 @@ function inicializarGraficoAG() {
                 stroke: '#943126',
                 strokeWidth: 3,
                 lineDash: [10, 5],
+                visible: true,
+                showInLegend: false, // Oculta esta serie en la leyenda
                 interpolation: {
                     type: 'smooth'
                 },
@@ -449,20 +321,53 @@ function inicializarGraficoAG() {
         navigator: {
             enabled: true,
             height: 40, // Altura del navigator
+            minHandle: {
+                fill: "darkgrey",
+                stroke: "black",
+                width: 16,
+                height: 30,
+                gripLineGap: 4,
+                gripLineLength: 12,
+                strokeWidth: 2,
+            },
+            maxHandle: {
+                fill: "darkgrey",
+                stroke: "black",
+                width: 16,
+                height: 30,
+                gripLineGap: 4,
+                gripLineLength: 12,
+                strokeWidth: 2,
+            },
             min: rangoFijo.min,
             max: rangoFijo.max,
             handles: {
                 visible: false, // Deshabilitar los controles laterales
             },
             mask: {
-                fill: 'rgba(150, 150, 150, 0.3)', // Color de la selección
+                fill: '#705C53', // Color de la selección
             },
         },
     });
 
-    // return chart;
+    // // Actualizamos el gráfico para reflejar los cambios
+    // chart.chart.update(chart, {
+    //     series: chart.chart.series
+    // });
 }
 
+function actualizarVisibilidadSerie(yKey, visible) {
+    if (!chart) return;
+
+    const series = chart.chart.series;
+    const serie = series.find(serie => serie.properties.yKey === yKey);
+
+    if (serie) {
+        serie.visible = visible; // Actualiza la visibilidad de la serie
+    } else {
+        console.warn(`No se encontró ninguna serie con yKey "${yKey}"`);
+    }
+}
 
 /**
  * Calcula la regresión polinómica de un conjunto de datos.
@@ -512,40 +417,6 @@ function obtenerFechasDeDatosAcuario() {
 
     // Extrae las fechas directamente del objeto
     return datosAcuario.map(dato => dato.Fecha); // Usa "Fecha" tal cual está en el objeto
-}
-
-function obtenerValores(parametro) {
-    // Obtén los datos del localStorage
-    const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
-    let valores;
-
-    if (!datosAcuario || datosAcuario.length === 0) {
-        console.error("No se encontraron datos en 'datosAcuario'");
-        return [];
-    }
-
-    switch (parametro) {
-        case 'pH':
-            valores = datosAcuario.map(dato => dato.pH);
-            break;
-        case 'KH':
-            valores = datosAcuario.map(dato => dato.KH);
-            break;
-        case 'NO3':
-            valores = datosAcuario.map(dato => dato.KH);
-            break;
-        case 'CO2':
-            valores = datosAcuario.map(dato => dato.CO2);
-            break;
-        case 'temp':
-            valores = datosAcuario.map(dato => dato.temp);
-            break;
-        case 'tendenciaGral':
-            valores = datosAcuario.map(dato => dato.resultado);
-            break;
-    }
-    // Extrae los valores de pH
-    return valores;
 }
 
 function formatearFecha(fechaTexto) {
