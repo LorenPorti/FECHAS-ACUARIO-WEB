@@ -96,7 +96,7 @@ html {
 
 #axis-right-title {
     right: -70px;
-    top: 79%;
+    top: 79.5%;
     /* Posiciona el título a la mitad del gráfico, ajusta según necesites */
     transform: rotate(270deg);
     margin-bottom: 0%;
