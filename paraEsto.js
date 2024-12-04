@@ -217,25 +217,25 @@ export async function obtenerCorreo() {
 
 export async function guardarDatos() {
 
-    const dispositivo = detectarDispositivo();
-    let txtAdd;
-    if (dispositivo == "escritorio") {
-        txtAdd =
-            "\n\n" +
-            "<hr>" +
-            '» Si la aplicación es de escritorio, los datos se guardaran en un archivo llamado "temporal.json". Sobre escribirlo si existe.'; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
-    } else {
-        txtAdd = "";
-    }
+    // const dispositivo = detectarDispositivo();
+    // let txtAdd;
+    // if (dispositivo == "escritorio") {
+    //     txtAdd =
+    //         "\n\n" +
+    //         "<hr>" +
+    //         '» Si la aplicación es de escritorio, los datos se guardaran en un archivo llamado "temporal.json". Sobre escribirlo si existe.'; //Este mensaje se ve solo si la página la muestra un navegador de escritorio
+    // } else {
+    //     txtAdd = "";
+    // }
 
-    let resultado = await showModal(
-        "GUARDAR DATOS ACTUALES",
-        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
-        "<br>" + "» Permaneceran en la memoria hasta que se cierre la página o internet." +
-        txtAdd,
-        "Guardar datos"
-    );
-    if (!resultado) return;
+    // let resultado = await showModal(
+    //     "GUARDAR DATOS ACTUALES",
+    //     "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
+    //     "<br>" + "» Permaneceran en la memoria hasta que se cierre la página o internet." +
+    //     txtAdd,
+    //     "Guardar datos"
+    // );
+    // if (!resultado) return;
 
     // Recopilar datos
     let fecha;
@@ -260,12 +260,13 @@ export async function guardarDatos() {
         coment5: document.getElementById("comentario_5").value,
     };
 
-    if (dispositivo == "escritorio") {
-        GuardarDatosTemporales(jsonData);
-    } else {
-        // Convertir jsonData a string y guardarlo en el Local Storage
-        localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
-    }
+    guardarTemporalJSONBin(jsonData, binID);
+    // if (dispositivo == "escritorio") {
+    //     GuardarDatosTemporales(jsonData);
+    // } else {
+    //     // Convertir jsonData a string y guardarlo en el Local Storage
+    //     localStorage.setItem('datosAcuario', JSON.stringify(jsonData));
+    // }
 
     // await showModal("GUARDAR DATOS", "» Los datos contenidos en los inputs se han guardado.\n\n" +
     //     "» Usar «Recuperar Datos» para recargarlos." +
@@ -274,39 +275,41 @@ export async function guardarDatos() {
 }
 
 export async function recuperarDatos() {
-    let txtAdd = "";
-    const dispositivo = detectarDispositivo();
-    // console.log("Dispositivo:", dispositivo);    
-    // if (dispositivo == "escritorio") {
-    //     txtAdd =
-    //         "\n\n" +
-    //         "<hr>" +
-    //         '» Los datos estan guardados en un archivo "temporal.json".';
+    // let txtAdd = "";
+    // const dispositivo = detectarDispositivo();
+    // // console.log("Dispositivo:", dispositivo);    
+    // // if (dispositivo == "escritorio") {
+    // //     txtAdd =
+    // //         "\n\n" +
+    // //         "<hr>" +
+    // //         '» Los datos estan guardados en un archivo "temporal.json".';
+    // // } else {
+    // //     txtAdd = "";
+    // // } 
+
+    // let valorDatosGuardados;
+    // let datosGuardados;
+    // // Recuperar los datos guardados
+    // if (dispositivo == "movil") {
+    //     datosGuardados = localStorage.getItem("datosAcuario");
+    //     if (datosGuardados == null) {
+    //         await showModal("RECUPERAR VACÍO", "No existen datos para recuperar", null);
+    //         return;
+    //     }
+    //     valorDatosGuardados = JSON.parse(datosGuardados);
     // } else {
-    //     txtAdd = "";
-    // } 
 
-    let valorDatosGuardados;
-    let datosGuardados;
-    // Recuperar los datos guardados
-    if (dispositivo == "movil") {
-        datosGuardados = localStorage.getItem("datosAcuario");
-        if (datosGuardados == null) {
-            await showModal("RECUPERAR VACÍO", "No existen datos para recuperar", null);
-            return;
-        }
-        valorDatosGuardados = JSON.parse(datosGuardados);
-    } else {
+    //     await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
 
-        await showModal("RECUPERAR DATOS PROVISIONALES", 'Los datos provisionales estan guardados en un archivo llamado "temporal.json"');
+    //     try {
+    //         valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
+    //     } catch (error) {
+    //         console.error("Error al recuperar los datos temporales:", error);
+    //         return; // Salir si hay un error
+    //     }
+    // }
 
-        try {
-            valorDatosGuardados = await recuperarDatosTemporales(); // Esperar a que los datos se recuperen            
-        } catch (error) {
-            console.error("Error al recuperar los datos temporales:", error);
-            return; // Salir si hay un error
-        }
-    }
+    const valorDatosGuardados = await leerTemporalJSONBin(binID);
 
     let resultado = await showModal(
         "RECUPERAR DATOS",
@@ -324,8 +327,9 @@ export async function recuperarDatos() {
         "» Coment. 3: " + valorDatosGuardados.coment3 + "<br>" +
         "» Coment. 4: " + valorDatosGuardados.coment4 + "<br>" +
         "» Coment. 5: " + valorDatosGuardados.coment5 + "<br>" +
-        "</p>" +
-        txtAdd,
+        "</p>",
+        /* +
+               txtAdd, */
         "Recuperar datos"
     );
 
@@ -355,6 +359,55 @@ export async function recuperarDatos() {
         document.getElementById("comentario_3").value = valorDatosGuardados.coment3;
         document.getElementById("comentario_4").value = valorDatosGuardados.coment4;
         document.getElementById("comentario_5").value = valorDatosGuardados.coment5;
+    }
+}
+
+//************************Declaración claves JSONBin**************************************
+const X_Master_Key = '$2a$10$N0MHs1suhD6p8MLMuXbelOwaype8bzrs6PqIXNBfbIpgF0pxL5E6S'; //X-Master-Key JSONBin
+const binID = '67504127acd3cb34a8b3dd0c';
+
+function guardarTemporalJSONBin(datos, binID) {
+    const url = `https://api.jsonbin.io/v3/b/${binID}`; // URL para actualizar un bin existente
+    const headers = {
+        'Content-Type': 'application/json',
+        'X-Master-Key': X_Master_Key // Sustituye con tu X-Master-Key
+    };
+
+    // Convertimos los datos en formato JSON antes de enviarlos
+    const body = JSON.stringify(datos);
+
+    fetch(url, {
+            method: 'PUT', // Método para actualizar un bin existente
+            headers: headers,
+            body: body // Los datos que vamos a guardar
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Bin actualizado con éxito:', data);
+        })
+        .catch(error => {
+            console.error('Error al actualizar el archivo temporal:', error);
+        });
+}
+
+export async function leerTemporalJSONBin(binID) {
+    const url = `https://api.jsonbin.io/v3/b/${binID}`; // URL con el Bin ID
+    const headers = {
+        'Content-Type': 'application/json',
+        'X-Master-Key': X_Master_Key // Sustituye con tu X-Master-Key
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET', // Método para obtener el bin
+            headers: headers
+        });
+        const data = await response.json();
+        console.log('Datos obtenidos del bin:', data.record);
+        return data.record;
+    } catch (error) {
+        console.error('Error al leer el archivo temporal:', error);
+        throw error; // Lanza el error para manejarlo en otro lugar si es necesario
     }
 }
 

@@ -166,8 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
 //     // return chart; // Por si necesitas manipularlo posteriormente
 // }
 
+const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
+
+let rangoFijo = {
+    min: 0,
+    max: 1, // Mostrar un año al inicio
+};
+
 function inicializarGraficoAG() {
-    const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
 
     if (!datosAcuario || datosAcuario.length === 0) {
         console.error("No se encontraron datos en 'datosAcuario'");
@@ -180,7 +186,18 @@ function inicializarGraficoAG() {
     const valoresNO3 = datosAcuario.map(dato => dato.NO3);
     const valoresCO2 = datosAcuario.map(dato => dato.CO2);
     const valorestemp = datosAcuario.map(dato => dato.temp);
-    const valorestendencia = datosAcuario.map(dato => dato.tendencia);
+    const valorestendenciaGral = datosAcuario.map(dato => dato.resultado);
+    // Cálculo de la regresión polinómica de grado 3.
+    const xValores = fechas.map((_, index) => index); // Índices como eje X
+    const coeficientesTendenciaCO2 = calcularRegresionPolinomica(xValores, valoresCO2, 3);
+    const coeficientesTendenciaGral = calcularRegresionPolinomica(xValores, valorestendenciaGral, 3);
+    const coeficientesTendenciaNO3 = calcularRegresionPolinomica(xValores, valoresNO3, 3);
+
+    // Generar los valores ajustados de tendencia usando el polinomio
+    const valoresAjustadosCO2 = xValores.map(x => evaluarPolinomio(coeficientesTendenciaCO2, x));
+    const valoresAjustadosTendenciaGral = xValores.map(x => evaluarPolinomio(coeficientesTendenciaGral, x));
+    const valoresAjustadosNO3 = xValores.map(x => evaluarPolinomio(coeficientesTendenciaNO3, x));
+
 
     //Selecciona los 20 primeros
     let dataSeleccion = fechas.slice(0, datosAcuario.length - 1).map((fecha, i) => ({
@@ -190,13 +207,10 @@ function inicializarGraficoAG() {
         NO3: valoresNO3[i],
         CO2: valoresCO2[i],
         temp: valorestemp[i],
-        tendencia: valorestendencia[i],
+        tendenciaGral: valoresAjustadosTendenciaGral[i],
+        tendenciaCO2: valoresAjustadosCO2[i], // Nueva serie ajustada
+        tendenciaNO3: valoresAjustadosNO3[i],
     }));
-
-    const rangoFijo = {
-        min: 0,
-        max: 51 / fechas.length, // Mostrar 30 puntos al inicio
-    };
 
     const chart = agCharts.AgCharts.create({
         container: document.getElementById('graficoLineas'),
@@ -309,8 +323,8 @@ function inicializarGraficoAG() {
             {
                 type: 'line',
                 xKey: 'fecha',
-                yKey: 'tendencia',
-                yName: 'tendencia',
+                yKey: 'tendenciaGral',
+                yName: 'Tendencia Gral',
                 stroke: 'Purple',
                 strokeWidth: 4,
                 interpolation: {
@@ -322,8 +336,52 @@ function inicializarGraficoAG() {
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>Tendencia: ${params.datum.tendencia.toFixed(2).replace(".",",")} eje Izda`,
+                        content: `Fecha: ${params.datum.fecha}<br>Tendencia Gral: ${params.datum.tendenciaGral.toFixed(2).replace(".",",")} eje Izda`,
                         backgroundColor: 'Purple', // Color de fondo igual al de la serie
+                    }),
+                },
+            },
+            {
+                type: 'line',
+                xKey: 'fecha',
+                yKey: 'tendenciaCO2',
+                yName: 'Tendencia CO2',
+                stroke: '#2e86c1',
+                strokeWidth: 3,
+                lineDash: [10, 5],
+                interpolation: {
+                    type: 'smooth'
+                },
+                marker: {
+                    fill: '#2e86c1',
+                    size: 0,
+                },
+                tooltip: {
+                    renderer: (params) => ({
+                        content: `Fecha: ${params.datum.fecha}<br>Tendencia CO2: ${params.datum.tendenciaCO2.toFixed(2).replace(".",",")} eje Dcha`,
+                        backgroundColor: '#2e86c1',
+                    }),
+                },
+            },
+            {
+                type: 'line',
+                xKey: 'fecha',
+                yKey: 'tendenciaNO3',
+                yName: 'Tendencia NO3',
+                stroke: '#943126',
+                strokeWidth: 3,
+                lineDash: [10, 5],
+                interpolation: {
+                    type: 'smooth'
+                },
+                marker: {
+                    fill: '#943126',
+                    size: 0,
+                },
+                tooltip: {
+                    renderer: (params) => ({
+                        content: `Fecha: ${params.datum.fecha}<br>Tendencia NO3: ${params.datum.tendenciaNO3.toFixed(0)} eje Dcha`,
+                        backgroundColor: '#943126',
                     }),
                 },
             },
@@ -354,7 +412,7 @@ function inicializarGraficoAG() {
                 type: 'number',
                 position: 'left',
                 // title: { text: 'pH - KH (dKH)' },
-                keys: ['pH', 'KH', "tendencia"], // Asociar ejes a estas series
+                keys: ['pH', 'KH', "tendenciaGral", ], // Asociar ejes a estas series
                 gridLine: {
                     enabled: true,
                     style: [{
@@ -376,7 +434,7 @@ function inicializarGraficoAG() {
                 type: 'number',
                 position: 'right',
                 // title: { text: 'NO3 (ppm)' },
-                keys: ['NO3', 'CO2', 'temp'], // Asociar eje a esta serie
+                keys: ['NO3', 'CO2', 'temp', "tendenciaCO2", "tendenciaNO3"], // Asociar eje a esta serie
                 // gridLine: {
                 //     enabled: true,
                 //     style: [
@@ -406,7 +464,35 @@ function inicializarGraficoAG() {
 }
 
 
+/**
+ * Calcula la regresión polinómica de un conjunto de datos.
+ * @param {Array<number>} x - Valores del eje X.
+ * @param {Array<number>} y - Valores del eje Y.
+ * @param {number} grado - Grado del polinomio.
+ * @returns {Array<number>} Coeficientes del polinomio (de mayor a menor grado).
+ */
+function calcularRegresionPolinomica(x, y, grado) {
+    if (x.length !== y.length) {
+        console.error("Los datos de x e y deben tener el mismo tamaño.");
+        return [];
+    }
+    const X = x.map(xi => Array.from({ length: grado + 1 }, (_, k) => Math.pow(xi, k)).reverse());
+    const XT = math.transpose(X);
+    const XTX = math.multiply(XT, X);
+    const XTY = math.multiply(XT, y);
+    const coeficientes = math.lusolve(XTX, XTY).flat(); // Resolver el sistema
+    return coeficientes.reverse(); // Devuelve de mayor a menor grado
+}
 
+/**
+ * Evalúa un polinomio en un punto dado.
+ * @param {Array<number>} coeficientes - Coeficientes del polinomio.
+ * @param {number} x - Valor en el que se evalúa.
+ * @returns {number} Valor del polinomio.
+ */
+function evaluarPolinomio(coeficientes, x) {
+    return coeficientes.reduce((sum, coef, index) => sum + coef * Math.pow(x, index), 0);
+}
 
 function obtenerFechasDeDatosAcuario() {
     // Obtén los datos del localStorage
@@ -454,8 +540,8 @@ function obtenerValores(parametro) {
         case 'temp':
             valores = datosAcuario.map(dato => dato.temp);
             break;
-        case 'tendencia':
-            valores = datosAcuario.map(dato => dato.tendencia);
+        case 'tendenciaGral':
+            valores = datosAcuario.map(dato => dato.resultado);
             break;
     }
     // Extrae los valores de pH

@@ -72,6 +72,8 @@
                     <hr class="dropdown-divider dropdown-divider-custom">
                 </li>
                 <li><a class="dropdown-item georgia-bold" href="index_3.html">Volver a la página principal</a></li>
+                <!-- Importar math.js desde un CDN -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.0/math.min.js"></script>
             </ul>
         </div>
     </div>
@@ -85,10 +87,11 @@
         </div>
 
         <!-- Títulos de los ejes -->
-        <div id="axis-left-title" class="axis-title">
+        <div id="axis-left-title" class="axis-title" style="pointer-events: none; user-select: none;">
+            <!-- style="pointer-events: none; user-select: none;" para no hacerlo edditable -->
             pH - KH (dKH)
         </div>
-        <div id="axis-right-title" class="axis-title">
+        <div id="axis-right-title" class="axis-title" style="pointer-events: none; user-select: none;">
             NO3 (ppm) - Temp (ºC) - CO2 (mg/l)
         </div>
     </div>
