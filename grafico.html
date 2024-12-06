@@ -47,22 +47,22 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                 <!-- Enlaces directos -->
-                <li><a id="ir-a-fecha-inicial" class="dropdown-item georgia-bold" href="#">Ocultar series menos Tend. Gral.</a></li>
-                <li><a id="ir-a-fecha-final" class="dropdown-item georgia-bold" href="#">Mostrar todas las series</a></li>
-                <li>
-                    <!-- Checkbox para Tendencia CO2 -->
-                    <div class="dropdown-item">
+                <li><a id="ocultar-series" class="dropdown-item georgia-bold" href="#">Ocultar series menos Tend. Gral.</a></li>
+                <li><a id="mostrar-series" class="dropdown-item georgia-bold" href="#">Mostrar todas las series</a></li>
+                <!-- <li> -->
+                <!-- Checkbox para Tendencia CO2 -->
+                <!-- <div class="dropdown-item">
                         <input type="checkbox" id="toggleTendenciaCO2" class="form-check-input me-2 border border-2 border-success" style="width: 18px; height: 18px;" unchecked>
                         <label for="toggleTendenciaCO2" class="form-check-label georgia-bold">Tendencia CO2</label>
                     </div>
-                </li>
-                <li>
-                    <!-- Checkbox para Tendencia NO3 -->
-                    <div class="dropdown-item">
+                </li> -->
+                <!-- <li> -->
+                <!-- Checkbox para Tendencia NO3 -->
+                <!-- <div class="dropdown-item">
                         <input type="checkbox" id="toggleTendenciaNO3" class="form-check-input me-2 border border-2 border-success" style="width: 18px; height: 18px;" unchecked>
                         <label for="toggleTendenciaNO3" class="form-check-label georgia-bold">Tendencia NO3</label>
                     </div>
-                </li>
+                </li> -->
                 <li>
                     <hr class="dropdown-divider dropdown-divider-custom">
                 </li>
@@ -96,6 +96,25 @@
         </div>
     </div>
 
+    <!-- Contenedor del selector de fecha -->
+    <div id="dateInputContainer" style="display: none !important; position: absolute; background: white; border: 1px solid #ccc; padding: 8px;">
+        <p class="roboto-bold text-bg-secondary">Seleccionar una Fecha:</p>
+        <input type="date" id="dateInput" class="georgia-bold" placeholder="dd/mm/aaaa">
+    </div>
+
+    <div id="mensajeEmergente" style="
+    display: none;
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(95, 111, 101);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);"></div>
 
     <script src="grafico.js"></script>
     <script src="acuarioData.js"></script>

@@ -3,43 +3,246 @@ document.addEventListener('DOMContentLoaded', () => {
     // inicializarGrafico();
     inicializarGraficoAG();
 
-    // Esperar brevemente antes de ocultar las series
-    setTimeout(() => {
-        const series = chart.chart.series;
-        const tendenciaCO2 = series.find(s => s.properties.yKey === 'tendenciaCO2');
-        const tendenciaNO3 = series.find(s => s.properties.yKey === 'tendenciaNO3');
+    actualizarNavigator(rangoNavigator.min, rangoNavigator.max);
 
-        if (tendenciaCO2) tendenciaCO2.visible = false;
-        if (tendenciaNO3) tendenciaNO3.visible = false;
+    const botonOcultarSeries = document.getElementById('ocultar-series');
 
-        chart.chart.update(chart, {
-            series: chart.chart.series,
+    botonOcultarSeries.addEventListener('click', event => {
+        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+        if (chart && chart.chart && chart.chart.series) {
+            const series = chart.chart.series;
+
+            // Actualizar la visibilidad de las series
+            series.forEach(serie => {
+                serie.visible = serie.properties.yKey === 'tendenciaGral';
+            });
+
+            // Forzar redibujado del gráfico
+            chart.chart.update(); // Método directo para refrescar el gráfico
+        } else {
+            console.error('No se pudo acceder a las series del gráfico.');
+        }
+    });
+
+    const botonMostrarSeries = document.getElementById('mostrar-series');
+
+    botonMostrarSeries.addEventListener('click', event => {
+        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+        if (chart && chart.chart && chart.chart.series) {
+            const series = chart.chart.series;
+
+            // Hacer visibles todas las series
+            series.forEach(serie => {
+                serie.visible = true;
+            });
+
+            // Forzar redibujado del gráfico
+            chart.chart.update(); // Método directo para refrescar el gráfico
+        } else {
+            console.error('No se pudo acceder a las series del gráfico.');
+        }
+    });
+
+    document.getElementById('irAFecha').addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const dateInputContainer = document.getElementById('dateInputContainer');
+        const dateInput = document.getElementById('dateInput');
+
+        // Posicionar el selector de fecha justo debajo de "Ir a Fecha"
+        const rect = event.target.getBoundingClientRect();
+        dateInputContainer.style.left = `${rect.left}px`;
+        dateInputContainer.style.top = `${rect.bottom + window.scrollY}px`;
+        dateInputContainer.style.display = "block"; // Mostrar el selector de fecha
+
+        // Manejar selección de fecha
+        dateInput.addEventListener('change', function onDateChange(event) {
+            const selectedDate = new Date(event.target.value);
+            const firstDate1 = parseToDate(datosAcuario[0].Fecha);
+            const lastDate1 = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
+            const firstDate = parseToDate(datosAcuario[0].Fecha);
+            const lastDate = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
+            lastDate.setDate(lastDate.getDate() + 1);
+            firstDate.setDate(firstDate.getDate() - 1);
+            const selectedDateString = dateToFormattedString(selectedDate);
+
+
+            setTimeout(() => {
+                dateInput.valueAsDate = selectedDate; //Muestra la fecha en el selector
+            }, 100);
+
+            // Validar que la fecha seleccionada sea un domingo
+            if (selectedDate.getDay() !== 0) {
+                mostrarMensajeEmergente("La fecha seleccionada debe ser un domingo.");
+                return;
+            }
+
+            // Validar que la fecha esté dentro del rango
+            if (selectedDate < firstDate || selectedDate > lastDate) {
+                mostrarMensajeEmergente(`La fecha debe estar entre ${firstDate1.toLocaleDateString()} y ${lastDate1.toLocaleDateString()}.`);
+                return;
+            }
+
+            // Calcular los valores del navigator
+            const index = datosAcuario.findIndex(d => d.Fecha.replace(".", "") === selectedDateString);
+            if (index !== -1) {
+                const totalDatos = datosAcuario.length;
+                const rangoNavigator = {
+                    min: Math.max(0, index - 51) / totalDatos, // Un año antes
+                    max: Math.min(1, (index + 1) / totalDatos) // Incluir el dato seleccionado
+                };
+
+                actualizarNavigator(rangoNavigator.min, rangoNavigator.max);
+            } else {
+                console.error("No se pudo encontrar el índice correspondiente a la fecha seleccionada.");
+            }
+
+            // Limpiar y quitar el evento para evitar múltiples llamadas
+            dateInput.value = "";
+            dateInput.removeEventListener("change", onDateChange);
+
+            reiniciarInputDate();
         });
-    }, 100); // Ajusta el tiempo si es necesario
 
-    // Configurar eventos solo si el gráfico está inicializado
-    if (chart) {
-        const toggleTendenciaCO2 = document.getElementById('toggleTendenciaCO2');
-        const toggleTendenciaNO3 = document.getElementById('toggleTendenciaNO3');
+        // Manejar clic fuera del selector para ocultarlo
+        function ocultarSelectorFecha(evento) {
+            if (!dateInputContainer.contains(evento.target) && evento.target !== dateInput) {
+                document.removeEventListener("click", ocultarSelectorFecha);
+                dateInputContainer.style.display = "none";
+            }
+        }
 
-        toggleTendenciaCO2.addEventListener('change', () => {
-            actualizarVisibilidadSerie('tendenciaCO2', toggleTendenciaCO2.checked);
-        });
+        // Asegurarse de que el evento de clic se registre después de mostrar el selector
+        setTimeout(() => {
+            document.addEventListener("click", ocultarSelectorFecha);
+        }, 0);
+    });
 
-        toggleTendenciaNO3.addEventListener('change', () => {
-            actualizarVisibilidadSerie('tendenciaNO3', toggleTendenciaNO3.checked);
-        });
-    } else {
-        console.error("El gráfico no se pudo inicializar correctamente.");
+    //Convierte date a la forma "10 nov. 2024"
+    function dateToFormattedString(date) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        let formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
+
+        // Eliminar el cero inicial del día si existe
+        formattedDate = formattedDate.replace(/^0(\d)/, "$1");
+
+        return formattedDate;
+
     }
+
+    function mostrarMensajeEmergente(mensaje) {
+        const mensajeContenedor = document.getElementById("mensajeEmergente");
+        // const oldDateInput = document.getElementById("dateInput");
+        mensajeContenedor.textContent = mensaje;
+        mensajeContenedor.style.display = "block";
+
+        // Ocultar el mensaje después de 4 segundos
+        setTimeout(() => {
+
+            // // Reiniciar el campo de fecha
+            // if (oldDateInput) {
+            //     const newDateInput = oldDateInput.cloneNode(true); // Clonar el input original
+            //     oldDateInput.parentNode.replaceChild(newDateInput, oldDateInput); // Reemplazar el viejo con el nuevo
+            //     newDateInput.value = ""; // Asegurar que esté vacío
+            // }
+
+            // mensajeContenedor.style.display = "none";
+
+            // // Asegurarse de que el contenedor del selector de fecha esté oculto
+            // if (dateInputContainer) {
+            //     dateInputContainer.style.display = "none";
+            // }
+            reiniciarInputDate();
+        }, 4000);
+    }
+
+    function obtenerFechaSeleccionada() {
+        const inputFecha = document.getElementById('fechaInput'); // ID del input
+        return inputFecha ? inputFecha.value : null;
+    }
+
+    // // Esperar brevemente antes de ocultar las series
+    // setTimeout(() => {
+    //     const series = chart.chart.series;
+    //     const tendenciaCO2 = series.find(s => s.properties.yKey === 'tendenciaCO2');
+    //     const tendenciaNO3 = series.find(s => s.properties.yKey === 'tendenciaNO3');
+
+    //     if (tendenciaCO2) tendenciaCO2.visible = false;
+    //     if (tendenciaNO3) tendenciaNO3.visible = false;
+
+    //     chart.chart.update(chart, {
+    //         series: chart.chart.series,
+    //     });
+    // }, 100); // Ajusta el tiempo si es necesario
+
+    // // Configurar eventos solo si el gráfico está inicializado
+    // if (chart) {
+    //     const toggleTendenciaCO2 = document.getElementById('toggleTendenciaCO2');
+    //     const toggleTendenciaNO3 = document.getElementById('toggleTendenciaNO3');
+
+    //     toggleTendenciaCO2.addEventListener('change', () => {
+    //         actualizarVisibilidadSerie('tendenciaCO2', toggleTendenciaCO2.checked);
+    //     });
+
+    //     toggleTendenciaNO3.addEventListener('change', () => {
+    //         actualizarVisibilidadSerie('tendenciaNO3', toggleTendenciaNO3.checked);
+    //     });
+    // } else {
+    //     console.error("El gráfico no se pudo inicializar correctamente.");
+    // }
 });
+
+function reiniciarInputDate() {
+    const mensajeContenedor = document.getElementById("mensajeEmergente");
+    const oldDateInput = document.getElementById("dateInput");
+
+    // Reiniciar el campo de fecha
+    if (oldDateInput) {
+        const newDateInput = oldDateInput.cloneNode(true); // Clonar el input original
+        oldDateInput.parentNode.replaceChild(newDateInput, oldDateInput); // Reemplazar el viejo con el nuevo
+        newDateInput.value = ""; // Asegurar que esté vacío
+    }
+
+    mensajeContenedor.style.display = "none";
+
+    // Asegurarse de que el contenedor del selector de fecha esté oculto
+    if (dateInputContainer) {
+        dateInputContainer.style.display = "none";
+    }
+}
 
 const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
 
-let rangoFijo = {
-    min: 0,
+let rangoNavigator = {
+    min: (datosAcuario.length - 52) / datosAcuario.length,
     max: 1, // Mostrar un año al inicio
 };
+
+function actualizarNavigator(minimo, maximo) {
+    const totalDatos = datosAcuario.length;
+
+    // Asegurar que los valores estén dentro de los límites
+    if (minimo < 0) minimo = 0;
+    if (maximo > 1) maximo = 1;
+
+    // Calcular el tamaño mínimo permitido para el rango (1 dato como mínimo)
+    const rangoMinimo = 1 / totalDatos;
+
+    // Si el rango especificado es menor que el mínimo, expandirlo automáticamente
+    if (maximo - minimo < rangoMinimo) {
+        maximo = Math.min(minimo + rangoMinimo, 1); // Aumentar el rango hacia el final
+        minimo = Math.max(maximo - rangoMinimo, 0); // Reducir el rango hacia el inicio si necesario
+    }
+
+    // Actualizar los valores del navigator
+    chart.chart.navigator.min = minimo;
+    chart.chart.navigator.max = maximo;
+
+    // Refrescar el gráfico
+    chart.chart.update();
+}
 
 function inicializarGraficoAG() {
 
@@ -217,8 +420,8 @@ function inicializarGraficoAG() {
                 stroke: '#2e86c1',
                 strokeWidth: 3,
                 lineDash: [10, 5],
-                visible: true,
-                showInLegend: false, // Oculta esta serie en la leyenda
+                visible: false,
+                // showInLegend: false, // Oculta esta serie en la leyenda
                 interpolation: {
                     type: 'smooth'
                 },
@@ -241,8 +444,7 @@ function inicializarGraficoAG() {
                 stroke: '#943126',
                 strokeWidth: 3,
                 lineDash: [10, 5],
-                visible: true,
-                showInLegend: false, // Oculta esta serie en la leyenda
+                visible: false,
                 interpolation: {
                     type: 'smooth'
                 },
@@ -339,10 +541,10 @@ function inicializarGraficoAG() {
                 gripLineLength: 12,
                 strokeWidth: 2,
             },
-            min: rangoFijo.min,
-            max: rangoFijo.max,
+            // min: rangoNavigator.min,
+            // max: rangoNavigator.max,
             handles: {
-                visible: false, // Deshabilitar los controles laterales
+                visible: true, // Deshabilitar los controles laterales
             },
             mask: {
                 fill: '#705C53', // Color de la selección
@@ -356,18 +558,18 @@ function inicializarGraficoAG() {
     // });
 }
 
-function actualizarVisibilidadSerie(yKey, visible) {
-    if (!chart) return;
+// function actualizarVisibilidadSerie(yKey, visible) {
+//     if (!chart) return;
 
-    const series = chart.chart.series;
-    const serie = series.find(serie => serie.properties.yKey === yKey);
+//     const series = chart.chart.series;
+//     const serie = series.find(serie => serie.properties.yKey === yKey);
 
-    if (serie) {
-        serie.visible = visible; // Actualiza la visibilidad de la serie
-    } else {
-        console.warn(`No se encontró ninguna serie con yKey "${yKey}"`);
-    }
-}
+//     if (serie) {
+//         serie.visible = visible; // Actualiza la visibilidad de la serie
+//     } else {
+//         console.warn(`No se encontró ninguna serie con yKey "${yKey}"`);
+//     }
+// }
 
 /**
  * Calcula la regresión polinómica de un conjunto de datos.
@@ -434,6 +636,34 @@ function generarLeyendaVertical(eje, valores) {
         item.style.flex = "1"; // Distribuir espacio uniformemente
         contenedorEje.appendChild(item);
     });
+}
+
+function parseToDate(dateString) {
+    const months = {
+        "ene": 0,
+        "feb": 1,
+        "mar": 2,
+        "abr": 3,
+        "may": 4,
+        "jun": 5,
+        "jul": 6,
+        "ago": 7,
+        "sep": 8,
+        "oct": 9,
+        "nov": 10,
+        "dic": 11
+    };
+
+    // Limpiar el mes (quitar el punto)
+    const cleanedDateString = dateString.replace(".", "").toLowerCase();
+
+    // Separar la fecha en día, mes y año
+    const [day, month, year] = cleanedDateString.split(" ");
+
+    // Crear el objeto Date usando el formato "year, monthIndex, day"
+    const date = new Date(year, months[month], day);
+
+    return date;
 }
 
 // Ejemplo para ambos ejes
