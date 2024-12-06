@@ -126,7 +126,7 @@ html {
 .modal-content {
     background-color: #f9f9f9;
     margin: 10% auto;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
     border-radius: 8px;
     width: 95%;
@@ -210,11 +210,17 @@ html {
 
 /* Cuerpo del modal */
 
+
+/* Asegúrate de que el padding de .modal-body no interfiera */
+
 .modal-body {
-    padding: 15px 0;
-    font-size: 0.95em;
-    text-align: left;
-    /* Asegurar alineación izquierda */
+    padding: 15px 0 0 0;
+    /* Elimina el padding inferior */
+    display: flex;
+    flex-direction: column;
+    /* Alinear contenido verticalmente */
+    height: 100%;
+    /* Asegura que el modal-body ocupe todo el espacio disponible */
 }
 
 .modal-body p {
@@ -227,7 +233,7 @@ html {
 .comments-box {
     width: 100%;
     /* Asegura que el cuadro de texto se extienda por todo el modal */
-    height: 150px;
+    height: 160px;
     margin-top: 10px;
     resize: none;
     border: 1px solid #ccc;
