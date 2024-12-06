@@ -161,7 +161,163 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputFecha = document.getElementById('fechaInput'); // ID del input
         return inputFecha ? inputFecha.value : null;
     }
+
+    //********** INFORMACIÓN DE UNA FECHA ******************
+    document.getElementById('infoFecha').addEventListener('click', (event) => {
+        event.preventDefault(); // Evita el comportamiento por defecto del enlace
+
+        const dateInputContainer = document.getElementById('dateInputContainer');
+        const dateInput = document.getElementById('dateInput');
+
+        // Posicionar el selector de fecha justo debajo de "Ir a Fecha"
+        const rect = event.target.getBoundingClientRect();
+        dateInputContainer.style.left = `${rect.left}px`;
+        dateInputContainer.style.top = `${rect.bottom + window.scrollY}px`;
+        dateInputContainer.style.display = "block"; // Mostrar el selector de fecha
+
+        // Manejar selección de fecha
+        dateInput.addEventListener('change', function onDateChange(event) {
+            const selectedDate = new Date(event.target.value);
+            const firstDate1 = parseToDate(datosAcuario[0].Fecha);
+            const lastDate1 = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
+            const firstDate = parseToDate(datosAcuario[0].Fecha);
+            const lastDate = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
+            lastDate.setDate(lastDate.getDate() + 1);
+            firstDate.setDate(firstDate.getDate() - 1);
+            const selectedDateString = dateToFormattedString(selectedDate);
+
+
+            setTimeout(() => {
+                dateInput.valueAsDate = selectedDate; //Muestra la fecha en el selector
+            }, 100);
+
+            // Validar que la fecha seleccionada sea un domingo
+            if (selectedDate.getDay() !== 0) {
+                mostrarMensajeEmergente("La fecha seleccionada debe ser un domingo.");
+                return;
+            }
+
+            // Validar que la fecha esté dentro del rango
+            if (selectedDate < firstDate || selectedDate > lastDate) {
+                mostrarMensajeEmergente(`La fecha debe estar entre ${firstDate1.toLocaleDateString()} y ${lastDate1.toLocaleDateString()}.`);
+                return;
+            }
+
+            const index = datosAcuario.findIndex(d => d.Fecha.replace(".", "") === selectedDateString);
+
+            actualizarModal(datosAcuario[index].Fecha);
+
+        });
+
+
+        // Datos de ejemplo (puedes reemplazarlos con datos dinámicos)
+
+
+        // Llenar y mostrar el modal
+
+    });
 });
+
+function actualizarModal(fecha) {
+    const modal = document.getElementById("modalEstadisticas");
+
+    const indice = datosAcuario.findIndex(dato => dato.Fecha === fecha);
+    const valDatos = datosAcuario[indice];
+
+    document.getElementById("modal-title").textContent = valDatos.Fecha;
+
+    document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic; ">DESFAVORABLE</b> (+0,002).`;
+    document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${valDatos.pH.toFixed(1).toString().replace(".", ",")}`;
+    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">H:</b> ${valDatos.KH} dKH`;
+    document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${valDatos.temp} ºC`;
+    document.getElementById("modalCO2").innerHTML = `<b style="color: Maroon; ">CO2:</b> ${valDatos.CO2.toFixed(2).toString().replace(".", ",")} mg/l`;
+    document.getElementById("modalNO3").innerHTML = `<b style="color: Maroon; ">NO3:</b> ${valDatos.NO3} ppm`;
+    document.getElementById("modalPlantas").innerHTML = `<b style="color: Maroon; ">Plantas:</b> ${getEstado("plantas", valDatos.plantas)}`;
+    document.getElementById("modalAgua").innerHTML = `<b style="color: Maroon; ">Agua:</b> ${getEstado("agua", valDatos.agua)}`;
+    document.getElementById("modalAlgas").innerHTML = `<b style="color: Maroon; ">Algas:</b> ${getEstado("algas", valDatos.algas)}`;
+    document.getElementById("modalSupAgua").innerHTML = `<b style="color: Maroon; ">Superf. agua:</b> ${getEstado("supAgua", valDatos.sup_agua)}`;
+    document.getElementById("modalInyCO2").innerHTML = `<b style="color: Maroon; ">Inyección de CO2:</b> ${getEstado("inyCO2", valDatos.inyeccCO2)}`;
+    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Tendencia Gral:</b> ${valDatos.tendencia.toFixed(2).toString().replace(".", ",")} - (Óptimo = 0,000)`;
+    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Tend. lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice)} - (Ópt. = 5-10 mg/l)`;
+    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Tend. lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice)} - (Ópt. = 6-15 mg/l)`;
+    console.log(calcularTendencia(datosAcuario, 2, indice));
+    document.getElementById("modal-comments").textContent = `${valDatos.comentario}`;
+
+    modal.style.display = "block";
+}
+
+// Cerrar modal al hacer clic fuera del contenido
+window.addEventListener("click", (event) => {
+    const modal = document.getElementById("modalEstadisticas");
+    if (event.target === modal) {
+        cerrarModal();
+    }
+});
+
+// Función para obtener el estado de las plantas, algas, agua o superifice agua e Inyección de CO2
+function getEstado(tipo, valor) {
+    if (tipo === 'plantas') {
+        const estadosPlantas = ['Excelente', 'Normal', 'Regular', 'Mal'];
+        return estadosPlantas[valor] || '';
+    } else if (tipo === 'algas') {
+        const estadosAlgas = ['Ninguna', 'Presencia', 'Cubierto', 'Muy cubierto'];
+        return estadosAlgas[valor] || '';
+    } else if (tipo === 'agua') {
+        const estadoAgua = ['Transparente', 'Casi Transparente', 'Turbia', 'Muy Turbia'];
+        return estadoAgua[valor] || '';
+    } else if (tipo === 'supAgua') {
+        const estadoSupAgua = ['Limpia', 'Casi limpia', 'Sucia', 'Muy Sucia'];
+        return estadoSupAgua[valor] || '';
+    } else if (tipo === 'inyCO2') {
+        const estadoInyCO2 = ['Con Levadura', 'Botella a presión', 'Sin CO2'];
+        return estadoInyCO2[valor - 1] || '';
+    }
+
+    return '';
+}
+
+
+function calcularTendencia(datosAcuario, tipoTendencia, indice) {
+    // Garantizar que el índice esté dentro de los límites
+    indice = Math.max(0, Math.min(indice, datosAcuario.length - 1));
+
+    // Prepara los valores X e Y según el tipo de tendencia
+    const valX = [];
+    const valY = [];
+
+    datosAcuario.forEach((dato, i) => {
+        valX.push(i); // X: Índices de tiempo
+        switch (tipoTendencia) {
+            case 0:
+                valY.push(dato.resultado); // Tendencia general
+                break;
+            case 1:
+                valY.push(dato.NO3); // Tendencia nitratos
+                break;
+            case 2:
+                valY.push(dato.CO2); // Tendencia CO2
+                break;
+            default:
+                throw new Error("Tipo de tendencia no válido");
+        }
+    });
+
+    // Calcular la pendiente (a) y la intersección (b) de la recta (regresión lineal)
+    const n = valX.length;
+    const sumX = valX.reduce((sum, x) => sum + x, 0);
+    const sumY = valY.reduce((sum, y) => sum + y, 0);
+    const sumXY = valX.reduce((sum, x, i) => sum + x * valY[i], 0);
+    const sumX2 = valX.reduce((sum, x) => sum + x * x, 0);
+
+    // Fórmulas de regresión lineal
+    const a = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const b = (sumY - a * sumX) / n;
+
+    // Calcular el valor de la tendencia en el índice solicitado
+    const y = a * indice + b;
+
+    return y.toFixed(2); // Redondeamos el resultado a 3 decimales
+}
 
 function reiniciarInputDate() {
     const mensajeContenedor = document.getElementById("mensajeEmergente");
@@ -568,25 +724,7 @@ function inicializarGraficoAG() {
             },
         },
     });
-
-    // // Actualizamos el gráfico para reflejar los cambios
-    // chart.chart.update(chart, {
-    //     series: chart.chart.series
-    // });
 }
-
-// function actualizarVisibilidadSerie(yKey, visible) {
-//     if (!chart) return;
-
-//     const series = chart.chart.series;
-//     const serie = series.find(serie => serie.properties.yKey === yKey);
-
-//     if (serie) {
-//         serie.visible = visible; // Actualiza la visibilidad de la serie
-//     } else {
-//         console.warn(`No se encontró ninguna serie con yKey "${yKey}"`);
-//     }
-// }
 
 /**
  * Calcula la regresión polinómica de un conjunto de datos.
@@ -683,6 +821,35 @@ function parseToDate(dateString) {
     return date;
 }
 
-// Ejemplo para ambos ejes
-// generarLeyendaVertical("izquierda", ["10", "8", "6", "4", "2", "0"]);
-// generarLeyendaVertical("derecha", ["50", "40", "30", "20", "10", "0"]);
+// Función para llenar el modal con los datos
+function abrirModalEstadisticas(datos) {
+    // Rellenar los elementos del modal con los datos
+    document.getElementById("modal-title").innerText = datos.fecha;
+    document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic;">${datos.diferencia}</b>`;
+    document.getElementById("modalPH").innerText = datos.ph;
+    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">KH:</b> ${datos.kh}`;
+    document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon;">Temperatura:</b> ${datos.temperatura}`;
+    document.getElementById("modalCO2").innerHTML = `<b style="color: Maroon;">CO2:</b> ${datos.co2}`;
+    document.getElementById("modalNO3").innerHTML = `<b style="color: Maroon;">NO3:</b> ${datos.no3}`;
+    document.getElementById("modalPlantas").innerHTML = `<b style="color: Maroon;">Plantas:</b> ${datos.plantas}`;
+    document.getElementById("modalAgua").innerHTML = `<b style="color: Maroon;">Agua:</b> ${datos.agua}`;
+    document.getElementById("modalAlgas").innerHTML = `<b style="color: Maroon;">Algas:</b> ${datos.algas}`;
+    document.getElementById("modalSupAgua").innerHTML = `<b style="color: Maroon;">Superficie agua:</b> ${datos.supAgua}`;
+    document.getElementById("modalInyCO2").innerHTML = `<b style="color: Maroon;">Inyección de CO2:</b> ${datos.inyCO2}`;
+    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon;">Tendencia Gral:</b> ${datos.tendGral}`;
+    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon;">Tendencia NO3:</b> ${datos.tendNO3}`;
+    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon;">Tendencia CO2:</b> ${datos.tendCO2}`;
+    document.getElementById("modal-comments").value = datos.comentarios;
+
+    // Mostrar el modal
+    const modal = document.getElementById("modalEstadisticas");
+    modal.style.display = "block"; // Cambiar estilo para mostrar el modal
+}
+
+// Función para cerrar el modal
+function cerrarModal() {
+    const modal = document.getElementById("modalEstadisticas");
+    modal.style.display = "none"; // Cambiar estilo para ocultar el modal
+
+    reiniciarInputDate();
+}

@@ -95,10 +95,149 @@ html {
 }
 
 #axis-right-title {
-    right: -70px;
+    right: -72px;
     top: 79.5%;
     /* Posiciona el título a la mitad del gráfico, ajusta según necesites */
     transform: rotate(270deg);
     margin-bottom: 0%;
     /* Ajusta para que el texto se alinee correctamente */
+}
+
+
+/* Estilo general del modal */
+
+.modal {
+    display: none;
+    /* Ocultar por defecto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo semitransparente */
+}
+
+
+/* Contenido del modal */
+
+.modal-content {
+    background-color: #f9f9f9;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 95%;
+    /* Cambiado para un diseño más amplio en móviles */
+    max-width: 480px;
+    /* Limitar ancho máximo */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: "Georgia", serif;
+    color: #333;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #89A8B2;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    border-radius: 0px;
+    /* Para posicionar el ícono de forma independiente */
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+    flex: 1;
+    /* Centra el título dentro del modal */
+}
+
+.modal-header .info-icon {
+    position: absolute;
+    /* Fija el icono a la izquierda */
+    left: 10px;
+    /* Margen izquierdo */
+    font-size: 24px;
+    /* Tamaño del icono */
+    color: #0078d7;
+    /* Color azul suave */
+}
+
+.info-icon {
+    font-size: 1.8em;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+
+/* Botón de cierre */
+
+.modal-header .close-button {
+    position: absolute;
+    /* Permite posicionar libremente */
+    top: 0px;
+    /* Margen superior */
+    right: 10px;
+    /* Margen derecho */
+    background: none;
+    /* Elimina fondo */
+    border: none;
+    /* Elimina borde */
+    font-size: 28px;
+    /* Tamaño más grande */
+    font-weight: bold;
+    /* Resalta el icono */
+    color: #555;
+    /* Color oscuro */
+    cursor: pointer;
+    /* Indica que es clicable */
+    transition: color 0.3s ease;
+    /* Efecto al pasar el mouse */
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+
+/* Cuerpo del modal */
+
+.modal-body {
+    padding: 15px 0;
+    font-size: 0.95em;
+    text-align: left;
+    /* Asegurar alineación izquierda */
+}
+
+.modal-body p {
+    font-size: 13.6px;
+}
+
+
+/* Caja de comentarios */
+
+.comments-box {
+    width: 100%;
+    /* Asegura que el cuadro de texto se extienda por todo el modal */
+    height: 150px;
+    margin-top: 10px;
+    resize: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    /* Asegura que el padding no desplace el ancho */
+    text-align: left;
+    /* Texto alineado a la izquierda */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Sombra suave */
 }

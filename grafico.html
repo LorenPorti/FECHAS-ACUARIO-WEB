@@ -116,6 +116,44 @@
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);"></div>
 
+    <!-- Modal -->
+    <div id="modalEstadisticas" class="modal ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="info-icon">ℹ️</span>
+                <h2 id="modal-title">2 abr. 2023</h2>
+                <button class="close-button " onclick="cerrarModal() ">×</button>
+            </div>
+            <div class="modal-body ">
+                <p id="modal-datos" style="text-align: justify; ">» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic; ">DESFAVORABLE</b> (+0,004).
+                </p>
+                <p>
+                    <span id="modalPH"></span> &nbsp;&nbsp;
+                    <span id="modalKH"><b style="color: Maroon; ">KH:</b> 1,5 dKH</span><br>
+                    <span id="modalTemp"><b style="color: Maroon; ">Temperatura:</b> 26 ºC</span> &nbsp;&nbsp;
+                    <span id="modalCO2"><b style="color: Maroon; ">CO2:</b> 22,1 mg/l</span><br>
+                    <span id="modalNO3"><b style="color: Maroon; ">NO3:</b> 1 ppm</span><br>
+                    <span id="modalPlantas"><b style="color: Maroon; ">Plantas:</b> Excelente</span> &nbsp;&nbsp;
+                    <span id="modalAgua"><b style="color: Maroon; ">Agua:</b> Transparente</span><br>
+                    <span id="modalAlgas"><b style="color: Maroon; ">Algas:</b> Ninguna</span> &nbsp;&nbsp;
+                    <span id="modalSupAgua"><b style="color: Maroon; ">Superficie agua:</b> Limpia</span><br>
+                    <span id="modalInyCO2"><b style="color: Maroon; ">Inyección de CO2:</b> Botella a presión</span>
+                </p>
+                <p>
+                    <span id="modalTendGral"><b style="color: Maroon; ">Tendencia Gral:</b> 3,142 - (Óptimo = 0,000)</span><br>
+                    <span id="modalTendNO3"><b style="color: Maroon; ">Tendencia NO3:</b> 9,735 - (Óptimo = 5-10 mg/l)</span><br>
+                    <span id="modalTendCO2"><b style="color: Maroon; ">Tendencia CO2:</b> 15,74 - (Óptimo = 6-15 mg/l)</span>
+                </p>
+                <textarea readonly id="modal-comments" class="comments-box georgia-medium">
+                            ➤ Sigo sin cambiar el agua, solo cambio o agrego el agua que se evapora con agua de osmosis. 
+                            Semanalmente hecho en el agua 4 ml de Flourish y cada dos días tres mililitros de Flourish Excel para combatir las algas. 
+    
+                            ➤ El pez disco grande que no comía se ha muerto y he comprado otro del mismo aspecto pero que es mucho más bonito.
+                </textarea>
+            </div>
+        </div>
+    </div>
+
     <script src="grafico.js"></script>
     <script src="acuarioData.js"></script>
 </body>
