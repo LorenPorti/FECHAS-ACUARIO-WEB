@@ -1,10 +1,19 @@
 let chart = null; // Declaración global
+
+const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
+
+let rangoNavigator = {
+    min: (datosAcuario.length - 95) / datosAcuario.length, //(104 dos años, presenta 95) 95 es para que se vean más fechas en el eje x
+    max: 1, // Mostrar un año al inicio
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // inicializarGrafico();
     inicializarGraficoAG();
 
     actualizarNavigator(rangoNavigator.min, rangoNavigator.max);
 
+    //********** OCULTAR TODAS LAS SERIES ******************
     const botonOcultarSeries = document.getElementById('ocultar-series');
 
     botonOcultarSeries.addEventListener('click', event => {
@@ -25,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //********** MOSTRA TODAS LAS SERIE ******************
     const botonMostrarSeries = document.getElementById('mostrar-series');
 
     botonMostrarSeries.addEventListener('click', event => {
@@ -45,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //********** IR A UNA FECHA ******************
     document.getElementById('irAFecha').addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -89,9 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const index = datosAcuario.findIndex(d => d.Fecha.replace(".", "") === selectedDateString);
             if (index !== -1) {
                 const totalDatos = datosAcuario.length;
-                const rangoNavigator = {
-                    min: Math.max(0, index - 51) / totalDatos, // Un año antes
-                    max: Math.min(1, (index + 1) / totalDatos) // Incluir el dato seleccionado
+                rangoNavigator = {
+                    // min: Math.max(0, index - 95) / totalDatos, // Dos año antes 104 (95 para que se vean más fechas en el eje x)
+                    // max: Math.min(1, (index + 1) / totalDatos) // Incluir el dato seleccionado
+                    min: index / totalDatos,
+                    max: (index + 95) / totalDatos,
                 };
 
                 actualizarNavigator(rangoNavigator.min, rangoNavigator.max);
@@ -140,20 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ocultar el mensaje después de 4 segundos
         setTimeout(() => {
-
-            // // Reiniciar el campo de fecha
-            // if (oldDateInput) {
-            //     const newDateInput = oldDateInput.cloneNode(true); // Clonar el input original
-            //     oldDateInput.parentNode.replaceChild(newDateInput, oldDateInput); // Reemplazar el viejo con el nuevo
-            //     newDateInput.value = ""; // Asegurar que esté vacío
-            // }
-
-            // mensajeContenedor.style.display = "none";
-
-            // // Asegurarse de que el contenedor del selector de fecha esté oculto
-            // if (dateInputContainer) {
-            //     dateInputContainer.style.display = "none";
-            // }
             reiniciarInputDate();
         }, 4000);
     }
@@ -162,36 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputFecha = document.getElementById('fechaInput'); // ID del input
         return inputFecha ? inputFecha.value : null;
     }
-
-    // // Esperar brevemente antes de ocultar las series
-    // setTimeout(() => {
-    //     const series = chart.chart.series;
-    //     const tendenciaCO2 = series.find(s => s.properties.yKey === 'tendenciaCO2');
-    //     const tendenciaNO3 = series.find(s => s.properties.yKey === 'tendenciaNO3');
-
-    //     if (tendenciaCO2) tendenciaCO2.visible = false;
-    //     if (tendenciaNO3) tendenciaNO3.visible = false;
-
-    //     chart.chart.update(chart, {
-    //         series: chart.chart.series,
-    //     });
-    // }, 100); // Ajusta el tiempo si es necesario
-
-    // // Configurar eventos solo si el gráfico está inicializado
-    // if (chart) {
-    //     const toggleTendenciaCO2 = document.getElementById('toggleTendenciaCO2');
-    //     const toggleTendenciaNO3 = document.getElementById('toggleTendenciaNO3');
-
-    //     toggleTendenciaCO2.addEventListener('change', () => {
-    //         actualizarVisibilidadSerie('tendenciaCO2', toggleTendenciaCO2.checked);
-    //     });
-
-    //     toggleTendenciaNO3.addEventListener('change', () => {
-    //         actualizarVisibilidadSerie('tendenciaNO3', toggleTendenciaNO3.checked);
-    //     });
-    // } else {
-    //     console.error("El gráfico no se pudo inicializar correctamente.");
-    // }
 });
 
 function reiniciarInputDate() {
@@ -213,15 +182,15 @@ function reiniciarInputDate() {
     }
 }
 
-const datosAcuario = JSON.parse(localStorage.getItem('datosAcuario'));
-
-let rangoNavigator = {
-    min: (datosAcuario.length - 52) / datosAcuario.length,
-    max: 1, // Mostrar un año al inicio
-};
-
 function actualizarNavigator(minimo, maximo) {
     const totalDatos = datosAcuario.length;
+
+    //Dos años 52 x 2 = 104 (presenta 95 para que se vean más fechas en el eje X)
+    if (totalDatos <= 95) {
+        chart.chart.navigator.minHandle.visible = false;
+        chart.chart.navigator.maxHandle.visible = false;
+        return;
+    }
 
     // Asegurar que los valores estén dentro de los límites
     if (minimo < 0) minimo = 0;
@@ -230,11 +199,23 @@ function actualizarNavigator(minimo, maximo) {
     // Calcular el tamaño mínimo permitido para el rango (1 dato como mínimo)
     const rangoMinimo = 1 / totalDatos;
 
-    // Si el rango especificado es menor que el mínimo, expandirlo automáticamente
-    if (maximo - minimo < rangoMinimo) {
-        maximo = Math.min(minimo + rangoMinimo, 1); // Aumentar el rango hacia el final
-        minimo = Math.max(maximo - rangoMinimo, 0); // Reducir el rango hacia el inicio si necesario
+    //si el minimo es inferior a 95 (104 dos años, presenta 95) (presenta 95 para que se vean más fechas en el eje X)
+    // if (minimo < 95 / totalDatos) {
+    //     minimo = 0;
+    //     maximo = 95 / totalDatos;
+    // }
+    //si el minimo es superior al total -100 (104 dos años, presenta 95) (presenta 95 para que se vean más fechas en el eje X)
+    if (minimo > (totalDatos - 95) / totalDatos) {
+        minimo = (totalDatos - 95) / totalDatos;
+        maximo = 1;
+    } else {
+        maximo = minimo + (95 / totalDatos);
     }
+    // Si el rango especificado es menor que el mínimo, expandirlo automáticamente
+    // else if (maximo - minimo < rangoMinimo) {
+    //     maximo = Math.min(minimo + rangoMinimo, 1); // Aumentar el rango hacia el final
+    //     minimo = Math.max(maximo - rangoMinimo, 0); // Reducir el rango hacia el inicio si necesario
+    // }
 
     // Actualizar los valores del navigator
     chart.chart.navigator.min = minimo;
@@ -284,7 +265,7 @@ function inicializarGraficoAG() {
     }));
 
     chart = agCharts.AgCharts.create({
-        container: document.getElementById('graficoLineas'),
+        container: document.getElementById("graficoLineas"),
         autoSize: true, // Ajuste automático del tamaño
         // title: {
         //     text: 'Datos del Acuario',
@@ -292,179 +273,201 @@ function inicializarGraficoAG() {
         // },
         data: dataSeleccion,
         series: [{
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'pH',
-                yName: 'pH',
-                stroke: 'blue',
+                type: "line",
+                xKey: "fecha",
+                yKey: "pH",
+                yName: "pH",
+                stroke: "blue",
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: 'blue', // Color del botón en la leyenda para esta serie 
+                    fill: "blue", // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
                         content: `Fecha: ${params.datum.fecha}<br>pH: ${params.datum.pH} eje Izda`,
-                        backgroundColor: 'blue', // Color de fondo igual al de la serie
+                        backgroundColor: "blue", // Color de fondo igual al de la serie
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'KH',
-                yName: 'KH',
-                stroke: 'green',
+                type: "line",
+                xKey: "fecha",
+                yKey: "KH",
+                yName: "KH",
+                stroke: "green",
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: 'green', // Color del botón en la leyenda para esta serie
+                    fill: "green", // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
                         content: `Fecha: ${params.datum.fecha}<br>KH: ${params.datum.KH} (dKH) eje Izda`,
-                        backgroundColor: 'green', // Color de fondo igual al de la serie
+                        backgroundColor: "green", // Color de fondo igual al de la serie
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'CO2',
-                yName: 'CO2',
-                stroke: 'DeepSkyBlue',
+                type: "line",
+                xKey: "fecha",
+                yKey: "CO2",
+                yName: "CO2",
+                stroke: "DeepSkyBlue",
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: 'DeepSkyBlue', // Color del botón en la leyenda para esta serie
+                    fill: "DeepSkyBlue", // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>CO2: ${params.datum.CO2.toFixed(2).replace(".",",")} (mg/l) eje Dcha`,
-                        backgroundColor: 'DeepSkyBlue', // Color de fondo igual al de la serie
+                        content: `Fecha: ${
+                params.datum.fecha
+              }<br>CO2: ${params.datum.CO2.toFixed(2).replace(
+                ".",
+                ","
+              )} (mg/l) eje Dcha`,
+                        backgroundColor: "DeepSkyBlue", // Color de fondo igual al de la serie
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'NO3',
-                yName: 'NO3',
-                stroke: '#C96868',
+                type: "line",
+                xKey: "fecha",
+                yKey: "NO3",
+                yName: "NO3",
+                stroke: "#C96868",
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: '#C96868', // Color del botón en la leyenda para esta serie
+                    fill: "#C96868", // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>NO3: ${params.datum.NO3.toFixed(2).replace(".",",")} (ppm) eje Dcha`,
-                        backgroundColor: '#C96868', // Color de fondo igual al de la serie
+                        content: `Fecha: ${
+                params.datum.fecha
+              }<br>NO3: ${params.datum.NO3.toFixed(2).replace(
+                ".",
+                ","
+              )} (ppm) eje Dcha`,
+                        backgroundColor: "#C96868", // Color de fondo igual al de la serie
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'temp',
-                yName: 'temp',
-                stroke: '#DEAA79',
+                type: "line",
+                xKey: "fecha",
+                yKey: "temp",
+                yName: "temp",
+                stroke: "#DEAA79",
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: '#DEAA79', // Color del botón en la leyenda para esta serie
+                    fill: "#DEAA79", // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
                         content: `Fecha: ${params.datum.fecha}<br>temp: ${params.datum.temp} ºC eje Dcha`,
-                        backgroundColor: '#DEAA79', // Color de fondo igual al de la serie
+                        backgroundColor: "#DEAA79", // Color de fondo igual al de la serie
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'tendenciaGral',
-                yName: 'Tendencia Gral',
-                stroke: 'Purple',
+                type: "line",
+                xKey: "fecha",
+                yKey: "tendenciaGral",
+                yName: "Tendencia Gral",
+                stroke: "Purple",
                 strokeWidth: 4,
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: 'Purple', // Color del botón en la leyenda para esta serie
+                    fill: "Purple", // Color del botón en la leyenda para esta serie
                     size: 0, //Elimina los marcadores de los nodos
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>Tendencia Gral: ${params.datum.tendenciaGral.toFixed(2).replace(".",",")} eje Izda`,
-                        backgroundColor: 'Purple', // Color de fondo igual al de la serie
+                        content: `Fecha: ${
+                params.datum.fecha
+              }<br>Tendencia Gral: ${params.datum.tendenciaGral
+                .toFixed(2)
+                .replace(".", ",")} eje Izda`,
+                        backgroundColor: "Purple", // Color de fondo igual al de la serie
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'tendenciaCO2',
-                yName: 'Tendencia CO2',
-                stroke: '#2e86c1',
+                type: "line",
+                xKey: "fecha",
+                yKey: "tendenciaCO2",
+                yName: "Tendencia CO2",
+                stroke: "#2e86c1",
                 strokeWidth: 3,
                 lineDash: [10, 5],
                 visible: false,
                 // showInLegend: false, // Oculta esta serie en la leyenda
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: '#2e86c1',
+                    fill: "#2e86c1",
                     size: 0,
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>Tendencia CO2: ${params.datum.tendenciaCO2.toFixed(2).replace(".",",")} eje Dcha`,
-                        backgroundColor: '#2e86c1',
+                        content: `Fecha: ${
+                params.datum.fecha
+              }<br>Tendencia CO2: ${params.datum.tendenciaCO2
+                .toFixed(2)
+                .replace(".", ",")} eje Dcha`,
+                        backgroundColor: "#2e86c1",
                     }),
                 },
             },
             {
-                type: 'line',
-                xKey: 'fecha',
-                yKey: 'tendenciaNO3',
-                yName: 'Tendencia NO3',
-                stroke: '#943126',
+                type: "line",
+                xKey: "fecha",
+                yKey: "tendenciaNO3",
+                yName: "Tendencia NO3",
+                stroke: "#943126",
                 strokeWidth: 3,
                 lineDash: [10, 5],
                 visible: false,
                 interpolation: {
-                    type: 'smooth'
+                    type: "smooth",
                 },
                 marker: {
-                    fill: '#943126',
+                    fill: "#943126",
                     size: 0,
                 },
                 tooltip: {
                     renderer: (params) => ({
-                        content: `Fecha: ${params.datum.fecha}<br>Tendencia NO3: ${params.datum.tendenciaNO3.toFixed(0)} eje Dcha`,
-                        backgroundColor: '#943126',
+                        content: `Fecha: ${
+                params.datum.fecha
+              }<br>Tendencia NO3: ${params.datum.tendenciaNO3.toFixed(
+                0
+              )} eje Dcha`,
+                        backgroundColor: "#943126",
                     }),
                 },
             },
         ],
         axes: [{
-                type: 'category',
-                position: 'bottom',
-                title: { text: 'Fechas' },
-                key: 'Fecha',
+                type: "category",
+                position: "bottom",
+                title: { text: "Fechas" },
+                key: "Fecha",
                 interval: {
                     maxSpacing: 52,
                 },
@@ -472,10 +475,12 @@ function inicializarGraficoAG() {
                     rotation: 270,
                     fontSize: 10, // Reducir el tamaño de la fuente en pantallas pequeñas
                     formatter: (params) => {
-                        const index = datosAcuario.findIndex(dato => dato.Fecha === params.value);
+                        const index = datosAcuario.findIndex(
+                            (dato) => dato.Fecha === params.value
+                        );
 
                         // Mostrar solo la fecha en el primer valor de cada año (cada 52 elementos) o cada x intervalos
-                        return index % 52 === 0 || index % 4 === 0 ? params.value : '';
+                        return index % 52 === 0 || index % 4 === 0 ? params.value : "";
                     },
                 },
                 tick: {
@@ -483,39 +488,38 @@ function inicializarGraficoAG() {
                 },
             },
             {
-                type: 'number',
-                position: 'left',
+                type: "number",
+                position: "left",
                 // title: { text: 'pH - KH (dKH)' },
-                keys: ['pH', 'KH', "tendenciaGral", ], // Asociar ejes a estas series
+                keys: ["pH", "KH", "tendenciaGral"], // Asociar ejes a estas series
                 gridLine: {
                     enabled: true,
                     style: [{
-                            stroke: 'gray',
+                            stroke: "gray",
                             lineDash: [10, 5],
                         },
                         {
-                            stroke: 'lightgray',
+                            stroke: "lightgray",
                             lineDash: [5, 5],
                         },
                     ],
                 },
                 min: 0,
                 max: 10,
-                interval: { step: 0.5, },
-
+                interval: { step: 0.5 },
             },
             {
-                type: 'number',
-                position: 'right',
+                type: "number",
+                position: "right",
                 // title: { text: 'NO3 (ppm)' },
-                keys: ['NO3', 'CO2', 'temp', "tendenciaCO2", "tendenciaNO3"], // Asociar eje a esta serie
+                keys: ["NO3", "CO2", "temp", "tendenciaCO2", "tendenciaNO3"], // Asociar eje a esta serie
                 // gridLine: {
                 //     enabled: true,
                 //     style: [
                 //         { stroke: 'red', lineDash: [4, 4], }, // Línea punteada roja
                 //     ],
                 // },
-                interval: { step: 20, },
+                interval: { step: 20 },
                 min: 0,
                 max: 50,
             },
@@ -547,7 +551,20 @@ function inicializarGraficoAG() {
                 visible: true, // Deshabilitar los controles laterales
             },
             mask: {
-                fill: '#705C53', // Color de la selección
+                fill: "#705C53", // Color de la selección
+            },
+        },
+        legend: {
+            position: "bottom",
+            item: {
+                marker: {
+                    size: 16, // Aumenta el tamaño del marcador
+                },
+                label: {
+                    fontSize: 14, // Ajusta el tamaño del texto
+                },
+                paddingX: 10, // Espaciado horizontal entre marcador y texto
+                paddingY: 5, // Espaciado vertical entre filas de la leyenda
             },
         },
     });
