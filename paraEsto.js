@@ -228,14 +228,15 @@ export async function guardarDatos() {
     //     txtAdd = "";
     // }
 
-    // let resultado = await showModal(
-    //     "GUARDAR DATOS ACTUALES",
-    //     "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
-    //     "<br>" + "» Permaneceran en la memoria hasta que se cierre la página o internet." +
-    //     txtAdd,
-    //     "Guardar datos"
-    // );
-    // if (!resultado) return;
+    let resultado = await showModal(
+        "GUARDAR DATOS ACTUALES",
+        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
+        "<br>" + "<br>" + "» Se guardan en la nube de la base de datos 'JSONBin'.",
+        /*  +
+                txtAdd, */
+        "Guardar datos"
+    );
+    if (!resultado) return;
 
     // Recopilar datos
     let fecha;
@@ -362,7 +363,7 @@ export async function recuperarDatos() {
     }
 }
 
-//************************Declaración claves JSONBin**************************************
+//************************Declaración claves JSONBin.io**************************************
 const X_Master_Key = '$2a$10$N0MHs1suhD6p8MLMuXbelOwaype8bzrs6PqIXNBfbIpgF0pxL5E6S'; //X-Master-Key JSONBin
 const binID = '67504127acd3cb34a8b3dd0c';
 
