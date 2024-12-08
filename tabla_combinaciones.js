@@ -233,7 +233,7 @@ function actualizarModal(fecha) {
 
     document.getElementById("modal-datos").innerHTML = `» La diferencia con valores anteriores de la regresión lineal Gral es <b style="color: Maroon; font-style: italic; ">${diferenciaEstado}</b>(${signo}${(dato2-dato1).toFixed(3).replace(".",",")}).`;
     document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${valDatos.pH.toFixed(1).toString().replace(".", ",")}`;
-    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">H:</b> ${valDatos.KH} dKH`;
+    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">KH:</b> ${valDatos.KH} dKH`;
     document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${valDatos.temp} ºC`;
     document.getElementById("modalCO2").innerHTML = `<b style="color: Maroon; ">CO2:</b> ${valDatos.CO2.toFixed(2).toString().replace(".", ",")} mg/l`;
     document.getElementById("modalNO3").innerHTML = `<b style="color: Maroon; ">NO3:</b> ${valDatos.NO3} ppm`;
@@ -242,9 +242,9 @@ function actualizarModal(fecha) {
     document.getElementById("modalAlgas").innerHTML = `<b style="color: Maroon; ">Algas:</b> ${getEstado("algas", valDatos.algas)}`;
     document.getElementById("modalSupAgua").innerHTML = `<b style="color: Maroon; ">Superf. agua:</b> ${getEstado("supAgua", valDatos.sup_agua)}`;
     document.getElementById("modalInyCO2").innerHTML = `<b style="color: Maroon; ">Inyección de CO2:</b> ${getEstado("inyCO2", valDatos.inyeccCO2)}`;
-    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Tendencia Gral:</b> ${valDatos.tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
-    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Tend. lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
-    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Tend. lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
+    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Regresión lineal Gral:</b> ${valDatos.tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
+    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Regresión lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
+    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Regresión lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
     console.log(calcularTendencia(datosAcuario, 2, indice));
     document.getElementById("modal-comments").textContent = `${valDatos.comentario}`;
 

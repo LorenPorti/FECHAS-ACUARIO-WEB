@@ -914,9 +914,9 @@ function actualizarModal(fecha) {
     document.getElementById("modalAlgas").innerHTML = `<b style="color: Maroon; ">Algas:</b> ${getEstado("algas", valDatos.algas)}`;
     document.getElementById("modalSupAgua").innerHTML = `<b style="color: Maroon; ">Superf. agua:</b> ${getEstado("supAgua", valDatos.sup_agua)}`;
     document.getElementById("modalInyCO2").innerHTML = `<b style="color: Maroon; ">Inyección de CO2:</b> ${getEstado("inyCO2", valDatos.inyeccCO2)}`;
-    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Tendencia Gral:</b> ${valDatos.tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
-    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Tend. lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
-    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Tend. lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
+    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Regresión polin. Gral:</b> ${valDatos.tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
+    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Regresión polin. NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
+    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Regresión polin. CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
     console.log(calcularTendencia(datosAcuario, 2, indice));
     document.getElementById("modal-comments").textContent = `${valDatos.comentario}`;
 
