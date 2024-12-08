@@ -353,10 +353,7 @@ function inicializarGraficoAG() {
         return;
     }
 
-
-
     chart = agCharts.AgCharts.create(options);
-    // {
     //     container: document.getElementById("graficoLineas"),
     //     autoSize: true, // Ajuste automático del tamaño
     //     // title: {
@@ -716,6 +713,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('irAFecha').addEventListener('click', (event) => {
         event.preventDefault();
 
+        reiniciarInputDate();
+
         const dateInputContainer = document.getElementById('dateInputContainer');
         const dateInput = document.getElementById('dateInput');
 
@@ -881,9 +880,30 @@ function actualizarModal(fecha) {
     const indice = datosAcuario.findIndex(dato => dato.Fecha === fecha);
     const valDatos = datosAcuario[indice];
 
+    const dato1 = dataSeleccion[indice - 2].tendenciaGral.toFixed(3);
+    const dato2 = dataSeleccion[indice - 1].tendenciaGral.toFixed(3);
+
+    let diferenciaEstado = "";
+    let signo = "";
+    if (indice == 0) {
+        diferenciaEstado = "ESTABLE ";
+        signo = "±";
+    } else {
+        if (dato2 - dato1 > 0) {
+            diferenciaEstado = "DESFAVORABLE ";
+            signo = "+";
+        } else if (dato2 - dato1 < 0) {
+            diferenciaEstado = "FAVORABLE ";
+            signo = "";
+        } else if (dato2 == dato1) {
+            diferenciaEstado = "ESTABLE ";
+            signo = "±";
+        }
+    }
+
     document.getElementById("modal-title").textContent = valDatos.Fecha;
 
-    document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic; ">DESFAVORABLE</b> (+0,002).`;
+    document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic; ">${diferenciaEstado}</b>(${signo}${(dato2-dato1).toFixed(3).replace(".",",")}).`;
     document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${valDatos.pH.toFixed(1).toString().replace(".", ",")}`;
     document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">H:</b> ${valDatos.KH} dKH`;
     document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${valDatos.temp} ºC`;
@@ -984,7 +1004,7 @@ function reiniciarInputDate() {
     if (oldDateInput) {
         const newDateInput = oldDateInput.cloneNode(true); // Clonar el input original
         oldDateInput.parentNode.replaceChild(newDateInput, oldDateInput); // Reemplazar el viejo con el nuevo
-        newDateInput.value = ""; // Asegurar que esté vacío
+        newDateInput.value = ""; // Asegurar que esté vacío        
     }
 
     mensajeContenedor.style.display = "none";
@@ -1128,6 +1148,7 @@ function parseToDate(dateString) {
 
 // Función para llenar el modal con los datos
 function abrirModalEstadisticas(datos) {
+
     // Rellenar los elementos del modal con los datos
     document.getElementById("modal-title").innerText = datos.fecha;
     document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic;">${datos.diferencia}</b>`;
