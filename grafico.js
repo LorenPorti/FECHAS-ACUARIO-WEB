@@ -879,9 +879,7 @@ function actualizarModal(fecha) {
 
     const indice = datosAcuario.findIndex(dato => dato.Fecha === fecha);
     const valDatos = datosAcuario[indice];
-
-    const dato1 = dataSeleccion[indice - 2].tendenciaGral.toFixed(3);
-    const dato2 = dataSeleccion[indice - 1].tendenciaGral.toFixed(3);
+    let dato1, dato2;
 
     let diferenciaEstado = "";
     let signo = "";
@@ -889,6 +887,8 @@ function actualizarModal(fecha) {
         diferenciaEstado = "ESTABLE ";
         signo = "±";
     } else {
+        dato1 = dataSeleccion[indice - 2].tendenciaGral.toFixed(3);
+        dato2 = dataSeleccion[indice - 1].tendenciaGral.toFixed(3);
         if (dato2 - dato1 > 0) {
             diferenciaEstado = "DESFAVORABLE ";
             signo = "+";
@@ -903,7 +903,7 @@ function actualizarModal(fecha) {
 
     document.getElementById("modal-title").textContent = valDatos.Fecha;
 
-    document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores es <b style="color: Maroon; font-style: italic; ">${diferenciaEstado}</b>(${signo}${(dato2-dato1).toFixed(3).replace(".",",")}).`;
+    document.getElementById("modal-datos").innerHTML = `» La diferencia de la curva de tendencia Gral con valores anteriores en este punto es <b style="color: Maroon; font-style: italic; ">${diferenciaEstado}</b>(${signo}${(dato2-dato1).toFixed(3).replace(".",",")}).`;
     document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${valDatos.pH.toFixed(1).toString().replace(".", ",")}`;
     document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">H:</b> ${valDatos.KH} dKH`;
     document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${valDatos.temp} ºC`;

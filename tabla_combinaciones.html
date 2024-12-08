@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Plantas y Algas</title>
+    <link rel="stylesheet" href="estadisticas.css">
+    <link rel="stylesheet" href="tabla_combinaciones.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="tarjeta" id="tarjetaKH" style="gap: 0%; width: 93%;">
+        <h2 id="cabecera-tarjeta">Combinación Plantas/Algas</h2>
+        <div id="tabla-combinaciones">
+            <table id="tabla-plants-algas">
+                <thead>
+                    <tr>
+                        <th class="fondo-esquina">Plantas/Algas</th>
+                        <th class="fondo">Ninguna</th>
+                        <th class="fondo">Presencia</th>
+                        <th class="fondo">Cubierto</th>
+                        <th class="fondo">Muy cubierto</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="dropdown-fechas" style="margin-top: 0%;">
+            <span id="cabecera-combinaciones">Fechas combin. Plantas/Algas:</span>
+            <select id="dropdown-fechas" class="form-select mt-2">
+                <!-- Las fechas se llenarán dinámicamente -->
+            </select>
+        </div>
+    </div>
+    <script src="tabla_combinaciones.js"></script>
+</body>
+
+</html>
