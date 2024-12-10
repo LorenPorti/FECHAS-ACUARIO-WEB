@@ -1,0 +1,304 @@
+/* Estilos de la cabecera */
+
+.cabecera {
+    background-color: #007bff;
+    color: white;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Título */
+
+#tituloAcuario {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 50px);
+    display: inline-block;
+}
+
+
+/* Estilo para la imagen de búsqueda */
+
+.icono-buscar {
+    width: 40px;
+    /* Ajusta el tamaño de la imagen */
+    height: auto;
+    margin-right: 10px;
+    /* Espacio entre la imagen y el título */
+}
+
+
+/* Estilo del menú de despliegue */
+
+.dropdown {
+    position: relative;
+}
+
+
+/* Estilo del icono de menú */
+
+.custom-dropdown-toggle {
+    font-size: 22px;
+    color: white;
+    /* El color del icono */
+    padding: 0;
+    border: none;
+    background: none;
+    margin-right: 0px;
+}
+
+
+/* Estilo de los elementos del menú */
+
+.dropdown-menu {
+    min-width: 200px;
+    /* Asegura un ancho mínimo adecuado */
+    max-width: 300px;
+    /* Opcional: Limita el ancho máximo */
+    white-space: normal;
+    /* Permite que el texto se envuelva si es necesario */
+    word-wrap: break-word;
+    /* Rompe palabras largas si exceden el ancho */
+    font-size: 16px;
+    /* Tamaño de fuente ajustado */
+}
+
+.dropdown-divider-custom {
+    border-color: rgba(0, 0, 0, 0.1);
+    /* Línea divisoria personalizada */
+    margin: 0.5rem 0;
+}
+
+
+/* Estilos del botón de menú */
+
+button {
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+
+/* Aseguramos que el menú se alinee a la derecha */
+
+.dropdown-menu-end {
+    right: 0;
+}
+
+#resultados {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    min-height: 200px;
+}
+
+#resultado-mensaje {
+    height: 150px;
+}
+
+#resultado-mensaje p {
+    color: gray;
+    text-align: center;
+    font-style: italic;
+}
+
+#resultado-detalles p {
+    margin: 5px 0;
+}
+
+#control-resultados {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+#resultados-extra {
+    background-color: #f9f9f9;
+    /* Fondo para destacar la información */
+    font-size: 14px;
+    /* Tamaño ajustado */
+}
+
+#resultados-extra div {
+    flex: 1;
+    text-align: center;
+}
+
+#resultados-extra div span {
+    color: #007bff;
+    /* Color destacado para los valores */
+    font-weight: bold;
+}
+
+#fecha-resultado {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: maroon;
+    margin-left: 10px;
+    /* Separación del borde izquierdo */
+}
+
+
+/* Estilos del contenedor del comentario */
+
+.comentario-container {
+    height: 150px;
+    /* Altura fija */
+    overflow-y: auto;
+    /* Permitir scroll vertical */
+    background-color: #f9f9f9;
+    padding: 10px;
+    /* Espaciado interno para no pegar el texto al borde */
+    display: block;
+    /* Cambiar de flex a block para alineación normal */
+    text-align: justify;
+    /* Alinear texto a la izquierda */
+    font-size: 14px;
+}
+
+
+/* .comentario-texto span.highlight {
+    color: red;
+    font-weight: bold;
+} */
+
+.highlight {
+    background-color: #FFE6A9;
+    color: #8a1330;
+    font-weight: bold;
+}
+
+.comentario-container .comentario-texto p.georgia-regular-italic {
+    color: #808080;
+    /* Gris para el texto cuando no hay resultados */
+    font-style: italic;
+}
+
+.comentario-container .comentario-texto p.normal-text {
+    color: #000000;
+    /* Negro cuando haya resultados */
+    font-style: normal;
+    font-family: Georgia;
+}
+
+
+/* Contenedor de los datos */
+
+.datos {
+    margin-top: 20px;
+}
+
+
+/* Estilo de cada dato (pH, KH, Temp, NO3, CO2) */
+
+.comentario-texto {
+    max-height: 150px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: #333;
+}
+
+
+/* Estilo para el texto del comentario */
+
+.comentario-texto p {
+    color: gray;
+    font-style: italic;
+    padding: 0px;
+}
+
+
+/* Estilo cuando hay un comentario y los resultados son visibles */
+
+.comentario-texto.normal-text p {
+    color: black;
+    font-style: normal;
+}
+
+#control-resultados {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#control-resultados .btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#control-resultados .btn:hover {
+    background-color: #e0e0e0;
+}
+
+#control-resultados .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#contadorResultados {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.datos {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* Alinea los elementos a la izquierda */
+    gap: 5px;
+    /* Agrega un espacio entre los elementos */
+}
+
+.col {
+    width: auto;
+    /* Ajusta el tamaño de la columna al contenido */
+    text-align: center;
+    /* Centra el texto en cada columna */
+}
+
+.dato-titulo {
+    font-weight: bold;
+    color: #1b1b1b;
+    margin: 0;
+    font-size: 12px !important;
+}
+
+.dato-valor {
+    font-size: 1.1rem;
+    color: blue;
+    margin: 0;
+    font-size: 16px;
+}
+
+#inputBusqueda::placeholder {
+    font-size: 0.95rem;
+    /* Ajusta el tamaño del texto del placeholder */
+    font-style: italic;
+}

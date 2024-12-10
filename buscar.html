@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar - Mi acuario de Chilches</title>
+
+    <!-- Icono de la página -->
+    <link rel="icon" href="icono.ico" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="buscar.css">
+    <link rel="stylesheet" href="libreria/estilo.css">
+</head>
+
+<body>
+    <!-- Cabecera fija -->
+    <div class="cabecera d-flex align-items-center justify-content-between px-3 py-1">
+        <img src="./imagenes/buscar2.png" alt="Buscar" id="iconoBuscar" class="icono-buscar">
+        <h1 id="tituloAcuario" class="fs-6 text-truncate m-0 georgia-bold" style="font-size: 20px !important; margin-right: 15px !important;"></h1>
+        <div class="dropdown">
+            <button class="btn btn-link text-white custom-dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-align-justify"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li><a id="buscarPH" class="dropdown-item georgia-bold" href="#">Buscar pH</a></li>
+                <li><a id="buscarKH" class="dropdown-item georgia-bold" href="#">Buscar KH</a></li>
+                <li>
+                    <hr class="dropdown-divider dropdown-divider-custom">
+                </li>
+                <li><a class="dropdown-item georgia-bold" href="index_3.html">Volver a la página principal</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main>
+        <!-- Formulario de búsqueda -->
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group mb-3">
+                        <input type="text" id="inputBusqueda" class="form-control" placeholder="Buscar hasta tres palabras...." aria-label="Buscar en comentarios">
+                        <span id="clearBusqueda" class="input-group-text" style="cursor: pointer;">&times;</span>
+                        <button id="btnBuscar" class="btn btn-primary" type="button">Buscar</button>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="checkPlantas" value="plantas">
+                        <label class="form-check-label" for="checkPlantas">Incluir Plantas</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="checkAlgas" value="algas">
+                        <label class="form-check-label" for="checkAlgas">Incluir Algas</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div id="resultados" class="mt-4">
+            <!-- Fecha encima del cuadro -->
+            <div id="fecha-resultado" class="mb-2">
+                <p class="m-0 roboto-medium-italic"><strong></strong></p>
+            </div>
+            <!-- Cuadro de resultados -->
+            <div class="comentario-container border rounded p-3">
+                <p id="comentarioResultado" class="mb-0 georgia-regular-italic">No hay resultados, realizar una búsqueda.</p>
+            </div>
+            <!-- Controles de desplazamiento -->
+            <div id="control-resultados" class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                <button id="btnAnterior" class="btn btn-outline-secondary rounded-circle" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewbox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"/>
+            </svg>
+        </button>
+                <span id="contadorResultados" class="badge bg-primary px-3 py-2">0 / 0</span>
+                <button id="btnSiguiente" class="btn btn-outline-secondary rounded-circle" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewbox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </button>
+            </div>
+            <div id="resultados-extra" class="d-flex justify-content-between align-items-center mt-3 p-2 border rounded">
+                <!-- Datos (pH, KH, Temp, NO3, CO2) -->
+                <div class="datos">
+                    <div class="row">
+                        <div class="col">
+                            <p class="dato-titulo">pH</p>
+                            <p id="valorPH" class="dato-valor montserrat-medium" style="font-size: 13px !important;"></p>
+                        </div>
+                        <div class="col">
+                            <p class="dato-titulo">KH</p>
+                            <p id="valorKH" class="dato-valor montserrat-medium" style="font-size: 13px !important;"></p>
+                        </div>
+                        <div class="col">
+                            <p class="dato-titulo">Temp.</p>
+                            <p id="valorTemp" class="dato-valor montserrat-medium" style="font-size: 13px !important;"></p>
+                        </div>
+                        <div class="col">
+                            <p class="dato-titulo">NO3</p>
+                            <p id="valorNO3" class="dato-valor montserrat-medium" style="font-size: 13px !important;"></p>
+                        </div>
+                        <div class="col">
+                            <p class="dato-titulo">CO2</p>
+                            <p id="valorCO2" class="dato-valor montserrat-medium" style="font-size: 13px !important;"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="buscar.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
