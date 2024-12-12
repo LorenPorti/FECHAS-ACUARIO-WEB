@@ -101,10 +101,11 @@ button {
 
 #resultados {
     border: 1px solid #ddd;
-    padding: 15px;
+    padding: 5px;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #E5E1DA;
     min-height: 200px;
+    margin-left: 3px;
 }
 
 #resultado-mensaje {
@@ -131,6 +132,7 @@ button {
     /* Fondo para destacar la información */
     font-size: 14px;
     /* Tamaño ajustado */
+    height: 80px !important;
 }
 
 #resultados-extra div {
@@ -151,6 +153,7 @@ button {
     color: maroon;
     margin-left: 10px;
     /* Separación del borde izquierdo */
+    min-height: 22px;
 }
 
 
@@ -200,7 +203,7 @@ button {
 /* Contenedor de los datos */
 
 .datos {
-    margin-top: 20px;
+    margin-top: 2px;
 }
 
 
@@ -245,6 +248,8 @@ button {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    background: #708871;
+    color: white;
 }
 
 #control-resultados .btn:hover {
@@ -260,6 +265,7 @@ button {
     font-size: 1rem;
     font-weight: bold;
     color: #fff;
+    background: #9CA986 !important;
 }
 
 .datos {
@@ -287,18 +293,102 @@ button {
     font-weight: bold;
     color: #1b1b1b;
     margin: 0;
-    font-size: 12px !important;
+    font-size: 13px !important;
 }
 
 .dato-valor {
     font-size: 1.1rem;
     color: blue;
     margin: 0;
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 #inputBusqueda::placeholder {
     font-size: 0.95rem;
     /* Ajusta el tamaño del texto del placeholder */
     font-style: italic;
+}
+
+#btnBuscar {
+    background: #C5705D;
+}
+
+#contenedor-principal {
+    margin-top: 50px !important;
+    /* Fija el margen superior a 5px */
+    padding-top: 0;
+    /* Asegúrate de que no haya relleno adicional */
+    margin-left: 3px;
+    padding: 5px;
+    background: #ECEBDE;
+    width: 98%
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    overflow: hidden;
+    /* Evita cualquier scroll */
+    background: yellow;
+}
+
+.gauge-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: 30%;
+}
+
+.gauge-container {
+    height: 15px;
+    /* Ajusta la altura según el gauge */
+    width: 100%;
+    /* O ajusta al diseño deseado */
+    margin: 0 auto;
+}
+
+.gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 5px;
+    color: #555;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* Cambia el color según tu diseño */
+}
+
+#datos-extra {
+    margin-top: 0px !important;
+    /* Reduce el espacio superior del contenedor general */
+    padding-top: 0.5rem;
+    /* Opcional: ajusta el relleno superior dentro del contenedor */
+    width: 100%;
+}
+
+#datos-extra .inyeccion-container {
+    margin-bottom: 0;
+    /* Elimina cualquier espacio debajo del contenedor */
+    padding: 4px 8px;
+    /* Reduce el relleno interno para que sea más compacto */
+    background-color: #F1F0E8;
+    /* Mantén el fondo existente */
+    border-radius: 5px;
+    /* Opcional: bordes redondeados */
+}
+
+#datos-extra .inyeccion-container img {
+    width: 30px;
+    /* Reduce el tamaño del icono */
+    height: 30px;
+    /* Mantén proporciones */
+    margin-left: 8px;
+    /* Ajusta el espaciado horizontal entre el texto y el icono */
+}
+
+.select-no {
+    user-select: none;
 }
