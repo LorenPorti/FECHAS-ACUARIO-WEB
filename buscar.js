@@ -142,8 +142,8 @@ function actualizarControles() {
     const contadorResultados = document.getElementById("contadorResultados");
 
     if (resultados.length > 0) {
-        btnAnterior.disabled = indiceActual === 0;
-        btnSiguiente.disabled = indiceActual === resultados.length - 1;
+        btnAnterior.disabled = false;
+        btnSiguiente.disabled = false; // Siempre habilitados con ciclo
         contadorResultados.textContent = `${indiceActual + 1} / ${resultados.length}`;
     } else {
         btnAnterior.disabled = true;
@@ -206,19 +206,27 @@ document.getElementById("clearBusqueda").addEventListener("click", function() {
 
 // Navegación entre resultados
 document.getElementById("btnAnterior").addEventListener("click", () => {
-    if (indiceActual > 0) {
-        indiceActual--;
+    if (resultados.length > 0) {
+        if (indiceActual > 0) {
+            indiceActual--;
+        } else {
+            indiceActual = resultados.length - 1; // Ciclar al final
+        }
         actualizarResultado();
-        actualizarControles();
+        actualizarControles(); // Asegura que los botones estén habilitados después del ciclo
     }
 });
 
 document.getElementById("btnSiguiente").addEventListener("click", () => {
-    if (indiceActual < resultados.length - 1) {
-        indiceActual++;
+
+    // if (indiceActual < resultados.length - 1) {
+    //     indiceActual++;
+    if (resultados.length > 0) {
+        indiceActual = (indiceActual < resultados.length - 1) ? indiceActual + 1 : 0;
         actualizarResultado();
         actualizarControles();
     }
+    // }
 });
 
 // Evento para buscar
