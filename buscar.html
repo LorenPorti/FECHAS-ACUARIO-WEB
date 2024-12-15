@@ -16,8 +16,6 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="buscar.css">
     <link rel="stylesheet" href="libreria/estilo.css">
-    <script src="https://cdn.jsdelivr.net/npm/ag-charts-enterprise@10.3.3/dist/umd/ag-charts-enterprise.js?t=1731495897812"></script>
-    <script src="/charts/vanilla/linear-gauge/examples/horizontal-linear-gauge/main.js"></script>
 </head>
 
 <body>
@@ -133,41 +131,53 @@
                 <div class="gauge-section d-flex flex-column justify-content-between">
                     <div class="d-flex flex-row">
                         <div class="col-6" style="background: #B3C8CF;">
-                            <p class="gauge-title select-no">PLANTAS</p>
-                            <div id="gaugePlantas" class="gauge-container"></div>
-                            <div class="gauge-labels">
-                                <span>bien</span>
-                                <span>mal</span>
+                            <div class="gauge-wrapper">
+                                <p class="gauge-title select-no">PLANTAS</p>
+                                <canvas id="gaugePlantas" class="gauge-container" style="width: 100px;"></canvas>
+                                <!-- <p class="gauge-subtitle select-no">&nbsp;</p> -->
+                                <div class="gauge-labels">
+                                    <span>bien</span>
+                                    <span>mal</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-6" style="background: #B3C8CF;">
-                            <p class="gauge-title select-no">ALGAS</p>
-                            <div id="gaugeAlgas" class="gauge-container"></div>
-                            <div class="gauge-labels">
-                                <span>ninguna</span>
-                                <span>cubierto</span>
+                            <div class="gauge-wrapper">
+                                <p class="gauge-title select-no">ALGAS</p>
+                                <canvas id="gaugeAlgas" class="gauge-container"></canvas>
+                                <div class="gauge-labels">
+                                    <span>ninguna</span>
+                                    <span>cubierto</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex flex-row">
                         <div class="col-6" style="background: #B3C8CF;">
-                            <p class="gauge-title select-no">AGUA</p>
-                            <div id="gaugeAgua" class="gauge-container"></div>
-                            <div class="gauge-labels">
-                                <span>transp</span>
-                                <span>turbia</span>
+                            <div class="gauge-wrapper" style="top: -25px !important;">
+                                <p class="gauge-title select-no">AGUA</p>
+                                <!-- <div id="gaugeAgua" class="gauge-container" style="height:45px;"></div> -->
+                                <canvas id="gaugeAgua" class="gauge-container" style="width: 100px;"></canvas>
+                                <div class="gauge-labels">
+                                    <span>transp</span>
+                                    <span>turbia</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-6" style="background: #B3C8CF;">
-                            <p class="gauge-title select-no">SUP AGUA</p>
-                            <div id="gaugeSupAgua" class="gauge-container"></div>
-                            <div class="gauge-labels">
-                                <span>limpia</span>
-                                <span>sucia</span>
+                            <div class="gauge-wrapper" style="top: -25px !important;">
+                                <p class="gauge-title select-no">SUP AGUA</p>
+                                <!-- <div id="gaugeSupAgua" class="gauge-container" style="height:45px;"></div> -->
+                                <canvas id="gaugeSupAgua" class="gauge-container" style="width: 100px;"></canvas>
+                                <div class="gauge-labels">
+                                    <span>limpia</span>
+                                    <span>sucia</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
 
@@ -176,6 +186,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/linear/gauge.min.js"></script>
     <script src="buscar.js"></script>
 </body>
 

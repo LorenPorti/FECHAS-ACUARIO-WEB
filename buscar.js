@@ -2,6 +2,9 @@
 const dataConfig = JSON.parse(localStorage.getItem("dataConfig"));
 const datosAcuario = JSON.parse(localStorage.getItem("datosAcuario"));
 let resultados;
+let textoBusquedaActual;
+
+let barraPlantas, barraAlgas, barraAgua, barraSupAgua; // Gauges
 
 document.addEventListener("DOMContentLoaded", function() {
     // Asignar el nombre del acuario al título
@@ -18,121 +21,106 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('iconoCO2').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 });
 
-let textoBusquedaActual = ""; // Variable global para almacenar el término de búsqueda
+let options = {
+    renderTo: '', // ID del canvas
+    height: 80,
+    minValue: 0,
+    maxValue: 4,
+    animationRule: 'cycle', // Tipo de animación
+    animation: true, // Habilitar animación
+    animationDurationMs: 800, // Duración de la animación en milisegundos
+    value: 0, // Valor inicial
+    barBeginCircle: false, // Barra lineal
+    barWidth: 18,
+    borders: false, // Sin bordes
+    /* colorBarProgress: 'red', */
+    colorBar: '#e0e0e0',
+    colorPlate: "#B3C8CF",
+    strokeTicks: false,
+    colorStrokeTicks: '#B3C8CF',
+    colorUnits: '#B3C8CF',
+    colorNumbers: '#B3C8CF',
+    colorNeedle: 'transparent',
+    colorNeedleEnd: 'transparent',
+    colorMinorTicks: '#B3C8CF',
+    borderShadowWidth: 0,
+};
 
-function buscarComentarios() {
-    const textoBusqueda = document.getElementById("inputBusqueda").value.trim().toLowerCase();
-    const incluirPlantas = document.getElementById("checkPlantas").checked;
-    const incluirAlgas = document.getElementById("checkAlgas").checked;
+function crearGauges() {
 
-    if (!textoBusqueda) {
-        // alert("Por favor, escribe algo para buscar.");
-        return;
-    }
+    options.renderTo = 'gaugePlantas';
+    barraPlantas = new LinearGauge(options).draw();
 
-    // Dividimos el texto de búsqueda en palabras (máximo 3 términos)
-    const palabrasBusqueda = textoBusqueda.split(" ").filter(palabra => palabra.length > 0).slice(0, 3);
-    textoBusquedaActual = palabrasBusqueda; // Guardamos las palabras de búsqueda
+    // Aplicar un gradiente personalizado a la barra de progreso
+    let canvas = document.getElementById('gaugePlantas');
+    let ctx = canvas.getContext('2d');
 
-    // Filtramos los comentarios que contienen todas las palabras de búsqueda
-    resultados = datosAcuario.filter(dato => {
-        const comentarioLower = dato.comentario.toLowerCase();
-        const coincideTexto = palabrasBusqueda.every(palabra => comentarioLower.includes(palabra));
-        const coincidePlantas = !incluirPlantas || dato.plantas > 0;
-        const coincideAlgas = !incluirAlgas || dato.algas > 0;
-        return coincideTexto && (coincidePlantas || coincideAlgas);
+    // Crear el gradiente
+    let gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
+    gradiente.addColorStop(0, '#4CAF50'); // Verde
+    gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(1, '#F44336'); // Rojo
+
+    // Actualizar el gauge para usar el gradiente
+    barraPlantas.update({
+        colorBarProgress: gradiente,
+        value: 0,
+    });
+    // **********************************
+    options.renderTo = 'gaugeAlgas';
+    barraAlgas = new LinearGauge(options).draw();
+
+    canvas = document.getElementById('gaugeAlgas');
+    ctx = canvas.getContext('2d');
+
+    // Crear el gradiente
+    gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
+    gradiente.addColorStop(0, '#4CAF50'); // Verde
+    gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(1, '#F44336'); // Rojo
+
+    // Actualizar el gauge para usar el gradiente
+    barraAlgas.update({
+        colorBarProgress: gradiente,
+        value: 0,
+    });
+    // **********************************
+    options.renderTo = 'gaugeAgua';
+    barraAgua = new LinearGauge(options).draw();
+
+    canvas = document.getElementById('gaugeAgua');
+    ctx = canvas.getContext('2d');
+
+    // Crear el gradiente
+    gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
+    gradiente.addColorStop(0, '#4CAF50'); // Verde
+    gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(1, '#F44336'); // Rojo
+
+    // Actualizar el gauge para usar el gradiente
+    barraAgua.update({
+        colorBarProgress: gradiente,
+        value: 0,
+    });
+    // **********************************
+    options.renderTo = 'gaugeSupAgua';
+    barraSupAgua = new LinearGauge(options).draw();
+
+    canvas = document.getElementById('gaugeSupAgua');
+    ctx = canvas.getContext('2d');
+
+    // Crear el gradiente
+    gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
+    gradiente.addColorStop(0, '#4CAF50'); // Verde
+    gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(1, '#F44336'); // Rojo
+
+    // Actualizar el gauge para usar el gradiente
+    barraSupAgua.update({
+        colorBarProgress: gradiente,
+        value: 0,
     });
 
-    if (resultados.length === 0) {
-        alert("No se encontraron coincidencias.");
-    }
-
-    indiceActual = 0;
-    actualizarResultado();
-    actualizarControles();
-}
-
-function actualizarResultado() {
-    const fechaResultado = document.getElementById("fecha-resultado");
-    const comentarioResultado = document.getElementById("comentarioResultado");
-
-    document.getElementById("fecha-resultado").style.display = "block";
-
-    if (resultados.length > 0) {
-        const resultado = resultados[indiceActual];
-        fechaResultado.textContent = resultado.Fecha;
-
-        // Resaltamos las palabras de búsqueda en el comentario
-        let comentarioConResaltado = resultado.comentario;
-        if (textoBusquedaActual && textoBusquedaActual.length > 0) {
-            textoBusquedaActual.forEach(palabra => {
-                const regex = new RegExp(`(${palabra})`, "gi");
-                comentarioConResaltado = comentarioConResaltado.replace(regex, `<span class="highlight">$1</span>`);
-            });
-        }
-        comentarioResultado.innerHTML = comentarioConResaltado;
-        comentarioResultado.style.color = "#000";
-
-        // Actualizamos los datos adicionales
-        document.getElementById("valorPH").textContent = `${resultado.pH.toFixed(1).toString().replace(".", ",")}`;
-        document.getElementById("valorKH").textContent = `${resultado.KH.toFixed(1).toString().replace(".", ",")}`;
-        document.getElementById("valorTemp").textContent = `${resultado.temp}(ºC)`;
-        document.getElementById("valorNO3").textContent = `${resultado.NO3}(ppm)`;
-        document.getElementById("valorCO2").textContent = `${resultado.CO2.toFixed(2).toString().replace(".", ",")}(mg/l)`;
-
-        //Resultado inyección CO2
-        switch (resultado.inyeccCO2) {
-            case 1:
-                document.getElementById('iconoCO2').src = './imagenes/CO2 con Levadura.png';
-                break;
-            case 2:
-                document.getElementById('iconoCO2').src = './imagenes/CO2 con Botella Presión.png';
-                break;
-            case 3:
-                document.getElementById('iconoCO2').src = './imagenes/Sin CO2.png';
-                break;
-        }
-
-        options.container = document.getElementById("gaugePlantas");
-        options.value = resultado.plantas + 1;
-        chartPlantas.update(options);
-        options.container = document.getElementById("gaugeAlgas");
-        options.value = resultado.algas + 1;
-        chartAlgas.update(options);
-        options.container = document.getElementById("gaugeAgua");
-        options.value = resultado.agua + 1;
-        chartAgua.update(options);
-        options.container = document.getElementById("gaugeSupAgua");
-        options.value = resultado.sup_agua + 1;
-        chartSupAgua.update(options);
-    } else {
-        fechaResultado.textContent = "\u00A0"; // Espacio en blanco (no visible)
-        comentarioResultado.innerHTML = "No hay resultados, realizar una búsqueda.";
-        comentarioResultado.style.color = "gray";
-
-        // Limpiamos los datos
-        document.getElementById("valorPH").textContent = "";
-        document.getElementById("valorKH").textContent = "";
-        document.getElementById("valorTemp").textContent = "";
-        document.getElementById("valorNO3").textContent = "";
-        document.getElementById("valorCO2").textContent = "";
-
-        //Inicia icono Inyección de CO2 con 1px tranparente
-        document.getElementById('iconoCO2').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-
-        options.container = document.getElementById("gaugePlantas");
-        options.value = 0;
-        chartPlantas.update(options);
-        options.container = document.getElementById("gaugeAlgas");
-        options.value = 0;
-        chartAlgas.update(options);
-        options.container = document.getElementById("gaugeAgua");
-        options.value = 0;
-        chartAgua.update(options);
-        options.container = document.getElementById("gaugeSupAgua");
-        options.value = 0;
-        chartSupAgua.update(options);
-    }
 }
 
 // Actualizar controles de navegación
@@ -175,19 +163,11 @@ document.getElementById("btnBuscar").addEventListener("click", function() {
         //Inicia icono Inyección de CO2 con 1px tranparente
         document.getElementById('iconoCO2').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
-        //Restaura los gauges
-        options.container = document.getElementById("gaugePlantas");
-        options.value = 0;
-        chartPlantas.update(options);
-        options.container = document.getElementById("gaugeAlgas");
-        options.value = 0;
-        chartAlgas.update(options);
-        options.container = document.getElementById("gaugeAgua");
-        options.value = 0;
-        chartAgua.update(options);
-        options.container = document.getElementById("gaugeSupAgua");
-        options.value = 0;
-        chartSupAgua.update(options);
+        //Pone los gauges a cero
+        barraPlantas.value = 0;
+        barraAlgas.value = 0;
+        barraAgua.value = 0;
+        barraSupAgua.value = 0;
 
         return; // Salimos de la función si el texto de búsqueda está vacío
     }
@@ -229,51 +209,171 @@ document.getElementById("btnSiguiente").addEventListener("click", () => {
     // }
 });
 
-// Evento para buscar
-document.getElementById("btnBuscar").addEventListener("click", buscarComentarios);
+function normalizarTexto(texto) {
+    // Elimina acentos y pasa a minúsculas
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
 
-const { AgCharts } = agCharts;
+function eliminarAcentos(texto) {
+    return texto
+        .normalize("NFD") // Descompone caracteres acentuados
+        .replace(/[\u0300-\u036f]/g, "") // Elimina los caracteres diacríticos (acentos)
+        .toLowerCase(); // Convierte todo a minúsculas
+}
 
-let options = {
-    type: 'linear-gauge',
-    direction: 'horizontal',
-    container: "",
-    value: 2,
-    scale: {
-        min: 0,
-        max: 4,
-        label: {
-            enabled: false,
-        },
-        tick: {
-            width: 0, // Elimina los ticks
-        },
-    },
-    thickness: 15,
-    background: {
-        fill: 'transparent',
-        strokeWidth: 0, // Sin bordes en el fondo
-    },
-    bar: {
-        fills: [{ color: 'green' }, { color: '#FCC737' }, { color: '#F26B0F' }, { color: 'red' }],
-        fillMode: 'continous',
-    },
-};
+function marcarPalabras(textoOriginal, subs) {
+    let textoResaltado = textoOriginal; // Mantener el texto original para el resaltado
 
-let chartPlantas, chartAlgas, chartAgua, chartSupAgua;
+    // Crear una copia del texto original sin acentos
+    const textoSinAcentos = eliminarAcentos(textoOriginal);
 
-function crearGauges() {
-    //Crea los gauges
-    options.container = document.getElementById("gaugePlantas");
-    options.value = 0;
-    chartPlantas = AgCharts.createGauge(options);
-    options.container = document.getElementById("gaugeAlgas");
-    options.value = 0;
-    chartAlgas = AgCharts.createGauge(options);
-    options.container = document.getElementById("gaugeAgua");
-    options.value = 0;
-    chartAgua = AgCharts.createGauge(options);
-    options.container = document.getElementById("gaugeSupAgua");
-    options.value = 0;
-    chartSupAgua = AgCharts.createGauge(options);
+    // Procesar cada palabra de búsqueda
+    subs.forEach(palabra => {
+        const palabraSinAcentos = eliminarAcentos(palabra);
+        let textoResaltadoTemporal = ""; // Para construir el texto resaltado paso a paso
+        let posicionActual = 0;
+
+        // Buscar todas las ocurrencias de la palabra en el texto sin acentos
+        while (true) {
+            // Encuentra la siguiente coincidencia
+            const startIndex = textoSinAcentos.indexOf(palabraSinAcentos, posicionActual);
+
+            // Si no hay más coincidencias, salir del bucle
+            if (startIndex === -1) {
+                textoResaltadoTemporal += textoResaltado.slice(posicionActual);
+                break;
+            }
+
+            // Añadir el texto desde la posición actual hasta el inicio de la coincidencia
+            textoResaltadoTemporal += textoResaltado.slice(posicionActual, startIndex);
+
+            // Resaltar la coincidencia original en el texto con acentos
+            const coincidenciaOriginal = textoResaltado.slice(startIndex, startIndex + palabra.length);
+            textoResaltadoTemporal += `<span class="highlight">${coincidenciaOriginal}</span>`;
+
+            // Actualizar la posición actual
+            posicionActual = startIndex + palabra.length;
+        }
+
+        // Actualizar textoResaltado con el texto ajustado
+        textoResaltado = textoResaltadoTemporal;
+    });
+
+    return textoResaltado;
+}
+
+// Función actualizada para usar el resaltado
+function buscarComentarios() {
+    const textoBusqueda = document.getElementById("inputBusqueda").value.trim().toLowerCase();
+    const incluirPlantas = document.getElementById("checkPlantas").checked;
+    const incluirAlgas = document.getElementById("checkAlgas").checked;
+
+    if (!textoBusqueda) {
+        return;
+    }
+
+    // Normalizamos las palabras de búsqueda (eliminando acentos)
+    const palabrasBusqueda = eliminarAcentos(textoBusqueda).split(" ").filter(palabra => palabra.length > 0).slice(0, 3);
+    textoBusquedaActual = palabrasBusqueda; // Guardamos las palabras de búsqueda normalizadas
+
+    if (palabrasBusqueda.some(element => element.length < 2)) {
+        return; // Salir de la función si alguna palabra tiene menos de 2 caracteres
+    }
+
+    // Filtramos los comentarios que contienen todas las palabras de búsqueda
+    resultados = datosAcuario.filter(dato => {
+        // Normalizamos el comentario (eliminando acentos)
+        const comentarioLower = eliminarAcentos(dato.comentario.toLowerCase());
+        const coincideTexto = palabrasBusqueda.every(palabra => comentarioLower.includes(palabra));
+        const coincidePlantas = !incluirPlantas || dato.plantas > 0;
+        const coincideAlgas = !incluirAlgas || dato.algas > 0;
+        return coincideTexto && (coincidePlantas || coincideAlgas);
+    });
+
+    if (resultados.length === 0) {
+        alert("No se encontraron coincidencias.");
+    }
+
+    indiceActual = 0;
+    actualizarResultado();
+    actualizarControles();
+}
+
+function actualizarResultado() {
+    const fechaResultado = document.getElementById("fecha-resultado");
+    const comentarioResultado = document.getElementById("comentarioResultado");
+
+    document.getElementById("fecha-resultado").style.display = "block";
+
+    if (resultados.length > 0) {
+        const resultado = resultados[indiceActual];
+        fechaResultado.textContent = resultado.Fecha;
+
+        // Resaltamos las palabras de búsqueda en el comentario
+        let comentarioConResaltado = resultado.comentario;
+
+        // Mantener los saltos de línea
+        comentarioConResaltado = comentarioConResaltado.replace(/\n/g, "<br>");
+
+        if (textoBusquedaActual && textoBusquedaActual.length > 0) {
+            textoBusquedaActual.forEach(palabra => {
+                comentarioConResaltado = marcarPalabras(comentarioConResaltado, [palabra]);
+            });
+        }
+
+        comentarioResultado.innerHTML = comentarioConResaltado;
+        comentarioResultado.style.color = "#000";
+
+        // Actualizamos los datos adicionales
+        document.getElementById("valorPH").textContent = `${resultado.pH.toFixed(1).toString().replace(".", ",")}`;
+        document.getElementById("valorKH").textContent = `${resultado.KH.toFixed(1).toString().replace(".", ",")}`;
+        document.getElementById("valorTemp").textContent = `${resultado.temp}(ºC)`;
+        document.getElementById("valorNO3").textContent = `${resultado.NO3}(ppm)`;
+        document.getElementById("valorCO2").textContent = `${resultado.CO2.toFixed(2).toString().replace(".", ",")}(mg/l)`;
+
+        //Resultado inyección CO2
+        switch (resultado.inyeccCO2) {
+            case 1:
+                document.getElementById('iconoCO2').src = './imagenes/CO2 con Levadura.png';
+                break;
+            case 2:
+                document.getElementById('iconoCO2').src = './imagenes/CO2 con Botella Presión.png';
+                break;
+            case 3:
+                document.getElementById('iconoCO2').src = './imagenes/Sin CO2.png';
+                break;
+        }
+
+        barraPlantas.update({
+            value: resultado.plantas + 1,
+        });
+        barraAlgas.update({
+            value: resultado.algas + 1,
+        });
+        barraAgua.update({
+            value: resultado.agua + 1,
+        });
+        barraSupAgua.update({
+            value: resultado.sup_agua + 1,
+        });
+    } else {
+        fechaResultado.textContent = "\u00A0"; // Espacio en blanco (no visible)
+        comentarioResultado.innerHTML = "No hay resultados, realizar una búsqueda.";
+        comentarioResultado.style.color = "gray";
+
+        // Limpiamos los datos
+        document.getElementById("valorPH").textContent = "";
+        document.getElementById("valorKH").textContent = "";
+        document.getElementById("valorTemp").textContent = "";
+        document.getElementById("valorNO3").textContent = "";
+        document.getElementById("valorCO2").textContent = "";
+
+        //Inicia icono Inyección de CO2 con 1px tranparente
+        document.getElementById('iconoCO2').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
+        barraPlantas.value = 0;
+        barraAgua.value = 0;
+        barraAlgas.value = 0;
+        barraSupAgua.value = 0;
+    }
 }
