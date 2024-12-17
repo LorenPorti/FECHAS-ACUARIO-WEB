@@ -45,24 +45,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="input-group mb-3">
-                        <input type="text" id="inputBusqueda" class="form-control" placeholder="Buscar hasta tres palabras...." aria-label="Buscar en comentarios">
+                        <input type="text" id="inputBusqueda" class="form-control" placeholder="Hasta 3 palabras o frases entre &quot;comillas&quot;" aria-label="Buscar en comentarios">
                         <span id="clearBusqueda" class="input-group-text" style="cursor: pointer;">&times;</span>
                         <button id="btnBuscar" class="btn" type="button">Buscar</button>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="checkPlantas" value="plantas">
-                        <label class="form-check-label" for="checkPlantas">Incluir Plantas</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="checkAlgas" value="algas">
-                        <label class="form-check-label" for="checkAlgas">Incluir Algas</label>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Resultados -->
-        <div id="resultados" class="mt-2" style="width: 98%">
+        <div id="resultados" class="mt-2" style="width: 98%;">
             <!-- Fecha encima del cuadro -->
             <div id="fecha-resultado" class="mb-2">
                 <p class="m-0 roboto-medium-italic" style="min-height: 20px;"><strong>&nbsp;</strong></p>
@@ -153,8 +145,8 @@
                         </div>
                     </div>
                     <div class="d-flex flex-row">
-                        <div class="col-6" style="background: #B3C8CF;">
-                            <div class="gauge-wrapper" style="top: -25px !important;">
+                        <div class="col-6" style="background: #B3C8CF; height: 55px;">
+                            <div class="gauge-wrapper" style="top: -30px !important;">
                                 <p class="gauge-title select-no">AGUA</p>
                                 <!-- <div id="gaugeAgua" class="gauge-container" style="height:45px;"></div> -->
                                 <canvas id="gaugeAgua" class="gauge-container" style="width: 100px;"></canvas>
@@ -164,8 +156,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6" style="background: #B3C8CF;">
-                            <div class="gauge-wrapper" style="top: -25px !important;">
+                        <div class="col-6" style="background: #B3C8CF; height: 55px;">
+                            <div class="gauge-wrapper" style="top: -30px !important;">
                                 <p class="gauge-title select-no">SUP AGUA</p>
                                 <!-- <div id="gaugeSupAgua" class="gauge-container" style="height:45px;"></div> -->
                                 <canvas id="gaugeSupAgua" class="gauge-container" style="width: 100px;"></canvas>

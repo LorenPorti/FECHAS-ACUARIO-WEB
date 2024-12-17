@@ -28,7 +28,7 @@ let options = {
     maxValue: 4,
     animationRule: 'cycle', // Tipo de animación
     animation: true, // Habilitar animación
-    animationDurationMs: 800, // Duración de la animación en milisegundos
+    animationDuration: 1800, // Duración de la animación en milisegundos
     value: 0, // Valor inicial
     barBeginCircle: false, // Barra lineal
     barWidth: 18,
@@ -262,19 +262,21 @@ function marcarPalabras(textoOriginal, subs) {
     return textoResaltado;
 }
 
-// Función actualizada para usar el resaltado
+// Función para buscar textos en los comentarios, hasta tres palabras separadas por un espacio. Se puede incluir frases completas entre comillas
+//Por ejemplo 'pH está bajo' busca todos los comentarios que contengan 'ph', 'esta'y 'bajo', ignorando los acentos y las mayúsculas,
+//después los resaltará tal como estaban en el comentario original. Si la búsqueda es '"pH está bajo" agua', busca todos los coemntarios que
+//contengan 'agua' y la frase 'ph esta bajo' e igualmente serán resaltados
 function buscarComentarios() {
+
     const textoBusqueda = document.getElementById("inputBusqueda").value.trim().toLowerCase();
-    const incluirPlantas = document.getElementById("checkPlantas").checked;
-    const incluirAlgas = document.getElementById("checkAlgas").checked;
 
     if (!textoBusqueda) {
         return;
     }
 
-    // Normalizamos las palabras de búsqueda (eliminando acentos)
-    const palabrasBusqueda = eliminarAcentos(textoBusqueda).split(" ").filter(palabra => palabra.length > 0).slice(0, 3);
-    textoBusquedaActual = palabrasBusqueda; // Guardamos las palabras de búsqueda normalizadas
+    const palabrasBusqueda = obtenerPalabrasYFrases(textoBusqueda); //Guarda en el array palabrasBusqueda las frases o palabras para buscar quitando las comillas 
+
+    textoBusquedaActual = palabrasBusqueda; // Guardamos las palabras de búsqueda
 
     if (palabrasBusqueda.some(element => element.length < 2)) {
         return; // Salir de la función si alguna palabra tiene menos de 2 caracteres
@@ -282,12 +284,9 @@ function buscarComentarios() {
 
     // Filtramos los comentarios que contienen todas las palabras de búsqueda
     resultados = datosAcuario.filter(dato => {
-        // Normalizamos el comentario (eliminando acentos)
         const comentarioLower = eliminarAcentos(dato.comentario.toLowerCase());
         const coincideTexto = palabrasBusqueda.every(palabra => comentarioLower.includes(palabra));
-        const coincidePlantas = !incluirPlantas || dato.plantas > 0;
-        const coincideAlgas = !incluirAlgas || dato.algas > 0;
-        return coincideTexto && (coincidePlantas || coincideAlgas);
+        return coincideTexto;
     });
 
     if (resultados.length === 0) {
@@ -376,4 +375,26 @@ function actualizarResultado() {
         barraAlgas.value = 0;
         barraSupAgua.value = 0;
     }
+}
+
+function obtenerPalabrasYFrases(textoBusqueda) {
+    const palabrasYFrases = [];
+
+    // Extraer frases exactas entre comillas
+    const matches = textoBusqueda.match(/"([^"]+)"/g);
+    if (matches) {
+        matches.forEach(match => {
+            const fraseSinComillas = match.replace(/"/g, "").trim(); // Eliminar comillas
+            palabrasYFrases.push(fraseSinComillas);
+        });
+    }
+
+    // Eliminar las frases exactas para procesar palabras restantes
+    const textoSinFrases = textoBusqueda.replace(/"([^"]+)"/g, "").trim();
+    if (textoSinFrases) {
+        const palabras = textoSinFrases.split(/\s+/).filter(palabra => palabra.length > 0); // Dividir en palabras
+        palabrasYFrases.push(...palabras);
+    }
+
+    return palabrasYFrases; // Array combinado
 }

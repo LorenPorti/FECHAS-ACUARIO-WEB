@@ -104,8 +104,8 @@ button {
     padding: 5px;
     border-radius: 8px;
     background-color: #E5E1DA;
-    min-height: 200px;
     margin-left: 3px;
+    margin-top: 5px !important;
 }
 
 #resultado-mensaje {
@@ -304,7 +304,7 @@ button {
 }
 
 #inputBusqueda::placeholder {
-    font-size: 0.95rem;
+    font-size: 13px;
     /* Ajusta el tamaño del texto del placeholder */
     font-style: italic;
 }
@@ -321,17 +321,31 @@ button {
     margin-left: 3px;
     padding: 5px;
     background: #ECEBDE;
-    width: 98%
+    width: 98.5%;
+    height: 50px;
 }
 
 html,
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
+    /* Permitir que la altura crezca más allá de la ventana */
+    overflow-x: hidden;
+    /* Evitar el desplazamiento horizontal */
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+    height: calc(100vh - var(--alto-cabecera));
+    /* Asegúrate de usar --alto-cabecera correctamente */
     overflow: hidden;
-    /* Evita cualquier scroll */
+    /* Evitar cualquier desplazamiento interno */
 }
 
 #datos-extra {
