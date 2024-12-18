@@ -26,9 +26,9 @@ let options = {
     height: 80,
     minValue: 0,
     maxValue: 4,
-    animationRule: 'cycle', // Tipo de animación
+    animationRule: 'linear', // Tipo de animación
     animation: true, // Habilitar animación
-    animationDuration: 1800, // Duración de la animación en milisegundos
+    animationDuration: 500, // Duración de la animación en milisegundos
     value: 0, // Valor inicial
     barBeginCircle: false, // Barra lineal
     barWidth: 18,
@@ -59,6 +59,7 @@ function crearGauges() {
     let gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
     gradiente.addColorStop(0, '#4CAF50'); // Verde
     gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(0.80, 'orange'); // Amarillo
     gradiente.addColorStop(1, '#F44336'); // Rojo
 
     // Actualizar el gauge para usar el gradiente
@@ -77,6 +78,7 @@ function crearGauges() {
     gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
     gradiente.addColorStop(0, '#4CAF50'); // Verde
     gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(0.80, 'orange'); // Amarillo
     gradiente.addColorStop(1, '#F44336'); // Rojo
 
     // Actualizar el gauge para usar el gradiente
@@ -95,6 +97,7 @@ function crearGauges() {
     gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
     gradiente.addColorStop(0, '#4CAF50'); // Verde
     gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(0.80, 'orange'); // Amarillo
     gradiente.addColorStop(1, '#F44336'); // Rojo
 
     // Actualizar el gauge para usar el gradiente
@@ -113,6 +116,7 @@ function crearGauges() {
     gradiente = ctx.createLinearGradient(-80, 0, 85, 0); // Gradiente horizontal
     gradiente.addColorStop(0, '#4CAF50'); // Verde
     gradiente.addColorStop(0.55, '#FFEB3B'); // Amarillo
+    gradiente.addColorStop(0.80, 'orange'); // Amarillo
     gradiente.addColorStop(1, '#F44336'); // Rojo
 
     // Actualizar el gauge para usar el gradiente
@@ -343,18 +347,10 @@ function actualizarResultado() {
                 break;
         }
 
-        barraPlantas.update({
-            value: resultado.plantas + 1,
-        });
-        barraAlgas.update({
-            value: resultado.algas + 1,
-        });
-        barraAgua.update({
-            value: resultado.agua + 1,
-        });
-        barraSupAgua.update({
-            value: resultado.sup_agua + 1,
-        });
+        barraPlantas.value = resultado.plantas + 1;
+        barraAlgas.value = resultado.algas + 1;
+        barraAgua.value = resultado.agua + 1;
+        barraSupAgua.value = resultado.sup_agua + 1;
     } else {
         fechaResultado.textContent = "\u00A0"; // Espacio en blanco (no visible)
         comentarioResultado.innerHTML = "No hay resultados, realizar una búsqueda.";
