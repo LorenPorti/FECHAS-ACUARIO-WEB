@@ -589,6 +589,7 @@ canvas {
 #modal-comments {
     font-size: 12px;
     /* Reduce aún más el tamaño */
-    line-height: 1.4;
+    line-height: 1.2;
     /* Espaciado para mejor legibilidad */
+    color: #232727;
 }
