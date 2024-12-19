@@ -7,6 +7,7 @@ let textoBusquedaActual;
 let barraPlantas, barraAlgas, barraAgua, barraSupAgua; // Gauges
 
 document.addEventListener("DOMContentLoaded", function() {
+
     // Asignar el nombre del acuario al título
     if (dataConfig && dataConfig.nombreDelAcuario) {
         const tituloAcuario = document.getElementById("tituloAcuario");
@@ -394,3 +395,131 @@ function obtenerPalabrasYFrases(textoBusqueda) {
 
     return palabrasYFrases; // Array combinado
 }
+
+// Cerrar modal al hacer clic fuera del contenido
+window.addEventListener("click", (event) => {
+    const modal = document.getElementById("modalInfoBuscar");
+    if (event.target === modal) {
+        cerrarModal();
+    }
+});
+
+function cerrarModal() {
+    const modal = document.getElementById("modalInfoBuscar");
+    modal.style.display = "none"; // Cambiar estilo para ocultar el modal
+}
+
+function getEstado(tipo, valor) {
+    if (tipo === 'plantas') {
+        const estadosPlantas = ['Excelente', 'Normal', 'Regular', 'Mal'];
+        return estadosPlantas[valor] || '';
+    } else if (tipo === 'algas') {
+        const estadosAlgas = ['Ninguna', 'Presencia', 'Cubierto', 'Muy cubierto'];
+        return estadosAlgas[valor] || '';
+    } else if (tipo === 'agua') {
+        const estadoAgua = ['Transparente', 'Casi Transparente', 'Turbia', 'Muy Turbia'];
+        return estadoAgua[valor] || '';
+    } else if (tipo === 'supAgua') {
+        const estadoSupAgua = ['Limpia', 'Casi limpia', 'Sucia', 'Muy Sucia'];
+        return estadoSupAgua[valor] || '';
+    } else if (tipo === 'inyCO2') {
+        const estadoInyCO2 = ['Con Levadura', 'Botella a presión', 'Sin CO2'];
+        return estadoInyCO2[valor - 1] || '';
+    }
+
+    return '';
+}
+
+function calcularTendencia(datosAcuario, tipoTendencia, indice) {
+    // Garantizar que el índice esté dentro de los límites
+    indice = Math.max(0, Math.min(indice, datosAcuario.length - 1));
+
+    // Prepara los valores X e Y según el tipo de tendencia
+    const valX = [];
+    const valY = [];
+
+    datosAcuario.forEach((dato, i) => {
+        valX.push(i); // X: Índices de tiempo
+        switch (tipoTendencia) {
+            case 0:
+                valY.push(dato.resultado); // Tendencia general
+                break;
+            case 1:
+                valY.push(dato.NO3); // Tendencia nitratos
+                break;
+            case 2:
+                valY.push(dato.CO2); // Tendencia CO2
+                break;
+            default:
+                throw new Error("Tipo de tendencia no válido");
+        }
+    });
+
+    // Calcular la pendiente (a) y la intersección (b) de la recta (regresión lineal)
+    const n = valX.length;
+    const sumX = valX.reduce((sum, x) => sum + x, 0);
+    const sumY = valY.reduce((sum, y) => sum + y, 0);
+    const sumXY = valX.reduce((sum, x, i) => sum + x * valY[i], 0);
+    const sumX2 = valX.reduce((sum, x) => sum + x * x, 0);
+
+    // Fórmulas de regresión lineal
+    const a = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const b = (sumY - a * sumX) / n;
+
+    // Calcular el valor de la tendencia en el índice solicitado
+    const y = a * indice + b;
+
+    return y.toFixed(2); // Redondeamos el resultado a 3 decimales
+}
+
+document.getElementById("fecha-resultado").addEventListener("click", function() {
+    const txtFecha = document.getElementById('fecha-resultado');
+    const modal = document.getElementById("modalInfoBuscar");
+
+    const indice = datosAcuario.findIndex(dato => dato.Fecha === txtFecha.textContent);
+
+    let dato1, dato2;
+
+    let diferenciaEstado = "";
+    let signo = "";
+    if (indice == 0) {
+        dato2 = 0;
+        dato1 = 0;
+        diferenciaEstado = "ESTABLE ";
+        signo = "±";
+    } else {
+        dato1 = datosAcuario[indice - 1].tendencia.toFixed(3);
+        dato2 = datosAcuario[indice].tendencia.toFixed(3);
+        if (dato2 - dato1 > 0) {
+            diferenciaEstado = "DESFAVORABLE ";
+            signo = "+";
+        } else if (dato2 - dato1 < 0) {
+            diferenciaEstado = "FAVORABLE ";
+            signo = "";
+        } else if (dato2 == dato1) {
+            diferenciaEstado = "ESTABLE ";
+            signo = "±";
+        }
+    }
+
+    // Rellenar los elementos del modal con los datos
+    document.getElementById("modal-title").innerText = datosAcuario[indice].Fecha;
+    document.getElementById("modal-datos").innerHTML = `» La diferencia con valores anteriores de la regresión lineal Gral es <b style="color: Maroon; font-style: italic; ">${diferenciaEstado}</b>(${signo}${(dato2-dato1).toFixed(3).replace(".",",")}).`;
+    document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${datosAcuario[indice].pH.toFixed(1).toString().replace(".", ",")}`;
+    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">KH:</b> ${datosAcuario[indice].KH} dKH`;
+    document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${datosAcuario[indice].temp} ºC`;
+    document.getElementById("modalCO2").innerHTML = `<b style="color: Maroon; ">CO2:</b> ${datosAcuario[indice].CO2.toFixed(2).toString().replace(".", ",")} mg/l`;
+    document.getElementById("modalNO3").innerHTML = `<b style="color: Maroon; ">NO3:</b> ${datosAcuario[indice].NO3} ppm`;
+    document.getElementById("modalPlantas").innerHTML = `<b style="color: Maroon; ">Plantas:</b> ${getEstado("plantas", datosAcuario[indice].plantas)}`;
+    document.getElementById("modalAgua").innerHTML = `<b style="color: Maroon; ">Agua:</b> ${getEstado("agua", datosAcuario[indice].agua)}`;
+    document.getElementById("modalAlgas").innerHTML = `<b style="color: Maroon; ">Algas:</b> ${getEstado("algas", datosAcuario[indice].algas)}`;
+    document.getElementById("modalSupAgua").innerHTML = `<b style="color: Maroon; ">Superf. agua:</b> ${getEstado("supAgua", datosAcuario[indice].sup_agua)}`;
+    document.getElementById("modalInyCO2").innerHTML = `<b style="color: Maroon; ">Inyección de CO2:</b> ${getEstado("inyCO2", datosAcuario[indice].inyeccCO2)}`;
+    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Regresión lineal Gral:</b> ${datosAcuario[indice].tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
+    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Regresión lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
+    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Regresión lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
+    console.log(calcularTendencia(datosAcuario, 2, indice));
+    document.getElementById("modal-comments").textContent = `${datosAcuario[indice].comentario}`;
+
+    modal.style.display = "block";
+});

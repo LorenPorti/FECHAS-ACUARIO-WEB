@@ -212,6 +212,8 @@ function actualizarModal(fecha) {
     let diferenciaEstado = "";
     let signo = "";
     if (indice == 0) {
+        dato2 = 0;
+        dato1 = 0;
         diferenciaEstado = "ESTABLE ";
         signo = "±";
     } else {
