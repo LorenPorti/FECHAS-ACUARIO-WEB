@@ -1,17 +1,12 @@
-import { mostrarPopover } from './misFunciones.js';
-
 // Obtener dataConfig y datosAcuario desde localStorage
 const dataConfig = JSON.parse(localStorage.getItem("dataConfig"));
 const datosAcuario = JSON.parse(localStorage.getItem("datosAcuario"));
 let resultados;
 let textoBusquedaActual;
-let indiceActual = 0;
 
 let barraPlantas, barraAlgas, barraAgua, barraSupAgua; // Gauges
 
 document.addEventListener("DOMContentLoaded", function() {
-
-    mostrarPopover('clearBusqueda', 'MOSTRAR UNA ALERTA', 'Pulsar este botón para mostrar una alerta.');
 
     // Asignar el nombre del acuario al título
     if (dataConfig && dataConfig.nombreDelAcuario) {
@@ -187,7 +182,6 @@ document.getElementById("btnBuscar").addEventListener("click", function() {
 });
 
 document.getElementById("clearBusqueda").addEventListener("click", function() {
-
     // Borrar el texto de búsqueda
     document.getElementById("inputBusqueda").value = "";
 
