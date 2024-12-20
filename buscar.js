@@ -11,6 +11,8 @@ let barraPlantas, barraAlgas, barraAgua, barraSupAgua; // Gauges
 
 document.addEventListener("DOMContentLoaded", function() {
 
+    mostrarPopover('clearBusqueda', 'MOSTRAR UNA ALERTA', 'Pulsar este botón para mostrar una alerta.');
+
     // Asignar el nombre del acuario al título
     if (dataConfig && dataConfig.nombreDelAcuario) {
         const tituloAcuario = document.getElementById("tituloAcuario");
@@ -185,8 +187,6 @@ document.getElementById("btnBuscar").addEventListener("click", function() {
 });
 
 document.getElementById("clearBusqueda").addEventListener("click", function() {
-
-    mostrarPopover('clearBusqueda', 'MOSTRAR UNA ALERTA', 'Pulsar este botón para mostrar una alerta.');
 
     // Borrar el texto de búsqueda
     document.getElementById("inputBusqueda").value = "";
