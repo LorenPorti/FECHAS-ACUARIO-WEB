@@ -147,13 +147,42 @@ button {
 }
 
 #fecha-resultado {
-    text-align: left;
     font-size: 16px;
     font-weight: bold;
     color: maroon;
-    margin-left: 10px;
-    /* Separación del borde izquierdo */
-    min-height: 22px;
+    margin: 0;
+    padding: 0;
+    min-height: 25px;
+    display: flex;
+    align-items: center;
+    /* Centra el contenido verticalmente */
+}
+
+#contenedor-fecha {
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente a los hijos */
+    justify-content: space-between;
+    /* Espacio equilibrado entre hijos */
+    min-height: 25px;
+    max-height: 25px;
+    /* Asegura que no se desborde */
+    margin: 0;
+    padding: 0;
+}
+
+#instrucciones {
+    font-size: 10.5px;
+    color: #C96868;
+    margin: 0;
+    padding: 0;
+    /* Sin relleno adicional */
+    /* white-space: pre-wrap; */
+    /* Respeta saltos de línea */
+    text-align: justify;
+    /* Alinea a la izquierda */
+    flex: 1;
+    /* Ocupa todo el espacio disponible */
 }
 
 
@@ -171,7 +200,7 @@ button {
     /* Cambiar de flex a block para alineación normal */
     text-align: justify;
     /* Alinear texto a la izquierda */
-    font-size: 14px;
+    font-size: 13px;
 }
 
 
@@ -556,7 +585,7 @@ canvas {
 .modal-header .close-button {
     position: absolute;
     /* Permite posicionar libremente */
-    top: 2px;
+    top: 5px;
     /* Margen superior */
     right: 10px;
     /* Margen derecho */

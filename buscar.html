@@ -40,11 +40,13 @@
     <!-- Contenido principal -->
     <main>
         <!-- Formulario de búsqueda -->
+
         <div id="contenedor-principal" style="margin-top: 5px;">
+
             <div class="row">
                 <div class="col-12">
                     <div class="input-group mb-3">
-                        <input type="text" id="inputBusqueda" class="form-control" placeholder="Hasta 3 palabras o frases entre &quot;comillas&quot;" aria-label="Buscar en comentarios">
+                        <input type="text" id="inputBusqueda" class="form-control" placeholder="Hasta 3 palabras o frases" aria-label="Buscar en comentarios">
                         <span id="clearBusqueda" class="input-group-text" style="cursor: pointer;">&times;</span>
                         <button id="btnBuscar" class="btn" type="button">Buscar</button>
                     </div>
@@ -54,10 +56,17 @@
 
         <!-- Resultados -->
         <div id="resultados" class="mt-2" style="width: 98%;">
-            <!-- Fecha encima del cuadro -->
-            <div id="fecha-resultado" class="mb-2">
-                <p class="m-0 roboto-medium-italic" style="min-height: 20px;"><strong>&nbsp;</strong></p>
+            <!-- Contenedor fijo para instrucciones o fecha -->
+            <div id="contenedor-fecha" class="mb-2">
+                <p id="instrucciones" class="m-0 roboto-medium-italic">
+                    Buscar: Frases entre "comillas" se procesarán como palabras independientes. Palabras con acentos se tratarán como si no los tuvieran.
+                </p>
+                <p id="fecha-resultado" class="m-0 roboto-medium-italic" style="display: none;">
+                    <!-- Aquí se mostrará la fecha -->
+                </p>
             </div>
+
+
             <!-- Cuadro de resultados -->
             <div class="comentario-container border rounded p-3">
                 <p id="comentarioResultado" class="mb-0 georgia-regular-italic">No hay resultados, realizar una búsqueda.</p>
@@ -204,6 +213,8 @@
             </div>
 
         </div>
+
+        <div id="contenedorModal"></div>
 
     </main>
 

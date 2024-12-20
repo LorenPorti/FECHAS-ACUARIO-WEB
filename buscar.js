@@ -178,7 +178,7 @@ document.getElementById("btnBuscar").addEventListener("click", function() {
     }
 
     // Aquí va el código de la búsqueda cuando el texto no está vacío
-    buscarComentarios(textoBusqueda);
+    buscarComentarios();
 });
 
 document.getElementById("clearBusqueda").addEventListener("click", function() {
@@ -187,6 +187,8 @@ document.getElementById("clearBusqueda").addEventListener("click", function() {
 
     // Llamar al evento del botón de búsqueda para borrar los resultados
     document.getElementById("btnBuscar").click();
+
+    mostrarInstrucciones();
 });
 
 // Navegación entre resultados
@@ -307,11 +309,12 @@ function actualizarResultado() {
     const fechaResultado = document.getElementById("fecha-resultado");
     const comentarioResultado = document.getElementById("comentarioResultado");
 
-    document.getElementById("fecha-resultado").style.display = "block";
 
     if (resultados.length > 0) {
         const resultado = resultados[indiceActual];
         fechaResultado.textContent = resultado.Fecha;
+
+        mostrarFecha(resultado.Fecha);
 
         // Resaltamos las palabras de búsqueda en el comentario
         let comentarioConResaltado = resultado.comentario;
@@ -371,6 +374,8 @@ function actualizarResultado() {
         barraAgua.value = 0;
         barraAlgas.value = 0;
         barraSupAgua.value = 0;
+
+        mostrarInstrucciones();
     }
 }
 
@@ -391,6 +396,10 @@ function obtenerPalabrasYFrases(textoBusqueda) {
     if (textoSinFrases) {
         const palabras = textoSinFrases.split(/\s+/).filter(palabra => palabra.length > 0); // Dividir en palabras
         palabrasYFrases.push(...palabras);
+    }
+
+    for (i = 0; i < palabrasYFrases.length; i++) {
+        palabrasYFrases[i] = eliminarAcentos(palabrasYFrases[i]);
     }
 
     return palabrasYFrases; // Array combinado
@@ -523,3 +532,23 @@ document.getElementById("fecha-resultado").addEventListener("click", function() 
 
     modal.style.display = "block";
 });
+
+// Mostrar las instrucciones
+function mostrarInstrucciones() {
+    const instrucciones = document.getElementById('instrucciones');
+    const fechaResultado = document.getElementById('fecha-resultado');
+
+    instrucciones.style.display = 'block'; // Muestra instrucciones
+    fechaResultado.style.display = 'none'; // Oculta la fecha
+    fechaResultado.innerText = ''; // Limpia el texto de la fecha
+}
+
+// Mostrar la fecha
+function mostrarFecha(fecha) {
+    const instrucciones = document.getElementById('instrucciones');
+    const fechaResultado = document.getElementById('fecha-resultado');
+
+    instrucciones.style.display = 'none'; // Oculta instrucciones
+    fechaResultado.style.display = 'block'; // Muestra la fecha
+    fechaResultado.innerText = fecha; // Establece la fecha
+}
