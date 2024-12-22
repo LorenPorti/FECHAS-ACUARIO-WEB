@@ -552,3 +552,69 @@ function mostrarFecha(fecha) {
     fechaResultado.style.display = 'block'; // Muestra la fecha
     fechaResultado.innerText = fecha; // Establece la fecha
 }
+
+// Manejador para abrir el modal
+document.getElementById('buscarPlantas/Algas').addEventListener('click', () => {
+    const modalTitle = document.getElementById('modal-titulo');
+    const modalBody = document.getElementById('modal-body');
+
+    // Actualiza el título del modal
+    modalTitle.textContent = 'Buscar combinación Plantas/Algas';
+
+    // Inserta el contenido dinámico en el cuerpo del modal
+    modalBody.innerHTML = `
+        <p>Seleccione un estado para las plantas y otro para las algas:</p>
+        <div style="display: flex; justify-content: space-around;">
+            <div>
+                <h4>Plantas</h4>
+                <label><input type="radio" name="plantas" value="Sin plantas"> Sin plantas</label><br>
+                <label><input type="radio" name="plantas" value="Pocas plantas"> Pocas plantas</label><br>
+                <label><input type="radio" name="plantas" value="Plantas en crecimiento"> Plantas en crecimiento</label><br>
+                <label><input type="radio" name="plantas" value="Plantas maduras"> Plantas maduras</label>
+            </div>
+            <div>
+                <h4>Algas</h4>
+                <label><input type="radio" name="algas" value="Sin algas"> Sin algas</label><br>
+                <label><input type="radio" name="algas" value="Pocas algas"> Pocas algas</label><br>
+                <label><input type="radio" name="algas" value="Algas en crecimiento"> Algas en crecimiento</label><br>
+                <label><input type="radio" name="algas" value="Muchas algas"> Muchas algas</label>
+            </div>
+        </div>
+    `;
+
+    // Muestra el modal
+    abrirModal();
+});
+
+document.getElementById('botonCancelar').addEventListener('click', () => {
+    cerrarModalBusqueda2(); // Asegúrate de que esta función está definida
+});
+
+// Función para abrir el modal
+function abrirModal() {
+    document.getElementById('modalBusqueda').style.display = 'block';
+}
+
+// Función para cerrar el modal
+function cerrarModalBusqueda2() {
+    const modal = document.getElementById('modalBusqueda');
+    modal.style.display = 'none'; // Ocultar modal
+}
+
+// Función para procesar la búsqueda
+function procesarBusqueda() {
+    const plantasSeleccionadas = document.querySelector('input[name="plantas"]:checked');
+    const algasSeleccionadas = document.querySelector('input[name="algas"]:checked');
+
+    const plantas = plantasSeleccionadas ? plantasSeleccionadas.value : null;
+    const algas = algasSeleccionadas ? algasSeleccionadas.value : null;
+
+    if (plantas && algas) {
+        console.log(`Plantas seleccionadas: ${plantas}`);
+        console.log(`Algas seleccionadas: ${algas}`);
+        // Aquí puedes realizar la lógica de búsqueda
+    } else {
+        console.log('Debe seleccionar una opción para plantas y algas.');
+        alert('Por favor, selecciona una opción para ambas columnas.');
+    }
+}

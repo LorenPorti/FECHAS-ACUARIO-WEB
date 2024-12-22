@@ -172,7 +172,7 @@ button {
 }
 
 #instrucciones {
-    font-size: 10.5px;
+    font-size: 12.2px;
     color: #C96868;
     margin: 0;
     padding: 0;
@@ -473,7 +473,7 @@ canvas {
 }
 
 
-/* ******************************************* */
+/* ***************MODAL RESULTADOS**************************** */
 
 .modal {
     display: none;
@@ -621,4 +621,63 @@ canvas {
     line-height: 1.2;
     /* Espaciado para mejor legibilidad */
     color: #232727;
+}
+
+
+/* ***************MODAL BUSQUEDAS MENU**************************** */
+
+
+/* Estilo de la cabecera del modal */
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+
+/* Contenedor del título e icono */
+
+
+/* Estilo de la cabecera del modal */
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/* Contenedor del título e icono */
+
+.modal-titulo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    /* Permite que el título ocupe el espacio restante */
+    text-align: center;
+}
+
+
+/* Icono del título */
+
+.modal-icon {
+    width: 24px;
+    height: 24px;
+}
+
+#modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+
+/* Con sombra */
+
+.btn-con-sombra {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
