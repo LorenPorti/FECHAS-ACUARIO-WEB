@@ -648,6 +648,7 @@ canvas {
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    /* Establece la altura del contenedor */
 }
 
 
@@ -660,14 +661,17 @@ canvas {
     flex-grow: 1;
     /* Permite que el título ocupe el espacio restante */
     text-align: center;
+    height: 40px;
 }
 
 
 /* Icono del título */
 
 .modal-icon {
-    width: 24px;
-    height: 24px;
+    height: 140%;
+    width: auto;
+    margin-left: 10px;
+    /* Espaciado opcional */
 }
 
 #modal-body {

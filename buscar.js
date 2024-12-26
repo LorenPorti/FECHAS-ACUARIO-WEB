@@ -1,7 +1,7 @@
 // Obtener dataConfig y datosAcuario desde localStorage
 const dataConfig = JSON.parse(localStorage.getItem("dataConfig"));
 const datosAcuario = JSON.parse(localStorage.getItem("datosAcuario"));
-let resultados;
+let resultados = [];
 let textoBusquedaActual;
 
 let barraPlantas, barraAlgas, barraAgua, barraSupAgua; // Gauges
@@ -177,6 +177,8 @@ document.getElementById("btnBuscar").addEventListener("click", function() {
         return; // Salimos de la función si el texto de búsqueda está vacío
     }
 
+    textoInputInicial = textoBusqueda; //texto del input inicial para busqueda combinadas
+
     // Aquí va el código de la búsqueda cuando el texto no está vacío
     buscarComentarios();
 });
@@ -187,6 +189,10 @@ document.getElementById("clearBusqueda").addEventListener("click", function() {
 
     // Llamar al evento del botón de búsqueda para borrar los resultados
     document.getElementById("btnBuscar").click();
+
+    textoInputInicial = ""; //texto del input inicial para busqueda combinadas
+
+    resultados = []; //Reinicia resultados
 
     mostrarInstrucciones();
 });
@@ -333,10 +339,10 @@ function actualizarResultado() {
 
         // Actualizamos los datos adicionales
         document.getElementById("valorPH").textContent = `${resultado.pH.toFixed(1).toString().replace(".", ",")}`;
-        document.getElementById("valorKH").textContent = `${resultado.KH.toFixed(1).toString().replace(".", ",")}`;
+        document.getElementById("valorKH").textContent = `${resultado.KH.toFixed(1).toString().replace(".", ",")}(dKH)`;
         document.getElementById("valorTemp").textContent = `${resultado.temp}(ºC)`;
         document.getElementById("valorNO3").textContent = `${resultado.NO3}(ppm)`;
-        document.getElementById("valorCO2").textContent = `${resultado.CO2.toFixed(2).toString().replace(".", ",")}(mg/l)`;
+        document.getElementById("valorCO2").textContent = `${resultado.CO2.toFixed(1).toString().replace(".", ",")}(mg/l)`;
 
         //Resultado inyección CO2
         switch (resultado.inyeccCO2) {
@@ -559,25 +565,29 @@ document.getElementById('buscarPlantas/Algas').addEventListener('click', () => {
     const modalBody = document.getElementById('modal-body');
 
     // Actualiza el título del modal
-    modalTitle.textContent = 'Buscar combinación Plantas/Algas';
+    modalTitle.textContent = 'Combinación con Plantas/Algas';
 
     // Inserta el contenido dinámico en el cuerpo del modal
     modalBody.innerHTML = `
-        <p>Seleccione un estado para las plantas y otro para las algas:</p>
-        <div style="display: flex; justify-content: space-around;">
-            <div>
-                <h4>Plantas</h4>
-                <label><input type="radio" name="plantas" value="Sin plantas"> Sin plantas</label><br>
-                <label><input type="radio" name="plantas" value="Pocas plantas"> Pocas plantas</label><br>
-                <label><input type="radio" name="plantas" value="Plantas en crecimiento"> Plantas en crecimiento</label><br>
-                <label><input type="radio" name="plantas" value="Plantas maduras"> Plantas maduras</label>
+        <p style="text-align: justify; font-size: 14px;" class="georgia-regular-italic">» Selecciona un estado de las Plantas y otros de las Algas. <br>
+            •  Si hay resultados filtrados previamente, la nueva búsqueda se hará sobre esos resultados. <br>
+            •  Si no hay filtros aplicados, se buscará en toda la base de datos.
+            <hr style="border: none; height: 3px; background-color: #DA8359;">
+        </p>
+        <div style="display: flex; justify-content: space-around; gap: 20px; margin-top: 10px;">
+            <div style="flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 5px; text-align: left;">
+                <h4 style="text-align: center; color: #708871;" class="roboto-bold">Plantas</h4>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="plantas" value="Excelente"> Excelente</label><br>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="plantas" value="Normal"> Normal</label><br>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="plantas" value="Regular"> Regular</label><br>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="plantas" value="Mal"> Mal</label>
             </div>
-            <div>
-                <h4>Algas</h4>
-                <label><input type="radio" name="algas" value="Sin algas"> Sin algas</label><br>
-                <label><input type="radio" name="algas" value="Pocas algas"> Pocas algas</label><br>
-                <label><input type="radio" name="algas" value="Algas en crecimiento"> Algas en crecimiento</label><br>
-                <label><input type="radio" name="algas" value="Muchas algas"> Muchas algas</label>
+            <div style="flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 5px; text-align: left;">
+                <h4 style="text-align: center; color: #7c6408;">Algas</h4>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="algas" value="Ninguna"> Ninguna</label><br>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="algas" value="Presencia"> Presencia</label><br>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="algas" value="Cubierto"> Cubierto</label><br>
+                <label class="montserrat-regular" style="font-size: 14px; font-weight: bold"><input type="radio" name="algas" value="Muy Cubierto"> Muy Cubier.</label>
             </div>
         </div>
     `;
@@ -601,8 +611,167 @@ function cerrarModalBusqueda2() {
     modal.style.display = 'none'; // Ocultar modal
 }
 
+//**************************************************** */
+let textoInputInicial = ""; //texto del input inicial, empleado para agregar texto de busquedas combinadas Plantas/Algas, pH, Kh etc.
+let banderaErrorBuscar2 = false;
+let datosFiltrados = []; // Array con los datos filtrados (puede estar vacío)
+let datosBase = datosAcuario; // Datos completos del acuario
+const mapeoPlantas = {
+    "Excelente": 0,
+    "Normal": 1,
+    "Regular": 2,
+    "Mal": 3
+};
+
+const mapeoAlgas = {
+    "Ninguna": 0,
+    "Presencia": 1,
+    "Cubierto": 2,
+    "Muy Cubierto": 3
+};
+let valorMaxElemento; // Máximo permitido para el elemento
+let valorMinElemento; // Mínimo permitido para el elemento
+let valorOptElemento; // Valor óptimo inicial
+let numDecimales; // Cantidad de decimales permitidos
+let unidadMedida;
+//**************************************************** */
+
+document.querySelectorAll('.dropdown-menu-end').forEach((menu) => {
+    menu.addEventListener('click', (event) => {
+        // Tu lógica aquí
+        switch (event.target.id) {
+            case 'buscarPH':
+                valorMinElemento = 4;
+                valorMaxElemento = 10;
+                valorOptElemento = dataConfig.pHOpt;
+                numDecimales = 1;
+                configurarModalBusqueda('PH');
+                unidadMedida = "";
+                break;
+            case 'buscarKH':
+                valorMinElemento = 0;
+                valorMaxElemento = 10;
+                valorOptElemento = dataConfig.KHOpt;
+                numDecimales = 1;
+                configurarModalBusqueda('KH');
+                unidadMedida = "dKH";
+                break;
+            case 'buscarNO3':
+                valorMinElemento = 0;
+                valorMaxElemento = 50;
+                valorOptElemento = 0;
+                numDecimales = 0;
+                configurarModalBusqueda('NO3');
+                unidadMedida = "ppm";
+                break;
+            case 'buscarCO2':
+                valorMinElemento = 0;
+                valorMaxElemento = 100;
+                valorOptElemento = 16;
+                numDecimales = 2;
+                configurarModalBusqueda('CO2');
+                unidadMedida = "mg/l";
+                break;
+            case 'buscarTemp':
+                valorMinElemento = 10;
+                valorMaxElemento = 35;
+                valorOptElemento = dataConfig.tempOpt;
+                numDecimales = 0;
+                configurarModalBusqueda('temp');
+                unidadMedida = "ºC";
+                break;
+        }
+    });
+});
+
+//********************Modal único PH, KH, NO3, CO2******************************* */
+function configurarModalBusqueda(elemento) {
+
+    const modalTitle = document.getElementById('modal-titulo');
+    const modalBody = document.getElementById('modal-body');
+
+    // Actualiza el título del modal
+    modalTitle.textContent = `Combinación con ${elemento}`;
+
+    modalBody.innerHTML = `
+        <p style="text-align: justify; font-size: 14px;" class="georgia-regular-italic">» Selecciona un estado del ${elemento}. <br>
+            •  Si hay resultados filtrados previamente, la nueva búsqueda se hará sobre esos resultados. <br>
+            •  Si no hay filtros aplicados, se buscará en toda la base de datos.
+            <hr style="border: none; height: 3px; background-color: #DA8359;">
+        </p>        
+        <div class="d-flex flex-row justify-content-center gap-2">
+        <label class="montserrat-medium" for="valor-input">Introduce el valor (${valorMinElemento} - ${valorMaxElemento}):</label> 
+        <select id="operador-select" class="roboto-bold" style="text-align: center; font-size: 22px; color:rgb(167, 57, 2);">
+            <option class="roboto-bold" value=">">></option>
+            <option class="roboto-bold" value="=">=</option>
+            <option class="roboto-bold" value="<"><</option>
+        </select>       
+        <input 
+            class="roboto-bold"
+            style="text-align: center;"
+            id="valor-input" 
+            type="number" 
+            step="${Math.pow(10, -numDecimales)}" 
+            value="${valorOptElemento}" 
+            oninput="manejarEntrada(this)"
+            min="${valorMinElemento}" 
+            max="${valorMaxElemento}" 
+        >        
+        </div>
+    `;
+
+    abrirModal();
+}
+
+function mostrarResultadosCombinacion(elemento) {
+
+    // Obtener operador y valor del modal
+    const operador = document.getElementById('operador-select').value;
+    const valorInput = parseFloat(document.getElementById('valor-input').value);
+
+    // Validar el valor ingresado
+    if (isNaN(valorInput)) {
+        alert('Por favor, introduce un valor válido.');
+        return;
+    }
+
+    // Determinar el conjunto de datos a usar
+    const datosFiltrados = resultados;
+    const datosBusqueda = datosFiltrados.length > 0 ? datosFiltrados : datosBase;
+
+    if (elemento == 'PH') elemento = 'pH';
+
+    // Filtrar los datos según el operador
+    const resultadosElemento = datosBusqueda.filter((dato) => {
+        if (dato[elemento] === undefined || dato[elemento] === null) {
+            console.warn(`Dato inválido para ${elemento}:`, dato);
+            return false; // Ignorar valores no válidos
+        }
+
+        switch (operador) {
+            case '>':
+                return parseFloat(dato[elemento]) > valorInput;
+            case '=':
+                return parseFloat(dato[elemento]) === valorInput;
+            case '<':
+                return parseFloat(dato[elemento]) < valorInput;
+            default:
+                console.warn('Operador desconocido:', operador);
+                return false;
+        }
+    });
+
+    // Verificar y mostrar resultados
+    if (resultadosElemento.length === 0) {
+        mostrarMensajeSinResultados();
+    } else {
+        console.log(`Resultados encontrados (${resultadosElemento.length}):`, resultadosElemento);
+        mostrarResultados(resultadosElemento, elemento, operador); // Asegúrate de implementar esta función
+    }
+}
+
 // Función para procesar la búsqueda
-function procesarBusqueda() {
+function procesarBusquedaPlantasAlgas() {
     const plantasSeleccionadas = document.querySelector('input[name="plantas"]:checked');
     const algasSeleccionadas = document.querySelector('input[name="algas"]:checked');
 
@@ -610,11 +779,97 @@ function procesarBusqueda() {
     const algas = algasSeleccionadas ? algasSeleccionadas.value : null;
 
     if (plantas && algas) {
-        console.log(`Plantas seleccionadas: ${plantas}`);
-        console.log(`Algas seleccionadas: ${algas}`);
-        // Aquí puedes realizar la lógica de búsqueda
+        const resultadoPlantasAlgas = buscarCombinacionPlantasAlgas(plantas, algas);
+
+        if (resultadoPlantasAlgas.length > 0) {
+            mostrarResultados(resultadoPlantasAlgas, "", "");
+        } else {
+            mostrarMensajeSinResultados();
+        }
+
+        banderaErrorBuscar2 = false;
     } else {
         console.log('Debe seleccionar una opción para plantas y algas.');
         alert('Por favor, selecciona una opción para ambas columnas.');
+        banderaErrorBuscar2 = true;
     }
 }
+
+function buscarCombinacionPlantasAlgas(plantas, algas) {
+    let resultadosPA = [];
+
+    datosFiltrados = resultados;
+
+    // Determinar el conjunto de datos en el que buscar
+    let datosBusqueda;
+    if (datosFiltrados.length > 0) {
+        datosBusqueda = datosFiltrados;
+    } else {
+        datosBusqueda = datosBase;
+    }
+
+    // Convertir las etiquetas seleccionadas a los valores reales
+    const valorPlantas = mapeoPlantas[plantas];
+    const valorAlgas = mapeoAlgas[algas];
+
+    // Buscar coincidencias en los datos
+    resultadosPA = datosBusqueda.filter(item => {
+        return item.plantas === valorPlantas && item.algas === valorAlgas;
+    });
+
+    return resultadosPA;
+}
+
+// Función para mostrar resultados
+function mostrarResultados(conjuntoResultados, elemento, signo) {
+
+    resultados = conjuntoResultados;
+
+    let entrada = inputBusqueda.value.split("+");
+    inputBusqueda.value = entrada[0];
+
+    //Corrige el texto del inputBusqueda
+    if (document.getElementById('modal-titulo').textContent.includes('con Plantas/Algas')) {
+        const inputBusqueda = document.getElementById('inputBusqueda');
+        // Invertir el objeto para obtener un mapeo inverso
+        const mapeoPlantasInverso = Object.entries(mapeoPlantas).reduce((obj, [clave, valor]) => {
+            obj[valor] = clave;
+            return obj;
+        }, {});
+
+        const mapeoAlgasInverso = Object.entries(mapeoAlgas).reduce((obj, [clave, valor]) => {
+            obj[valor] = clave;
+            return obj;
+        }, {});
+
+        if (inputBusqueda.value != "") inputBusqueda.value = `${textoInputInicial} + (Plantas = ${mapeoPlantasInverso[resultados[0].plantas]})/(Algas = ${mapeoAlgasInverso[resultados[0].algas]})`;
+        else inputBusqueda.value = `(Plantas = ${mapeoPlantasInverso[resultados[0].plantas]})/(Algas = ${mapeoAlgasInverso[resultados[0].algas]})`;
+    } else {
+        const valorEntrada = document.getElementById('valor-input').value;
+        if (textoInputInicial != "") inputBusqueda.value = `${textoInputInicial} + ${elemento} ${signo} ${valorEntrada.toString().replace(".",",")} ${unidadMedida}`;
+        else inputBusqueda.value = `${elemento} ${signo} ${valorEntrada.toString().replace(".",",")} ${unidadMedida}`;
+    }
+
+    indiceActual = 0;
+
+    actualizarResultado();
+    actualizarControles();
+}
+
+// Función para mostrar un mensaje si no hay resultados
+function mostrarMensajeSinResultados() {
+    alert('No se han encontrado resultados para la combinación seleccionada.');
+}
+
+document.getElementById('botonBuscar').addEventListener('click', (event) => {
+
+    const modalTitle = document.getElementById('modal-titulo').textContent;
+
+    if (modalTitle.includes('con Plantas/Algas')) procesarBusquedaPlantasAlgas();
+    else mostrarResultadosCombinacion(modalTitle.split('con ')[1]);
+
+    if (!banderaErrorBuscar2) {
+        banderaErrorBuscar2 = false;
+        cerrarModalBusqueda2();
+    }
+});

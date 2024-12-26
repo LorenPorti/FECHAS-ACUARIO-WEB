@@ -214,7 +214,7 @@ html {
 /* Asegúrate de que el padding de .modal-body no interfiera */
 
 .modal-body {
-    padding: 15px 0 0 0;
+    padding: 10px 0 0 0;
     /* Elimina el padding inferior */
     display: flex;
     flex-direction: column;
