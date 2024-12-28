@@ -247,3 +247,7 @@
     font-weight: 900;
     font-style: italic;
 }
+
+.select-no {
+    user-select: none;
+}
