@@ -154,7 +154,7 @@ let tareasJSON = [];
 document.addEventListener("DOMContentLoaded", () => {
     const numAcuario = localStorage.getItem('numAcuario');
     let fileName = `acuarioNum${numAcuario}Manten.json`;
-    let fileUrl = `${githubBaseUrl}${fileName}`; // URL completa para el archivo en GitHub
+    let fileUrl = `${githubBaseUrl}${fileName}`; // URL completa para el archivo en GitHub    
 
     fetch(fileUrl)
         .then(response => {
@@ -207,7 +207,7 @@ function seleccionarFila(fila, filas) {
     const fechaSeleccionada = convertirFechaString(fechaTexto);
     if (!fechaSeleccionada) return;
 
-    let mensajeGeneral = `<strong style="padding-left: 2px;">Próximas tareas:</strong><br>`;
+    let mensajeGeneral = `<strong style="padding-left: 2px;">Próximas tareas desde la fila seleccionada:</strong><br>`;
 
     // Recorrer todas las celdas de la fila (excepto la columna Fecha)
     fila.querySelectorAll(".celda:not(.fecha)").forEach((celda, indiceColumna) => {
@@ -230,7 +230,9 @@ function seleccionarFila(fila, filas) {
 
         // Si no se encuentra operación en las filas posteriores, calcular desde tareasJSON por fechas
         if (!proximaOperacion) {
+
             const tareaJSON = tareasJSON[indiceColumna]; // Asumiendo que las columnas coinciden con tareasJSON
+
             if (tareaJSON) {
                 const fechaInicio = new Date(tareaJSON.FechaInicio);
                 const intervalo = tareaJSON.Intervalo * 7; // Intervalo en días
@@ -266,4 +268,133 @@ function seleccionarFila(fila, filas) {
 
     // Mostrar el mensaje en la parte inferior de la página
     document.getElementById("proximaOperacion").innerHTML = mensajeGeneral;
+}
+
+document.getElementById("ir-a-fecha").addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    const dateInputContainer = document.getElementById("dateInputContainer");
+    const dateInput = document.getElementById("dateInput");
+
+    FechaASelector(); //Poner la fecha de la selcción en el selector de fechas
+
+    if (!dateInputContainer || !dateInput) {
+        console.error("No se encontraron los elementos necesarios para mostrar el selector de fecha.");
+        return;
+    }
+
+    // Posicionar el selector de fecha justo debajo de "Ir a Fecha"
+    const rect = event.target.getBoundingClientRect();
+    dateInputContainer.style.left = `${rect.left}px`;
+    dateInputContainer.style.top = `${rect.bottom + window.scrollY}px`;
+    dateInputContainer.style.display = "block"; // Mostrar el selector de fecha
+
+    // Manejar selección de fecha
+    dateInput.addEventListener("change", function onDateChange(event) {
+        const selectedDate = new Date(event.target.value);
+        const firstDate = convertirFechaString(datosAcuario[0].Fecha);
+        const lastDate = convertirFechaString(datosAcuario[datosAcuario.length - 1].Fecha);
+
+        // Validar que la fecha seleccionada sea un domingo
+        if (selectedDate.getDay() !== 0) {
+            alert("La fecha seleccionada debe ser un domingo.");
+            event.target.value = ""; // Limpiar la fecha seleccionada del selector
+            FechaASelector(); //Poner la fecha de la selección en el selector de fechas
+            dateInputContainer.style.display = "block";
+            return;
+        }
+
+        const minDate = new Date(firstDate);
+        const maxDate = new Date(lastDate);
+        maxDate.setDate(maxDate.getDate() + 1);
+        minDate.setDate(minDate.getDate() - 1);
+
+        if (!(selectedDate >= minDate && selectedDate <= maxDate)) {
+            alert(
+                `La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`
+            );
+            event.target.value = ""; // Limpiar la fecha seleccionada
+            FechaASelector(); //Poner la fecha de la selección en el selector de fechas
+            dateInputContainer.style.display = "block";
+            return;
+        }
+
+        dateInputContainer.style.display = "none";
+
+        // Obtener el índice de la fila
+        const rowIndex = getRowIndexByDate(selectedDate);
+        if (rowIndex !== -1) {
+            // selectAndScrollToRow(rowIndex); // Seleccionar y hacer scroll a la fila
+
+            const bloque = document.querySelectorAll(".tabla-cuerpo .fila");
+            const filaSelect = bloque[rowIndex];
+
+            if (bloque.length > 0) {
+                setTimeout(() => {
+                    filaSelect.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+                    seleccionarFila(filaSelect, bloque);
+                }, 10); // Retraso mínimo para asegurar que la cuadrícula esté lista
+            }
+
+            seleccionarFila(rowIndex, document.querySelectorAll(".tabla-cuerpo .fila"));
+            rowIndex.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+
+
+            // Ocultar el selector de fecha y limpiar el input
+            dateInputContainer.style.display = "none";
+            dateInput.value = ""; // Limpiar el valor del input
+            dateInput.blur();
+
+            // Quitar el evento para evitar múltiples llamadas
+            dateInput.removeEventListener("change", onDateChange);
+        }
+    });
+
+    // Manejar clic fuera del selector para ocultarlo
+    function ocultarSelectorFecha(evento) {
+        if (!dateInputContainer.contains(evento.target) && evento.target !== dateInput) {
+            document.removeEventListener("click", ocultarSelectorFecha);
+            dateInputContainer.style.display = "none";
+        }
+    }
+
+    // Asegurarse de que el evento de clic se registre después de mostrar el selector
+    setTimeout(() => {
+        document.addEventListener("click", ocultarSelectorFecha);
+    }, 0);
+});
+
+//Funcion para mostrar en el selector de fechas la fecha seleccionada
+function FechaASelector() {
+    const filasTabla = document.querySelectorAll(".tabla-cuerpo .fila");
+
+    // Convertimos NodeList a Array para usar findIndex
+    const indiceSeleccionada = Array.from(filasTabla).findIndex(fila =>
+        fila.classList.contains("fila-seleccionada")
+    );
+
+    const fechaSeleccionada = convertirFechaString(datosAcuario[indiceSeleccionada].Fecha);
+    fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
+    // Verificar si hay una fecha seleccionada
+    if (fechaSeleccionada) {
+        // Configurar el valor del input de fecha con la fecha seleccionada
+        dateInput.valueAsDate = fechaSeleccionada;
+    } else {
+        // Si no hay una fecha seleccionada, puedes configurar un valor por defecto, por ejemplo, la fecha de hoy
+        dateInput.valueAsDate = new Date();
+    }
+
+    return fechaSeleccionada;
+}
+
+function getRowIndexByDate(selectedDate) {
+    for (let i = 0; i < datosAcuario.length; i++) {
+        const rowDate = convertirFechaString(datosAcuario[i].Fecha);
+        if (rowDate.toDateString() === selectedDate.toDateString()) {
+            return i; // Retorna el índice de la fila correspondiente
+        }
+    }
+    return -1; // Si no se encuentra la fecha, retornar -1
 }
