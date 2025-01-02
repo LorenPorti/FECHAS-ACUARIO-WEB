@@ -398,3 +398,91 @@ function getRowIndexByDate(selectedDate) {
     }
     return -1; // Si no se encuentra la fecha, retornar -1
 }
+
+//******************************************** */
+// let datosTarea = [
+//     { Fecha: "18 oct. 2020", actividad: "(√)Cambio 1 lt MICROMEC" },
+//     { Fecha: "12 sep. 2021", actividad: "(√)Comprar 1 lt MICROMEC" }
+// ];
+
+function generarResumenTarea(numeroTarea) {
+
+    // Referencia al modal y su cuerpo
+    const modal = document.getElementById("modalTextoCelda");
+    const modalTitulo = document.getElementById("modalTextoCeldaLabel");
+    const modalCuerpo = document.getElementById("contenidoCeldaModal");
+
+    // Cambiar el título del modal
+    modalTitulo.textContent = `RESUMEN TAREA N° ${numeroTarea}`;
+
+    // Crear datosTarea dinámicamente a partir de datosAcuario
+    const datosTarea = datosAcuario
+        .filter(dato => dato[`tarea${numeroTarea}`]) // Solo tareas válidas
+        .map(dato => ({
+            Fecha: dato.Fecha,
+            actividad: dato[`tarea${numeroTarea}`]
+        }));
+
+    // Preparar el contenido con formato adecuado
+    let contenido = "<pre style='font-family: monospace; white-space: no-wrap; text-align: left; margin: 0;'>";
+
+    datosTarea.forEach((dato, index) => {
+        const fecha = ajustaFecha(dato.Fecha).padEnd(8); // Fecha con espacio uniforme
+        // const semanas = index === 0 ? "Inicio".padEnd(8) : calcularDiferenciaSemanas(datosTarea[index - 1].Fecha, dato.Fecha).padEnd(6);
+        // Normalizar el formato de semanas
+        // Normalizar el formato de semanas
+        const semanas = index === 0 ? "Inicio".padEnd(8) : calcularDiferenciaSemanas(datosTarea[index - 1].Fecha, dato.Fecha).replace(" sem.", "sem.").padStart(8); // Quitar espacio en " sem." // Asegurar que el texto ocupe 8 caracteres
+        // const actividad = dato.actividad.substring(0, 1) == '§' ? `${dato.actividad.replace("§", "√")}` : dato.actividad;
+        let actividad = dato.actividad.startsWith("§") ? `<span style="color: green;">${dato.actividad.slice(1)}</span>` : dato.actividad;
+
+        contenido += `${fecha} | ${semanas} | ${actividad}\n`;
+    });
+
+    contenido += "</pre>";
+
+    // Insertar el contenido generado en el cuerpo del modal
+    modalCuerpo.innerHTML = contenido;
+
+    // Aplicar altura máxima al modal
+    modalCuerpo.style.maxHeight = "80vh";
+    modalCuerpo.style.overflowY = "auto";
+
+    // Mostrar el modal
+    const modalBootstrap = new bootstrap.Modal(modal);
+    modalBootstrap.show();
+
+}
+
+function ajustaFecha(fecha) {
+    fecha = fecha.trim().replace(" ", "").replace(". ", "");
+    if (fecha.length < 9) fecha = " " + fecha;
+    return fecha;
+}
+
+// Función para formatear fechas en formato uniforme (Ej: '03 ago. 2024')
+function formatearFechaUniforme(fechaString) {
+    const opciones = { day: "2-digit", month: "short", year: "numeric" };
+    const fecha = new Date(fechaString);
+    return fecha.toLocaleDateString("es-ES", opciones).replace(".", "");
+}
+
+// Función para calcular la diferencia en semanas entre dos fechas
+function calcularDiferenciaSemanas(fechaAnterior, fechaActual) {
+    const date1 = convertirFechaString(fechaAnterior);
+    const date2 = convertirFechaString(fechaActual);
+
+    const diferenciaDias = ((date2 - date1) / (1000 * 60 * 60 * 24)).toFixed(0).toString().length >= 7 ? (date2 - date1) / (1000 * 60 * 60 * 24) : " " + ((date2 - date1) / (1000 * 60 * 60 * 24)).toFixed(0).toString();
+    return `${diferenciaDias} sem.`;
+}
+
+// Función para truncar texto largo
+function truncarTexto(texto, maxLongitud) {
+    return texto.length > maxLongitud ? texto.slice(0, maxLongitud - 3) + "." : texto;
+}
+
+document.getElementById("resumenTarea_1").addEventListener("click", () => {
+    generarResumenTarea(1);
+});
+document.getElementById("resumenTarea_2").addEventListener("click", () => {
+    generarResumenTarea(2);
+});
