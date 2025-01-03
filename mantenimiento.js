@@ -365,6 +365,46 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     }, 0);
 });
 
+document.getElementById("ir-fecha-inicial").addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    const bloque = document.querySelectorAll(".tabla-cuerpo .fila");
+
+    const rowIndex = 0;
+    const filaSelect = bloque[rowIndex];
+
+    if (bloque.length > 0) {
+        setTimeout(() => {
+            filaSelect.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+            seleccionarFila(filaSelect, bloque);
+        }, 10); // Retraso mínimo para asegurar que la cuadrícula esté lista
+    }
+
+    seleccionarFila(rowIndex, document.querySelectorAll(".tabla-cuerpo .fila"));
+    rowIndex.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+});
+
+document.getElementById("ir-fecha-final").addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    const bloque = document.querySelectorAll(".tabla-cuerpo .fila");
+
+    const rowIndex = datosAcuario.length - 1;
+    const filaSelect = bloque[rowIndex];
+
+    if (bloque.length > 0) {
+        setTimeout(() => {
+            filaSelect.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+            seleccionarFila(filaSelect, bloque);
+        }, 10); // Retraso mínimo para asegurar que la cuadrícula esté lista
+    }
+
+    seleccionarFila(rowIndex, document.querySelectorAll(".tabla-cuerpo .fila"));
+    rowIndex.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+});
+
 //Funcion para mostrar en el selector de fechas la fecha seleccionada
 function FechaASelector() {
     const filasTabla = document.querySelectorAll(".tabla-cuerpo .fila");
@@ -414,6 +454,8 @@ function generarResumenTarea(numeroTarea) {
 
     // Cambiar el título del modal
     modalTitulo.textContent = `RESUMEN TAREA N° ${numeroTarea}`;
+    modalTitulo.style.color = "white";
+    document.getElementsByClassName("modal-header")[0].style.background = "#A28B55";
 
     // Crear datosTarea dinámicamente a partir de datosAcuario
     const datosTarea = datosAcuario
@@ -426,17 +468,51 @@ function generarResumenTarea(numeroTarea) {
     // Preparar el contenido con formato adecuado
     let contenido = "<pre style='font-family: monospace; white-space: no-wrap; text-align: left; margin: 0;'>";
 
-    datosTarea.forEach((dato, index) => {
-        const fecha = ajustaFecha(dato.Fecha).padEnd(8); // Fecha con espacio uniforme
-        // const semanas = index === 0 ? "Inicio".padEnd(8) : calcularDiferenciaSemanas(datosTarea[index - 1].Fecha, dato.Fecha).padEnd(6);
-        // Normalizar el formato de semanas
-        // Normalizar el formato de semanas
-        const semanas = index === 0 ? "Inicio".padEnd(8) : calcularDiferenciaSemanas(datosTarea[index - 1].Fecha, dato.Fecha).replace(" sem.", "sem.").padStart(8); // Quitar espacio en " sem." // Asegurar que el texto ocupe 8 caracteres
-        // const actividad = dato.actividad.substring(0, 1) == '§' ? `${dato.actividad.replace("§", "√")}` : dato.actividad;
-        let actividad = dato.actividad.startsWith("§") ? `<span style="color: green;">${dato.actividad.slice(1)}</span>` : dato.actividad;
+    if (datosTarea.length == 0) {
+        contenido += `-- Sin datos de actividades --`;
+    } else {
 
-        contenido += `${fecha} | ${semanas} | ${actividad}\n`;
-    });
+        datosTarea.forEach((dato, index) => {
+            const fecha = ajustaFecha(dato.Fecha).padEnd(8); // Fecha con espacio uniforme
+
+            // Normalizar el formato de semanas
+            const semanas = index === 0 ? "Inicio".padEnd(8) : calcularDiferenciaSemanas(datosTarea[index - 1].Fecha, dato.Fecha).replace(" sem.", "sem.").padStart(8); // Quitar espacio en " sem." // Asegurar que el texto ocupe 8 caracteres
+
+            let actividad = dato.actividad.startsWith("§") ? `<span style="color: green; font-weight: bold; font-size: 15px;">${dato.actividad.slice(1)}</span>` : dato.actividad;
+
+            contenido += `${fecha} | ${semanas} | ${actividad}\n`;
+        });
+
+        //Insertar línea de separación
+        contenido += '<hr style="border: none; height: 1px; background-color: #616a6b;">';
+    }
+
+    tareaConfig.FechaInicio = datosTarea[datosTarea.length - 1].Fecha;
+    tareaConfig.Tarea = tareasJSON[numeroTarea - 1].Tarea;
+    tareaConfig.Intervalo = tareasJSON[numeroTarea - 1].Intervalo;
+    const proximaActividad = calcularProximaActividad(datosTarea, tareaConfig);
+
+    contenido += '<div class="d-flex flex-column" style="gap: 0.5rem;">';
+    contenido += `
+    <span class="d-flex flex-wrap align-items-center" style="gap: 0.2rem;">
+        <p class="georgia-medium" style="margin: 0;">» Próximo: </p>
+        <p class="georgia-bold-italic" style="margin: 0; color: blue;">${proximaActividad.proximafecha}</p>
+        <p class="georgia-bold-italic" style="margin: 0; color: maroon;">${proximaActividad.tarea}</p>
+        <p class="georgia-medium" style="margin: 0;">- Faltan </p>
+        <p class="georgia-bold-italic" style="margin: 0; color: blue;">${proximaActividad.semanasRestantes}</p>
+        <p class="georgia-medium" style="margin: 0;">semanas desde hoy.</p>
+    </span>
+    <span class="d-flex flex-wrap align-items-center" style="gap: 0.2rem;">
+        <p class="georgia-medium" style="margin: 0;">» Está programada la tarea: </p>
+        <p class="georgia-bold-italic" style="margin: 0; color: maroon;">${proximaActividad.tarea}</p>
+        <p class="georgia-medium" style="margin: 0;">a partir de: </p>
+        <p class="georgia-bold-italic" style="margin: 0; color: blue;">${formatDate(tareasJSON[numeroTarea - 1].FechaInicio)}</p>
+        <p class="georgia-medium" style="margin: 0;">cada </p>
+        <p class="georgia-bold-italic" style="margin: 0; color: blue;">${proximaActividad.intervaloSemanas}</p>
+        <p class="georgia-medium" style="margin: 0;">semanas.</p>
+    </span>
+`;
+    contenido += '</div>';
 
     contenido += "</pre>";
 
@@ -453,9 +529,10 @@ function generarResumenTarea(numeroTarea) {
 
 }
 
+//conviert 3 ago. 2024 a 3ago2024
 function ajustaFecha(fecha) {
-    fecha = fecha.trim().replace(" ", "").replace(". ", "");
-    if (fecha.length < 9) fecha = " " + fecha;
+    // fecha = fecha.trim().replace(" ", "").replace(". ", "");
+    if (fecha.length < 12) fecha = " " + fecha;
     return fecha;
 }
 
@@ -472,7 +549,7 @@ function calcularDiferenciaSemanas(fechaAnterior, fechaActual) {
     const date2 = convertirFechaString(fechaActual);
 
     const diferenciaDias = ((date2 - date1) / (1000 * 60 * 60 * 24)).toFixed(0).toString().length >= 7 ? (date2 - date1) / (1000 * 60 * 60 * 24) : " " + ((date2 - date1) / (1000 * 60 * 60 * 24)).toFixed(0).toString();
-    return `${diferenciaDias} sem.`;
+    return `${diferenciaDias / 7} sem.`;
 }
 
 // Función para truncar texto largo
@@ -486,3 +563,61 @@ document.getElementById("resumenTarea_1").addEventListener("click", () => {
 document.getElementById("resumenTarea_2").addEventListener("click", () => {
     generarResumenTarea(2);
 });
+document.getElementById("resumenTarea_3").addEventListener("click", () => {
+    generarResumenTarea(3);
+});
+document.getElementById("resumenTarea_4").addEventListener("click", () => {
+    generarResumenTarea(4);
+});
+document.getElementById("resumenTarea_5").addEventListener("click", () => {
+    generarResumenTarea(5);
+});
+
+// Preparar el contenido del mensaje
+const tareaConfig = {
+    FechaInicio: "2022-11-13",
+    Tarea: "Limpieza filtro Pral",
+    Intervalo: 10, // En semanas
+};
+
+// Función para calcular la próxima actividad y generar el mensaje para RESUMEN DE TAREA
+function calcularProximaActividad(datosAcuario, tareaConfig) {
+    // Última fecha realizada
+    const ultimaFechaRealizada = datosAcuario[datosAcuario.length - 1].Fecha;
+    const ultimaFecha = new Date(convertirFechaString(ultimaFechaRealizada));
+
+    // Configuración de la tarea
+    const intervaloSemanas = tareaConfig.Intervalo;
+    const tarea = tareaConfig.Tarea;
+    const fechaInicio = new Date(convertirFechaString(tareaConfig.FechaInicio));
+
+    // Calcular próxima fecha basada en el intervalo
+    let proximaFecha = fechaInicio;
+    while (proximaFecha <= ultimaFecha) {
+        proximaFecha = sumarSemanas(proximaFecha, intervaloSemanas);
+    }
+
+    // Calcular semanas restantes desde hoy
+    const hoy = new Date();
+    const diferenciaDias = (proximaFecha - hoy) / (1000 * 60 * 60 * 24);
+    const semanasRestantes = Math.ceil(diferenciaDias / 7);
+
+    return {
+        // proximaFecha: ajustaFecha(proximaFecha.toISOString().split("T")[0]), // Formato '3 mar. 2025'
+        proximafecha: formatDate(proximaFecha),
+        tarea,
+        // intervaloInicio: ajustaFecha(fechaInicio.toISOString().split("T")[0]),
+        intervaloInicio: formatDate(fechaInicio),
+        intervaloSemanas,
+        semanasRestantes,
+    };
+}
+
+// Función para sumar semanas correctamente y evitar desajustes
+function sumarSemanas(fecha, semanas) {
+    const nuevaFecha = new Date(fecha);
+    nuevaFecha.setDate(nuevaFecha.getDate() + semanas * 7);
+    // Establecer hora fija para evitar problemas de zona horaria
+    nuevaFecha.setHours(12, 0, 0, 0);
+    return nuevaFecha;
+}
