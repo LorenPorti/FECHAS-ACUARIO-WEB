@@ -405,6 +405,21 @@ document.getElementById("ir-fecha-final").addEventListener("click", function(eve
     rowIndex.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
 });
 
+document.getElementById("ir-fecha-seleccionada").addEventListener("click", function(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+    const filas = document.querySelectorAll(".tabla-cuerpo .fila");
+    let row;
+    // Añadir evento de clic a cada fila
+    filas.forEach((fila, indiceFila) => {
+        fila.dataset.indice = indiceFila; // Agregar índice a cada fila
+        if (fila.classList.contains("fila-seleccionada")) {
+            fila.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
+        }
+    });
+
+});
+
 //Funcion para mostrar en el selector de fechas la fecha seleccionada
 function FechaASelector() {
     const filasTabla = document.querySelectorAll(".tabla-cuerpo .fila");
@@ -497,19 +512,19 @@ function generarResumenTarea(numeroTarea) {
     <span class="d-flex flex-wrap align-items-center" style="gap: 0.2rem;">
         <p class="georgia-medium" style="margin: 0;">» Próximo: </p>
         <p class="georgia-bold-italic" style="margin: 0; color: blue;">${proximaActividad.proximafecha}</p>
-        <p class="georgia-bold-italic" style="margin: 0; color: maroon;">${proximaActividad.tarea}</p>
+        <p class="georgia-bold-italic" style="margin: 0; color: maroon;"> ${proximaActividad.tarea}</p>
         <p class="georgia-medium" style="margin: 0;">- Faltan </p>
         <p class="georgia-bold-italic" style="margin: 0; color: blue;">${proximaActividad.semanasRestantes}</p>
-        <p class="georgia-medium" style="margin: 0;">semanas desde hoy.</p>
+        <p class="georgia-medium" style="margin: 0;"> semanas desde hoy.</p>
     </span>
     <span class="d-flex flex-wrap align-items-center" style="gap: 0.2rem;">
         <p class="georgia-medium" style="margin: 0;">» Está programada la tarea: </p>
         <p class="georgia-bold-italic" style="margin: 0; color: maroon;">${proximaActividad.tarea}</p>
         <p class="georgia-medium" style="margin: 0;">a partir de: </p>
         <p class="georgia-bold-italic" style="margin: 0; color: blue;">${formatDate(tareasJSON[numeroTarea - 1].FechaInicio)}</p>
-        <p class="georgia-medium" style="margin: 0;">cada </p>
+        <p class="georgia-medium" style="margin: 0;"> cada </p>
         <p class="georgia-bold-italic" style="margin: 0; color: blue;">${proximaActividad.intervaloSemanas}</p>
-        <p class="georgia-medium" style="margin: 0;">semanas.</p>
+        <p class="georgia-medium" style="margin: 0;"> semanas.</p>
     </span>
 `;
     contenido += '</div>';
