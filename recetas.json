@@ -1,0 +1,62 @@
+[
+  {
+    "NOMBRE_RECETA": "CO2 CON LEVADURA",
+    "INGREDIENTES": "- 250 grs de azúcar blanquilla\n- ~1 lts de agua corriente\n- 10 grs levadura fresca de panadería\n- Opcional: Una cucharada (sopera) rasa de sal\n- 1 botella 1,5 lts (como la de coca cola)",
+    "ELABORACION": "- Perforar el tapón para pasar un tubito de plástico del aire del acuario, sellar bien el tubo con el tapón para que no haya fugas de gas.\n\n- Opcional: Echar el agua y disolver la sal (la sal es para retardar la fermentación, tener cuidado de no echar mucha para no matar la levadura)\n\n- Echar en la botella, mediante un embudo, el azúcar sin agitar ni disolver para que dure más la fermentación.\n\n- De la misma forma vertemos en la botella la levadura.\n\n- Finalmente se completa con agua hasta unos 10 cms del tapón y se cierra bien.\n\nLa producción de CO2 comenzará aproximadamente en una hora. De esta forma tendremos CO2 durante cuatro o cinco días.\n\nNOTAS:\n- 250 grs de azúcar producen 125 grs de etanol y 125 grs de CO2\n- Densidad CO2 = 0,002 grs/cm3 = 2 grs/lt\n- 125 grs CO2 = 62,50 lts = 32 botellas de 2 lts\n- La fermentación es el doble de rápida a 30ºC que a 20ºC\n- La presión puede parar la fermentación\n- Una burbuja de d=3,5 mm = 2,24x10-5 dm3\n- 62,50 lts = 2.790.178 burbujas"
+  },
+  {
+    "NOMBRE_RECETA": "ILUMINACION",
+    "INGREDIENTES": "- Tubo fluorescente (parte de atras del acuario) SYLVANIA DAYLIGHTSTAR 5.000 ºk (plantas). \n2.300 Lm.  \nOSRAM LUMILUX COOL DAYLIGHT. \n\n- Tubo fluorescente (parte delantera del acuario)SYLVANIA AQUASTAR 10.000 ºK (general). 1.700 Lm.",
+    "ELABORACION": "- Años pares poner un tubo DAYLIGHTSTAR para plantas\n\n- Años impares poner un tubo AQUASTAR general.\n(Hacer el cambio de los tubos aproximadamente en primavera)"
+  },
+  {
+    "NOMBRE_RECETA": "EXTRACTO DE TURBA",
+    "INGREDIENTES": "- 1 lt de agua destilada\n\n- 1/2 lt de turba de sphagnum suelta",
+    "ELABORACION": "- Poner la turba en un cacharro para hervir lo suficentemente grande.\n\n- Verter el agua destilada (echar un poquito más para la que se pierda por evaporación).\n\n- Hervir a fuego lento 15 minutos o 1/2 hora.\n\n- Cuando el cocido esté frio, exprimir bien fuerte y colar la solución, para que tenga pocos sólidos, en una botella vacia.\n\n- Echar en el acuario 250 cc semanales.\n\n- Guadar la turba exprimida para uso posterior sobre todo para las plantas."
+  },
+  {
+    "NOMBRE_RECETA": "DURACION ESTIMADA BOTELLA CO2 PRESION",
+    "INGREDIENTES": "- Botella presión CO2 de 2 kg.",
+    "ELABORACION": "ESTIMACION POR PESO:\n- Densidad CO2 gas = 1,88 kg/m3\n- Densidad CO2 líquido (en la botella) = 1251 kg/m3\n- Densid. CO2 gas = 1,88 x 1E3/1E6 = 1,88E-3 gr/cc\n- Densid. Co2 líq. = 1.251 x 1E3/1E6 = 1251E-3 gr/cc\n1 burbuja (BR) =~ Pi x 3,5^2/4 x 12 =~ 115,44 mm3\n1 cc gas = 1000 mm3/115,44 mm3 = 8.6 BR\n1 BR pesa = 1,88E-3/8,6 = 0,21E-3 gramos\n\n1 minuto 40 burbujas (BR); 0,21E-3 x 40 = 0,84E-2 gr.\n1 hora = 0,84E-2 x 60 = 0,504 gr.\n1 día (12 horas) = 0,504 x 12 = 6,05 gramos\nPérdida estimada del 20% = 6,20 x 1,2 = 7,44gramos\n1 kilo CO2 líquido = 1251E-3 x 1000 = 1251 gramos\n1251/7,44 = 168 días\nBotella de 2 kilos =~ 1800 gramos = 1,8 x 168 = 302 días\n\n- Duración estimada de una botella de 2 Kg de CO2, unos diez meses."
+  },
+  {
+    "NOMBRE_RECETA": "ELIMINAR ALGAS AZULES (CIANOBACTERIAS)",
+    "INGREDIENTES": "- Amoxicilina, Eritromicina solubles",
+    "ELABORACION": "- Como tratamiento extremo podemos utilizar 250 mg de eritromicina por cada 100 litros de agua. Esto generalmente resuelve el problema pero también se debe señalar que, puede afectar a la filtración biológica de nuestro acuario, por lo que hay que estar atento a la presencia de nitratos.\n\n- La eritromicina solamente deber ser utilizada como último recurso. \n\n- Si la afloración de algas es pequeña se puede reducir la dosis de acuerdo con la infección."
+  },
+  {
+    "NOMBRE_RECETA": "ABONO DE HIERRO CON Hortrilon",
+    "INGREDIENTES": "- 1 Sobre de Hortrilon (5 gr)\n\n- 250 cc Agua destilada",
+    "ELABORACION": "- Disolver los 5 grms de hortrilon en los 250 cc de agua destilada.\n\n- El contenido de Fe será:\n     5% de Fe x 5 gr = 0,25 gr; total 250 miligramos de Fe.\n     250 cc de agua preparada = 250 mg de Fe.\n     1 cc de agua preparada = 1 mg de Fe.\n     Cantidad necesaria de Fe en el agua 0,1 mg/lt. permanente (Libro 'Plantas de Acuario' de Kaspar Horst)\n\n - Sería necesario (210 lts) 210 x 0,1 mg/lt = 21 cc de agua con Hortrilon.\n\n- Para mantener en todo lo posible constantemente el hierro, si el cambio de agua es cada 15 días. 1,5 cc de agua preparada diario (en condiciones normales)."
+  },
+  {
+    "NOMBRE_RECETA": "ABONO DE HIERRO CON Microplus",
+    "INGREDIENTES": "- Aprox. 5 gr de 'microplus' de Fertiberia (1 cucharilla rasa que viene con el envase).\n\n- 250 cc Agua destilada",
+    "ELABORACION": "- Disolver los 5 grms de microplus en 250 cc de agua destilada.\n\n- El contenido de Fe será:\n     7,5% de Fe x 5 gr = 0,375 gr; total 375 miligramos de Fe.\n     250 cc de agua preparada = 375 mg de Fe.\n     1 cc de agua = 1,5 mg de Fe.\n     Cantidad necesaria de Fe en el agua 0,1 mg/lt. permanente (Libro 'Plantas de Acuario' de Kaspar Horst)\n\n- Si el agua del acuario no tuviera hierro sería necesario (210 lts) 210 x 0,1 mg/lt = 21 mg de Fe./1,5 = 14 cc de agua con 'Microplus'\n- Para mantener en todo lo posible constamente el hierro, si el cambio de agua es cada 15 días. \n1 cc de agua preparada con microplus diario (en condiciones normales)."
+  },
+  {
+    "NOMBRE_RECETA": "MEZCLA AGUA GRIFO + OSMOSIS PARA DUREZA",
+    "INGREDIENTES": "Formula:\n\ntº = (G x dº)/(G + O)\n\ntº = Grados de dureza definitiva de la mezcla\nG  = Volumen agua del grifo\nO  = Volumen agua dº = 0\ndº = Grados dureza del agua del grifo\n\n(Mismo sistema de grados en tº y dº)\n\n(Agua de dureza dº = 0; ej. Osmosis, el agua destilada sería el valor correcto pero para más comodidad emplearemos osmosis)",
+    "ELABORACION": "Ejemplos (basados en la información de Aljarafesa de la dureza de la red de agua TH = 10,3, dH = 5,8) :\n\n- Volumen necesario del agua del grifo para obtener una mezcla de dureza dº = 1 y mezclarla con 40 lts de osmosis:\n\n             1 = (G x 5,8)/(G + 40); G = 8,3 lts.    \n\n- Volumen necesario de agua del grifo + osmosis para obtener un volumen de 50 lts y dureza 1º:\n\n     1 = (G x 5,8)/(50); G = 8,6 lts, O = (50 - 8,6) = 41,4 lts.\n\n-Volumen necesario de agua de dureza dº = 0 para mezclarla con 10 lts de agua del grifo y obtener dº = 1:\n\n                1 = (10 x 5,8)/(10 + O); O = 48 lts."
+  },
+  {
+    "NOMBRE_RECETA": "PAPILLA DE VERDURAS, MEJILLONES Y CORAZÓN",
+    "INGREDIENTES": "► 425 gr (42,5% ) hígado y corazón de pollo crudos.\n► 100 gr (10%) calamares crudos.\n► 150 gr (15%) mejillones cocidos\n► 25 gr (2,5%) salmón (ahumado o curado).\n► 50gr (5%) soja.\n► 250 gr (25%) de verduras.\n► Un diente adecuado de ajo.\n► Se puede agregar insectos capturados y similares o liofilizados.",
+    "ELABORACION": "► Descongelar los alimentos que no se vayan a hervir.\n► Pesar los alimentos y reservar.\n► Medio hervir las verduras junto con el salmón y el calamar.\n► Mientras se hierven las verduras limpiar de grasas y tejidos el corazón y el hígado de pollo y los calamares.\n► Un poco antes de terminar el cocido anterior, agregar el hígado y el corazón.\n► Comprobar que todos los elementos cocidos estén en su punto.\n► Cortar todos los elementos anteriores en trozos de un par de centimetros aproximadamente para facilitar la trituración, y colocarlos encima de una servilleta de papel para eliminar el agua innecesaria antes de meterlos en la máquina trituradora. Las verduras escurrirlas bien.\n► Agregar todo lo anterior al cazo de la trituradora.\n► Quitar a los mejillones las hebras y los labios y agregarlos en el cazo de la trituradora.\n► Triturar muy bién el diente de ajo y agregarlo al cazo.\n► Agregar la soja.\n►  Agregar también los insectos o comida liofilizada.\n► Finalmente triturarlos hasta que tengan una textura adecuada para alimentar a los peces.\n\n- Retirar la papilla ayudandonos de una espátula de goma y ponerla encima de un film transparente de forma que se pueda envolver o en bolsas para congelados. Apretar la papilla entre las caras del film hasta que tenga un espesor de unos  3mm aproximadamente de forma que se pueda romper en trozos cuando se congele y así controlar el suministro a nuestros peces."
+  },
+  {
+    "NOMBRE_RECETA": "ILUMINACIÓN ACUARIO VIVALINE 240",
+    "INGREDIENTES": "Tubo EHEIM T5 HQ 39 W Freshpower Daylight.\nVer el acrhivo:\n Tubo T5 39W EHEIM Freshpower.pdf' en el directoiro de los datos del programa.",
+    "ELABORACION": "Sin detalle."
+  },
+  {
+    "NOMBRE_RECETA": "JBL MICROMEC",
+    "INGREDIENTES": "- 2 lt. MICROMEC (JBL) ~ 2 x 650 gr. Masa filtrante en bolitas sintéticas.",
+    "ELABORACION": "Con 1500 m2/I de superficie ideal para la colonización con millones de bacterias útiles.\n\nJBL MicroMec es  un  material  biológico  de  filtro  altamente  poroso de vidrio sinterizado, que permite la eficaz biodegradación de contaminantes. Por tanto, es muy conveniente para el filtrado biológico a largo plazo e intensivo en acuarios de agua dulce y salada. La estructura especial de poros cónicos de túnel cuida que haya óptimas posibilidades de colonización de bacterias purificadoras útiles. La forma de bolas irregulares ofrece gracias al mayor espesor del material, en comparación con los materiales de anillos, la posibilidad de una colonización por capas de diferentes bacterias. En las capas exteriores tiene  lugar la degradación eficaz del amonio y nitrito, mientras que más al interior se dan las condiciones óptimas para la degradación bacteriana del nitrato. La óptima densid.ad aparente de carga a granel permite ya en pequeños filtros una efectividad altísima.\n\nUso:\nAntes del uso, enjuagar bien con agua corriente para eliminar los desgastes  por fricción derivados del transporte.  Instalar JBL MicroMec en el filtro de tal forma, que esté protegido contra ensuciamiento innecesario por una capa de fácil limpieza regular de JBL Simec. De vez en cuando, debe enjuagarse JBL MicroMec un poco con agua corriente. Para conservar su efecto óptimo ha de reemplazarse después de 1 año la mitad de JBL MicroMec con material nuevo."
+  },
+  {
+    "NOMBRE_RECETA": "AGUA OXIGENADA CONTRA LAS ALGAS",
+    "INGREDIENTES": "- Peróxido de hidrógeno (H2O2, agua oxigenada al 6%).\n- Agua de osmosis.",
+    "ELABORACION": "12 ml diarios (6 ml por la mañana y 6 ml por la tarde, inyectando directamente sobre las algas) durante una semana. Después 5 ml cada dos días como prevención. \nOtra forma es hacer una disolución de 50 ml de agua oxigenada y 150 ml de agua, introducirlos en un pulverizador tratar la planta afectada fuera del agua."
+  }
+]
