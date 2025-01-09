@@ -11,7 +11,7 @@
   },
   {
     "NOMBRE_RECETA": "EXTRACTO DE TURBA",
-    "INGREDIENTES": "- 1 lt de agua destilada\n\n- 1/2 lt de turba de sphagnum suelta",
+    "INGREDIENTES": "- 1 lt de agua destilada.\n- 1/2 lt de turba de sphagnum suelta",
     "ELABORACION": "- Poner la turba en un cacharro para hervir lo suficentemente grande.\n\n- Verter el agua destilada (echar un poquito más para la que se pierda por evaporación).\n\n- Hervir a fuego lento 15 minutos o 1/2 hora.\n\n- Cuando el cocido esté frio, exprimir bien fuerte y colar la solución, para que tenga pocos sólidos, en una botella vacia.\n\n- Echar en el acuario 250 cc semanales.\n\n- Guadar la turba exprimida para uso posterior sobre todo para las plantas."
   },
   {
@@ -26,17 +26,17 @@
   },
   {
     "NOMBRE_RECETA": "ABONO DE HIERRO CON Hortrilon",
-    "INGREDIENTES": "- 1 Sobre de Hortrilon (5 gr)\n\n- 250 cc Agua destilada",
+    "INGREDIENTES": "- 1 Sobre de Hortrilon (5 gr).\n- 250 cc Agua destilada",
     "ELABORACION": "- Disolver los 5 grms de hortrilon en los 250 cc de agua destilada.\n\n- El contenido de Fe será:\n     5% de Fe x 5 gr = 0,25 gr; total 250 miligramos de Fe.\n     250 cc de agua preparada = 250 mg de Fe.\n     1 cc de agua preparada = 1 mg de Fe.\n     Cantidad necesaria de Fe en el agua 0,1 mg/lt. permanente (Libro 'Plantas de Acuario' de Kaspar Horst)\n\n - Sería necesario (210 lts) 210 x 0,1 mg/lt = 21 cc de agua con Hortrilon.\n\n- Para mantener en todo lo posible constantemente el hierro, si el cambio de agua es cada 15 días. 1,5 cc de agua preparada diario (en condiciones normales)."
   },
   {
     "NOMBRE_RECETA": "ABONO DE HIERRO CON Microplus",
-    "INGREDIENTES": "- Aprox. 5 gr de 'microplus' de Fertiberia (1 cucharilla rasa que viene con el envase).\n\n- 250 cc Agua destilada",
+    "INGREDIENTES": "- Aprox. 5 gr de 'microplus' de Fertiberia (1 cucharilla rasa que viene con el envase).\n- 250 cc Agua destilada",
     "ELABORACION": "- Disolver los 5 grms de microplus en 250 cc de agua destilada.\n\n- El contenido de Fe será:\n     7,5% de Fe x 5 gr = 0,375 gr; total 375 miligramos de Fe.\n     250 cc de agua preparada = 375 mg de Fe.\n     1 cc de agua = 1,5 mg de Fe.\n     Cantidad necesaria de Fe en el agua 0,1 mg/lt. permanente (Libro 'Plantas de Acuario' de Kaspar Horst)\n\n- Si el agua del acuario no tuviera hierro sería necesario (210 lts) 210 x 0,1 mg/lt = 21 mg de Fe./1,5 = 14 cc de agua con 'Microplus'\n- Para mantener en todo lo posible constamente el hierro, si el cambio de agua es cada 15 días. \n1 cc de agua preparada con microplus diario (en condiciones normales)."
   },
   {
     "NOMBRE_RECETA": "MEZCLA AGUA GRIFO + OSMOSIS PARA DUREZA",
-    "INGREDIENTES": "Formula:\n\ntº = (G x dº)/(G + O)\n\ntº = Grados de dureza definitiva de la mezcla\nG  = Volumen agua del grifo\nO  = Volumen agua dº = 0\ndº = Grados dureza del agua del grifo\n\n(Mismo sistema de grados en tº y dº)\n\n(Agua de dureza dº = 0; ej. Osmosis, el agua destilada sería el valor correcto pero para más comodidad emplearemos osmosis)",
+    "INGREDIENTES": "Formula:\ntº = (G x dº)/(G + O)\ntº = Grados de dureza definitiva de la mezcla\nG  = Volumen agua del grifo\nO  = Volumen agua dº = 0\ndº = Grados dureza del agua del grifo\n(Mismo sistema de grados en tº y dº)\n(Agua de dureza dº = 0; ej. Osmosis, el agua destilada sería el valor correcto pero para más comodidad emplearemos osmosis)",
     "ELABORACION": "Ejemplos (basados en la información de Aljarafesa de la dureza de la red de agua TH = 10,3, dH = 5,8) :\n\n- Volumen necesario del agua del grifo para obtener una mezcla de dureza dº = 1 y mezclarla con 40 lts de osmosis:\n\n             1 = (G x 5,8)/(G + 40); G = 8,3 lts.    \n\n- Volumen necesario de agua del grifo + osmosis para obtener un volumen de 50 lts y dureza 1º:\n\n     1 = (G x 5,8)/(50); G = 8,6 lts, O = (50 - 8,6) = 41,4 lts.\n\n-Volumen necesario de agua de dureza dº = 0 para mezclarla con 10 lts de agua del grifo y obtener dº = 1:\n\n                1 = (10 x 5,8)/(10 + O); O = 48 lts."
   },
   {
@@ -46,7 +46,7 @@
   },
   {
     "NOMBRE_RECETA": "ILUMINACIÓN ACUARIO VIVALINE 240",
-    "INGREDIENTES": "Tubo EHEIM T5 HQ 39 W Freshpower Daylight.\nVer el acrhivo:\n Tubo T5 39W EHEIM Freshpower.pdf' en el directoiro de los datos del programa.",
+    "INGREDIENTES": "- Tubo EHEIM T5 HQ 39 W Freshpower Daylight.\nVer el acrhivo:\n - Tubo T5 39W EHEIM Freshpower.pdf' en el directoiro de los datos del programa.",
     "ELABORACION": "Sin detalle."
   },
   {
