@@ -1,0 +1,95 @@
+.cabecera {
+    background-color: #007bff;
+    color: white;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+
+/* Título */
+
+#tituloRecetas {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 120px);
+    /* Deja espacio suficiente para los iconos */
+    text-align: center;
+    font-size: 18px;
+    /* Ajusta el tamaño según sea necesario */
+}
+
+.icono-recetas {
+    width: 32px;
+    /* Ajusta el tamaño de la imagen */
+    height: auto;
+    margin-right: 10px;
+    /* Espacio entre la imagen y el título */
+    margin-left: 5px;
+}
+
+.btn-volver {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to bottom, #cfacc4, #7c2453);
+    color: white;
+    padding: 10px 0;
+    /* Reduce el relleno vertical para hacer el botón más bajo */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    /* Ajusta el tamaño de fuente si es necesario */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 0px;
+}
+
+.btn-volver:hover {
+    background: linear-gradient(to bottom, #7c2453, #cfacc4);
+    /* Azul más oscuro */
+}
+
+.btn-volver-otra {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to bottom, #8ccfa1, #175222);
+    color: white;
+    padding: 10px 0;
+    /* Reduce el relleno vertical para hacer el botón más bajo */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    /* Ajusta el tamaño de fuente si es necesario */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 0px;
+}
+
+.btn-volver-otra:hover {
+    background: linear-gradient(to bottom, #175222, #8ccfa1);
+    /* Azul más oscuro */
+}
+
+.table-container {
+    max-height: 70vh;
+    /* Altura máxima del contenedor */
+    overflow-y: auto;
+    /* Habilitar el scroll vertical */
+}
