@@ -190,7 +190,7 @@ function presentar(indice) {
     }
 
     // Aplicar altura máxima al modal
-    modalCuerpo.style.maxHeight = "80vh";
+    modalCuerpo.style.maxHeight = "75vh";
     modalCuerpo.style.overflowY = "auto";
 
     // Mostrar el modal
