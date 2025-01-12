@@ -273,6 +273,9 @@ export async function guardarDatos() {
     //     "» Usar «Recuperar Datos» para recargarlos." +
     //     txtAdd, null);
 
+    setTimeout(() => {
+        alert("Los datos se han guardado correctamente");
+    }, 100);
 }
 
 export async function recuperarDatos() {
