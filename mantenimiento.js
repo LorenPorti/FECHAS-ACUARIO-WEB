@@ -266,8 +266,11 @@ function seleccionarFila(fila, filas) {
         mensajeGeneral += mensaje + "<br>";
     });
 
+    setTimeout(() => {
+        document.getElementById("proximaOperacion").innerHTML = mensajeGeneral;
+    }, 50);
     // Mostrar el mensaje en la parte inferior de la página
-    document.getElementById("proximaOperacion").innerHTML = mensajeGeneral;
+    // document.getElementById("proximaOperacion").innerHTML = mensajeGeneral;
 }
 
 document.getElementById("ir-a-fecha").addEventListener("click", function(event) {
