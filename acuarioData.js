@@ -305,7 +305,7 @@ function cargarAcuarioSeleccionado() {
                 loadAcuarioData(numAcuario); // Cargar los datos del acuario usando el número obtenido
 
                 // Mostrar el número de acuario en el elemento HTML
-                document.getElementById("acuarioSeleccionado").textContent = numAcuario;
+                // document.getElementById("acuarioSeleccionado").textContent = numAcuario;
             })
             .catch(function(error) {
                 console.log("Error al cargar el acuario:", error);
@@ -629,3 +629,36 @@ function resaltarAcuarioSeleccionado(numAcuario) {
         seleccionado.classList.add('text-bg-success');
     }
 }
+
+// *******Para cálculo del CO2 ****************
+function modificarValor(id, cambio) {
+    let input = document.getElementById(id);
+    let valor = parseFloat(input.value);
+    valor = Math.max(0, (valor + cambio).toFixed(1)); // Evita valores negativos
+    input.value = valor;
+    calcularCO2(); // Calcula automáticamente al cambiar el valor
+}
+
+function calcularCO2() {
+    let ph = parseFloat(document.getElementById('ph').value);
+    let kh = parseFloat(document.getElementById('kh').value);
+
+    if (isNaN(ph) || isNaN(kh) || ph <= 0 || kh <= 0) {
+        document.getElementById('resultado').innerText = "Valor inválido";
+        return;
+    }
+
+    // Fórmula aproximada: CO2 = 3 * KH * 10^(7 - pH)
+    let co2 = (3 * kh * Math.pow(10, 7 - ph)).toFixed(2);
+    document.getElementById("resultado").innerText = `${co2}`;
+}
+
+// Detectar cuándo se abre el modal y calcular el resultado inicial
+document.getElementById('modalCO2').addEventListener('shown.bs.modal', function() {
+    modificarValor('ph', 0); // No cambia el valor, solo fuerza el cálculo inicial
+    modificarValor('kh', 0);
+
+    //Valores inicialeas
+    document.getElementById('ph').value = dataConfig.pHOpt;
+    document.getElementById('kh').value = dataConfig.KHOpt;
+});

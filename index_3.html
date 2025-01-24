@@ -445,7 +445,8 @@
                             <li>
                                 <hr class="dropdown-divider dropdown-divider-custom">
                             </li>
-                            <li><a class="dropdown-item georgia-bold" href="#">Cálculo del CO₂</a></li>
+                            <!-- <li><a class="dropdown-item georgia-bold" id="calculoCO2" href="#">Cálculo del CO₂</a></li> -->
+                            <li><a class="dropdown-item georgia-bold" href="#" data-bs-toggle="modal" data-bs-target="#modalCO2">Cálculo del CO₂</a></li>
                             <li><a class="dropdown-item georgia-bold" href="#">Tabla pH/KH</a></li>
                             <li><a class="dropdown-item georgia-bold" href="#">Análisis Agua Red</a></li>
                             <li>
@@ -560,6 +561,42 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal cálculo del CO2 -->
+    <div class="modal fade" id="modalCO2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cálculo de CO₂ disuelto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Cálculo de la cantidad de CO₂ disuelto (mg/l) en función del pH y KH (dKH).</p>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">pH:</span>
+                        <button class="btn btn-primary" onclick="modificarValor('ph', -0.1)">−</button>
+                        <input type="text" id="ph" value="6.5" class="form-control text-center" oninput="calcularCO2()">
+                        <button class="btn btn-primary" onclick="modificarValor('ph', 0.1)">+</button>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">KH (dKH):</span>
+                        <button class="btn btn-secondary" onclick="modificarValor('kh', -0.5)">−</button>
+                        <input type="text" id="kh" value="3.0" class="form-control text-center" oninput="calcularCO2()">
+                        <button class="btn btn-secondary" onclick="modificarValor('kh', 0.5)">+</button>
+                    </div>
+
+                    <p style="font-weight: bold;"><strong>Resultado:</strong> <span id="resultado" class="roboto-black-italic" style="color: maroon;">0.00</span> mg/l</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Terminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Cargar los scripts con defer para que no bloqueen la carga de la página -->
     <script src="acuarioData.js"></script>
