@@ -1,0 +1,118 @@
+#tituloAcuario {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 120px);
+    /* Deja espacio suficiente para los iconos */
+    text-align: center;
+    font-size: 18px;
+    /* Ajusta el tamaño según sea necesario */
+}
+
+.icono-tabla {
+    width: 36px;
+    /* Ajusta el tamaño de la imagen */
+    height: auto;
+    margin-right: 10px;
+    /* Espacio entre la imagen y el título */
+    margin-left: 5px;
+}
+
+.cabecera {
+    background-color: #007bff;
+    color: white;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    height: 40px;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
+    padding: 0 10px;
+}
+
+.cabecera .dropdown {
+    margin-left: auto;
+    /* Asegura que se ajuste completamente a la derecha */
+}
+
+.btn-volver {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to bottom, #cfacc4, #7c2453);
+    color: white;
+    padding: 10px 0;
+    /* Reduce el relleno vertical para hacer el botón más bajo */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    /* Ajusta el tamaño de fuente si es necesario */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-volver:hover {
+    background: linear-gradient(to bottom, #7c2453, #cfacc4);
+    /* Azul más oscuro */
+}
+
+.btn-volver-otra {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to bottom, #8ccfa1, #175222);
+    color: white;
+    padding: 10px 0;
+    /* Reduce el relleno vertical para hacer el botón más bajo */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    /* Ajusta el tamaño de fuente si es necesario */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-volver-otra:hover {
+    background: linear-gradient(to bottom, #175222, #8ccfa1);
+    /* Azul más oscuro */
+}
+
+#tablaPhKh thead {
+    font-family: "georgia";
+    font-style: italic;
+    color: white;
+    background: #5C7285;
+    font-size: 13.5px;
+}
+
+#tablaPhKh tr {
+    font-family: "georgia";
+    font-style: italic;
+    background: #5C7285;
+    font-size: 12px;
+}
+
+#tablaPhKh td {
+    height: 12px;
+    /* Ajusta según necesidad */
+    padding: 0;
+    /* Elimina espacio interno */
+    line-height: 12px;
+    /* Controla el tamaño del texto */
+    text-align: center;
+    /* Centra horizontalmente */
+    vertical-align: middle;
+    /* Centra verticalmente */
+}

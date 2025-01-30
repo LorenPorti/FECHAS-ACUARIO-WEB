@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebla pH-KH</title>
+    <!-- Icono de la página -->
+    <link rel="icon" href="icono.ico" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="tablaPHKH.css">
+    <link rel="stylesheet" href="libreria/estilo.css">
+</head>
+
+<body>
+    <!-- Cabecera fija -->
+    <div class="cabecera d-flex flex-column justify-content-between">
+        <div class="d-flex align-items-center justify-content-between">
+            <img src="./imagenes/tablaKH.png" alt="Buscar" id="iconoBuscar" class="icono-tabla">
+            <h2 id="tituloAcuario" class="fs-6 text-truncate m-0 roboto-regular-italic select-no" style="font-size: 20px !important; margin-right: 15px !important;"></h2>
+        </div>
+        <button id="boton-otra-cosa" class="btn-volver-otra">Mostrar tabla PH/KH</button>
+        <button onclick="window.location.href='index_3.html'" class="btn-volver">Volver a la Página Principal</button>
+    </div>
+
+    <!-- Modal PH/KH -->
+    <div id="modalPhKh" class="modal fade" tabindex="-1" aria-labelledby="modalPhKhLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="margin-top: 50px; overflow-x: auto;">
+                <!-- Bajado 50px y agregado scroll horizontal -->
+                <div class="modal-header">
+                    <h5 id="modalPhKhLabel" class="modal-title">Tabla PH/KH</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive" style="max-height: 80vh; overflow: auto;">
+                        <table id="tablaPhKh" class="table table-bordered text-center">
+                            <thead class="table-header">
+                                <tr>
+                                    <th>KH/pH</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="tablaPHKH.js"></script>
+
+</html>
