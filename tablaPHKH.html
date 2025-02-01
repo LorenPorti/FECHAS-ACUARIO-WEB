@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tebla pH-KH</title>
+    <title>Tabla pH-KH</title>
     <!-- Icono de la página -->
     <link rel="icon" href="icono.ico" type="image/x-icon">
 
@@ -35,14 +35,16 @@
                 <!-- Bajado 50px y agregado scroll horizontal -->
                 <div class="modal-header">
                     <h5 id="modalPhKhLabel" class="modal-title">Tabla PH/KH</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <select id="selectFecha" class="form-select form-select-sm mx-3 roboto-black-italic" style="width: auto;"></select>
+                    <button type="button" class="btn-close btn-close-blue" data-bs-dismiss="modal" aria-label="Cerrar" style="font-weight: bold;"></button>
                 </div>
+
                 <div class="modal-body">
-                    <div class="table-responsive" style="max-height: 80vh; overflow: auto;">
+                    <div id="contenedorTabla" class="table-responsive" style="max-height: 80vh; overflow: auto;">
                         <table id="tablaPhKh" class="table table-bordered text-center">
                             <thead class="table-header">
                                 <tr>
-                                    <th>KH/pH</th>
+                                    <th style="background: #A59D84;">KH/pH</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

@@ -116,3 +116,21 @@
     vertical-align: middle;
     /* Centra verticalmente */
 }
+
+#tablaPhKh th:first-child,
+#tablaPhKh td:first-child {
+    position: sticky;
+    left: 0;
+    background: #659287;
+    /* Mantiene el color de la celda fija */
+    z-index: 2;
+    /* Evita que quede oculta tras el scroll */
+}
+
+.modal-header {
+    background: #FFB4A2;
+}
+
+#selectFecha {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
