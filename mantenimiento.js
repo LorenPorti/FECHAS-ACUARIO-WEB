@@ -268,7 +268,7 @@ function seleccionarFila(fila, filas) {
 
     setTimeout(() => {
         document.getElementById("proximaOperacion").innerHTML = mensajeGeneral;
-    }, 50);
+    }, 200);
     // Mostrar el mensaje en la parte inferior de la página
     // document.getElementById("proximaOperacion").innerHTML = mensajeGeneral;
 }
