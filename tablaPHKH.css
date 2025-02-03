@@ -134,3 +134,25 @@
 #selectFecha {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+#contenedorAlerta {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1100;
+    /* Mayor que Bootstrap modals (1040) */
+}
+
+#dateInput {
+    position: absolute;
+    top: 100%;
+    /* Justo debajo del dropdown */
+    left: 0;
+    z-index: 1050;
+    /* Asegura que esté sobre otros elementos */
+    background: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}

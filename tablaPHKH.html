@@ -33,8 +33,26 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="margin-top: 50px; overflow-x: auto;">
                 <!-- Bajado 50px y agregado scroll horizontal -->
-                <div class="modal-header">
-                    <h5 id="modalPhKhLabel" class="modal-title">Tabla PH/KH</h5>
+                <div class="modal-header d-flex justify-content-between">
+                    <h6 id="modalPhKhLabel" class="modal-title">Tabla PH/KH</h6>
+                    <!-- <button class="btn btn-outline-secondary btn-sm" onclick="irAFecha('inicio')">📅<br> Fechas</button> -->
+                    <div class="dropdown" id="dropdownContainer" style="position: relative;">
+                        <button class="btn btn-link text-white custom-dropdown-toggle btn-lg" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            📅
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                            <li><a id="irFechaInicio" class="dropdown-item georgia-bold" href="#">Ir a la fecha inicio</a></li>
+                            <li><a id="irFechaFinal" class="dropdown-item georgia-bold" href="#">Ir a la fecha final</a></li>
+                            <li>
+                                <hr class="dropdown-divider dropdown-divider-custom">
+                            </li>
+                            <li><a id="irFecha" class="dropdown-item georgia-bold" href="#">Ir a una fecha</a></li>
+                        </ul>
+
+                        <!-- Input de fecha flotante -->
+                        <input type="date" id="dateInput" class="georgia-bold" style="display: none;">
+                    </div>
+
                     <select id="selectFecha" class="form-select form-select-sm mx-3 roboto-black-italic" style="width: auto;"></select>
                     <button type="button" class="btn-close btn-close-blue" data-bs-dismiss="modal" aria-label="Cerrar" style="font-weight: bold;"></button>
                 </div>
@@ -57,6 +75,6 @@
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script src="tablaPHKH.js"></script>
+<script type="module" src="tablaPHKH.js"></script>
 
 </html>

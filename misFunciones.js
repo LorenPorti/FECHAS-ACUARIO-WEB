@@ -175,11 +175,11 @@ export function mostrarModal(info0aviso1error2, titulo, cuerpo, pregunta, boton1
         -webkit-transition: ease-out 0.4s;
         -moz-transition: ease-out 0.4s;
         transition: ease-out 0.2s;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     }    
     .slide_right:hover {
         background: #869a96;        
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23), rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;  
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);  
         transform: translateY(-2px);    
     }
     .slide_right:active {
@@ -293,7 +293,7 @@ export function mostrarPopover(idElemento, txtCabecera, txtContenido) {
     --bs-popover-header-color: var(--bs-white);
     --bs-popover-body-padding-x: 1rem;
     --bs-popover-body-padding-y: .5rem;
-    box-shadow: 2px 4px 8px darkgray;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     font-family: 'georgia';
     }
     .custom-popover .popover-header {
@@ -329,9 +329,7 @@ export function mostrarPopover(idElemento, txtCabecera, txtContenido) {
 // ******************** FUNCION PARA MOSTRAR UNA ALERTA ********************
 //Muestra una alerta
 export function mostrarAlerta(info0aviso1peligro2, titulo, texto) {
-
     let clase;
-
     switch (info0aviso1peligro2) {
         case 0:
             clase = 'success';
@@ -342,45 +340,50 @@ export function mostrarAlerta(info0aviso1peligro2, titulo, texto) {
         case 2:
             clase = 'danger';
             break;
-
     }
 
-    // Debe existir un contenedor para introducir los datos de la alerta en el DOM.
-    // Si no existen los crea. 
-    // Esto se hace para no acumular varios «<div id="contenedorAlerta"></div>» si no salismo de la págin actual.
-    let newElement;
+    // Buscar si ya existe la alerta y eliminarla antes de crear una nueva
+    let alertaExistente = document.getElementById('contenedorAlerta');
+    if (alertaExistente) {
+        alertaExistente.remove();
+    }
 
-    if (!document.getElementById('contenedorAlerta')) {
-
-        newElement = document.createElement('div');
-
-        newElement.innerHTML = `
-        <div class="alert alert-${clase} alert-dismissible fade show" id = "contenedorAlerta" >
+    // Crear el contenedor si no existe
+    let contenedorAlerta = document.createElement('div');
+    contenedorAlerta.id = "contenedorAlerta";
+    contenedorAlerta.style.position = "fixed";
+    contenedorAlerta.style.top = "10px";
+    contenedorAlerta.style.right = "10px";
+    contenedorAlerta.style.zIndex = "2000"; // Superior a Bootstrap modal
+    contenedorAlerta.style.maxWidth = "300px"; // Opcional, evita que sea muy ancha
+    // contenedorAlerta.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.2)";
+    contenedorAlerta.style.margin = "10px";
+    contenedorAlerta.innerHTML = `
+        <div class="alert alert-${clase} alert-dismissible fade show shadow-sm">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            <strong>${titulo}</strong> ${texto}
+            <strong style="font-family: 'Arial Black'; font-style: italic; padding-right: 10px;">${titulo}</strong> ${texto}
         </div>
-        <style>        
-        strong{
-        font-family: "arial black";
-        font-style: italic;
-        padding-right: 10px; /* para separar un poco los textos */
-        }
-        #contenedorAlerta{
-        font-family: "georgia";
-        box-shadow: 2px 4px 8px darkgray;
-        margin: 10px;
-        }
-        .btnclose{
-        display: block;
-        height: 100%;
-        }
-        </style>
-        `;
+    `;
 
-        document.body.appendChild(newElement);
-    }
+    // Agregar la alerta al `body` para que no quede dentro de otro contenedor
+    document.body.appendChild(contenedorAlerta);
 
+    // Evento para cerrar al hacer clic fuera
+    setTimeout(() => {
+        document.addEventListener("click", cerrarAlertaExterna);
+    }, 50);
 }
+
+// Función para cerrar la alerta si se hace clic fuera
+function cerrarAlertaExterna(event) {
+    let alerta = document.getElementById("contenedorAlerta");
+    if (alerta && !alerta.contains(event.target)) {
+        alerta.remove();
+        document.removeEventListener("click", cerrarAlertaExterna);
+    }
+}
+
+
 // Ejemplo:
 // mostrarPopover('btnAlerta', 'MOSTRAR UNA ALERTA', 'Pulsar este botón para mostrar una alerta.');
 // document.getElementById('btnAlerta').addEventListener('click', function() {
