@@ -134,12 +134,13 @@ function resaltarFechaSeleccionada(indice) {
         datosSeleccionados = datosAcuario[indice];
         if (phSeleccionado < 5.5) phSeleccionado = 5.5;
         if (phSeleccionado > 7.5) phSeleccionado = 7.5;
-        // Redondeo del khSeleccionado a múltiplos de 0.5, excepto si es menor que 0.5 (se ajusta a 0.1)
-        if (khSeleccionado < 0.5) {
-            khSeleccionado = 0.1;
-        } else {
-            khSeleccionado = Math.round(khSeleccionado * 2) / 2;
-        }
+    }
+
+    // Redondeo del khSeleccionado a múltiplos de 0.5, excepto si es menor que 0.5 (se ajusta a 0.1)
+    if (khSeleccionado < 0.5) {
+        khSeleccionado = 0.1;
+    } else {
+        khSeleccionado = Math.round(khSeleccionado * 2) / 2;
     }
 
     // 1️⃣ Quitar resaltados previos
@@ -214,23 +215,6 @@ function resaltarFechaSeleccionada(indice) {
             tabla.scrollTo({ left: offsetX, top: offsetY, behavior: "smooth" });
         }
     }
-
-    document.addEventListener("click", function(event) {
-        if (event.target.classList.contains("celda-resaltada")) {
-            let index = event.target.dataset.index; // Asegurar que las celdas tengan `data-index`
-            let datos = datosAcuario[index];
-            console.log(datos);
-            let mensaje = `
-            pH = ${datos.pH.toFixed(1).toString().replace(".",",")} - KH = ${datos.KH.toFixed(1).toString().replace(".",",")}<br>
-            🌱 Plantas: ${getEstado("plantas", datos.plantas)}<br>
-            🌾 Algas: ${getEstado("algas", datos.plantas)}<br>
-            🧯 Inyecc. CO2: ${getEstado("inyCO2", datos.inyeccCO2)}<br> 
-            🌡️ Temperatura: ${datos.temp}ºC
-            `;
-
-            mostrarAlerta(1, `Información Adicional<br>${datos.Fecha}<br>`, mensaje);
-        }
-    });
 }
 
 function getEstado(tipo, valor) {
@@ -285,6 +269,7 @@ function verificarLimites(pH, KH, fecha) {
     return estado;
 }
 
+//***************IR A FECHA INICIO/FINAL*****************
 document.getElementById('irFechaInicio').addEventListener('click', () => {
     irAFecha('inicio');
 });
@@ -306,10 +291,13 @@ function irAFecha(tipo) {
 
 }
 
+//***************IR A UNA FECHA*****************
 document.getElementById("irFecha").addEventListener("click", function(event) {
     event.preventDefault();
 
     const dateInput = document.getElementById("dateInput");
+
+    FechaASelector();
 
     // Alternar la visibilidad del input
     if (dateInput.style.display === "none" || dateInput.style.display === "") {
@@ -321,6 +309,33 @@ document.getElementById("irFecha").addEventListener("click", function(event) {
 
     dateInput.addEventListener("change", function onDateChange(event) {
         let fechaSeleccionada = this.value;
+
+        const selectedDate = new Date(event.target.value);
+        const firstDate = parseToDate(datosAcuario[0].Fecha);
+        const lastDate = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
+
+        // Validar que la fecha seleccionada sea un domingo
+        if (selectedDate.getDay() !== 0) {
+            mostrarAlerta(0, "¡ATENCION!<br>", "La fecha seleccionada debe ser un domingo.");
+            event.target.value = ""; // Limpiar la fecha seleccionada del selector
+            FechaASelector(); //Poner la fecha de la selección en el selector de fechas
+            dateInputContainer.style.display = "block";
+            return;
+        }
+
+        const minDate = new Date(firstDate);
+        const maxDate = new Date(lastDate);
+        maxDate.setDate(maxDate.getDate() + 1);
+        minDate.setDate(minDate.getDate() - 1);
+
+        if (!(selectedDate >= minDate && selectedDate <= maxDate)) {
+            mostrarAlerta(0, "¡ATENCION!<br>", `La fecha debe estar entre ${firstDate.toLocaleDateString()} y ${lastDate.toLocaleDateString()}.`);
+            event.target.value = ""; // Limpiar la fecha seleccionada
+            FechaASelector(); //Poner la fecha de la selección en el selector de fechas
+            dateInputContainer.style.display = "block";
+            return;
+        }
+
         if (fechaSeleccionada) {
             let fechaFormateada = formatearFecha(fechaSeleccionada);
             let selectFecha = document.getElementById("selectFecha");
@@ -362,6 +377,23 @@ document.getElementById("irFecha").addEventListener("click", function(event) {
     }, 0);
 });
 
+//Funcion para mostrar en el selector de fechas la fecha seleccionada
+function FechaASelector() {
+    const fechaSeleccionada = parseToDate(datosAcuario[selectFecha.value].Fecha);
+    fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
+    // Verificar si hay una fecha seleccionada
+    if (fechaSeleccionada) {
+        // Configurar el valor del input de fecha con la fecha seleccionada
+        dateInput.valueAsDate = fechaSeleccionada;
+    } else {
+        // Si no hay una fecha seleccionada, puedes configurar un valor por defecto, por ejemplo, la fecha de hoy
+        dateInput.valueAsDate = new Date();
+    }
+
+    return fechaSeleccionada;
+}
+
 // Función para formatear la fecha al modo "12 ago. 2024"
 function formatearFecha(fechaISO) {
     let fecha = new Date(fechaISO);
@@ -398,3 +430,27 @@ function parseToDate(dateString) {
 
     return date;
 }
+
+//**************VER DATOS ADICIONALES
+document.getElementById("datosAdicionales").addEventListener("click", function() {
+
+    //Obtener el indice desde el dropdown dw fechas
+    const index = document.getElementById('selectFecha').value;
+    const datos = datosAcuario[index];
+
+    let CO2 = 3 * datos.KH * Math.pow(10, 7 - datos.pH);
+
+    let mensaje = `
+        pH = ${datos.pH
+          .toFixed(1)
+          .toString()
+          .replace(".", ",")} - KH = ${datos.KH.toFixed(1).toString().replace(".", ",")}(dKH)<br>CO2 = ${CO2.toFixed(1).toString().replace(".", ",")}(mg/l)<br>
+        🌱 Plantas: ${getEstado("plantas", datos.plantas)}<br>
+        🌾 Algas: ${getEstado("algas", datos.plantas)}<br>
+        🧯 Inyecc. CO2: ${getEstado("inyCO2", datos.inyeccCO2)}<br> 
+        🌡️ Temperatura: ${datos.temp}ºC
+        `;
+
+    mostrarAlerta(1, `Información Adicional<br>${datos.Fecha}<br>`, mensaje);
+
+});
