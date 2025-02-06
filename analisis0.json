@@ -1,0 +1,115 @@
+{
+  "Empresa": {
+    "Empresa": "ALJARAFESA"
+  },
+  "Analisis": [
+    {
+      "NombreElemento": "Aluminio",
+      "ValorElemento": "52,429",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Amonio",
+      "ValorElemento": "0,5",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Cloro",
+      "ValorElemento": "0,864",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Cloruros",
+      "ValorElemento": "13,888",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "CO2",
+      "ValorElemento": "14",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Cobre",
+      "ValorElemento": "1",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Conductividad",
+      "ValorElemento": "254,288",
+      "UnidadElemento": "µS/cm 20ºC",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Dureza",
+      "ValorElemento": "10,9",
+      "UnidadElemento": "ºF",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Fosfatos",
+      "ValorElemento": "0,15",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "1 mar. 2022"
+    },
+    {
+      "NombreElemento": "Hierro",
+      "ValorElemento": "17,14",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "1 mar. 2022"
+    },
+    {
+      "NombreElemento": "KH",
+      "ValorElemento": "4",
+      "UnidadElemento": "dKH",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Mercurio",
+      "ValorElemento": "0,9",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Nitratos",
+      "ValorElemento": "10",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Nitritos",
+      "ValorElemento": "0,1",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "6 feb. 2025"
+    },
+    {
+      "NombreElemento": "pH",
+      "ValorElemento": "7,58",
+      "UnidadElemento": "---",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Plomo",
+      "ValorElemento": "0,256",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Sodio",
+      "ValorElemento": "14,286",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 jul. 2016"
+    },
+    {
+      "NombreElemento": "Sulfatos",
+      "ValorElemento": "17,71",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "1 mar. 2022"
+    }
+  ]
+}
