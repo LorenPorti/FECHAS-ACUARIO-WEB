@@ -1,0 +1,109 @@
+{
+  "Empresa": {
+    "Empresa": "AQUALIA"
+  },
+  "Analisis": [
+    {
+      "NombreElemento": "Aluminio",
+      "ValorElemento": "47,7",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Amonio",
+      "ValorElemento": "0,05",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Cloro",
+      "ValorElemento": "0,21",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Cloruros",
+      "ValorElemento": "28,5",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "CO2",
+      "ValorElemento": "1,89",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Cobre",
+      "ValorElemento": "0,1",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Conductividad",
+      "ValorElemento": "472",
+      "UnidadElemento": "µS/cm 20ºC",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Dureza",
+      "ValorElemento": "21,4",
+      "UnidadElemento": "ºF",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Fosfatos",
+      "ValorElemento": "0",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Hierro",
+      "ValorElemento": "15",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "6 feb. 2025"
+    },
+    {
+      "NombreElemento": "KH",
+      "ValorElemento": "5",
+      "UnidadElemento": "dKH",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Mercurio",
+      "ValorElemento": "0,3",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Nitratos",
+      "ValorElemento": "5,1",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Nitritos",
+      "ValorElemento": "0",
+      "UnidadElemento": "mg/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "pH",
+      "ValorElemento": "7,94",
+      "UnidadElemento": "---",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Sodio",
+      "ValorElemento": "26,7",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 ene. 2019"
+    },
+    {
+      "NombreElemento": "Sulfatos",
+      "ValorElemento": "66,7",
+      "UnidadElemento": "µ g/lt",
+      "FechaElemento": "2 ene. 2019"
+    }
+  ]
+}
