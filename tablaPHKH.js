@@ -5,6 +5,12 @@ const dataConfig = JSON.parse(localStorage.getItem("dataConfig"));
 const datosAcuario = JSON.parse(localStorage.getItem("datosAcuario"));
 const params = new URLSearchParams(window.location.search);
 const opcion = params.get("opcion"); // Lee el parámetro 'opcion'
+const numeroAcuario = localStorage.getItem("numAcuario");
+// URL base de GitHub para los archivos JSON
+const githubBaseUrl = "https://raw.githubusercontent.com/LorenPorti/FECHAS-ACUARIO-WEB/main/";
+
+// Construir el nombre del archivo JSON
+const archivoAnalisis = `${githubBaseUrl}analisis${numeroAcuario}.json`;
 
 // Insertar el título del acuario en la cabecera
 document.getElementById("tituloAcuario").textContent =
@@ -118,9 +124,70 @@ document.addEventListener("DOMContentLoaded", () => {
         case "analisis":
             modalTitulo.textContent = "Análisis Agua Red";
             botonRepetir.textContent = "Volver a mostrar Análisis Agua Red";
+            document.getElementById("iconoBuscar").src = "./imagenes/analisis.png";
+            cargarAnalisis();
+            presentarModalAnalisis();
+
+            const modal = document.getElementById("modalAnalisis");
+            const modalAnalisis = new bootstrap.Modal(modal);
+
+            // **🔹 Reutilizar el modal al hacer clic en 'Volver a mostrar...'**
+            botonRepetir.addEventListener("click", () => {
+                presentarModalAnalisis();
+            });
             break;
     }
 });
+
+// Función para cargar el archivo JSON de análisis sin async/await
+async function cargarAnalisis() {
+    try {
+        const response = await fetch(archivoAnalisis);
+        if (!response.ok) {
+            throw new Error("No se pudo cargar el archivo JSON");
+        }
+        const datosAnalisis = await response.json();
+        // console.log("Datos de análisis cargados:", datosAnalisis);
+        return datosAnalisis; // Retorna el nombre de la empresa
+    } catch (error) {
+        console.error("Error al cargar los datos del análisis:", error);
+        return null;
+    }
+}
+
+let modalAnalisis; // Definir la variable fuera de la función
+async function presentarModalAnalisis() {
+    const datos = await cargarAnalisis();
+    const modal = document.getElementById("modalAnalisis");
+
+    // Solo inicializar el modal una vez
+    if (!modalAnalisis) {
+        modalAnalisis = new bootstrap.Modal(modal);
+    }
+
+    const modalTitulo = document.getElementById("modalTitulo");
+    const modalCuerpo = document.getElementById("modalCuerpo");
+    let contenido = `
+    <div>
+        <h5 class="empresa georgia-medium"> Empresa: ${datos.Empresa.Empresa}</h5>
+    </div>`;
+
+    for (let i = 0; i < datos.Analisis.length; i++) {
+        contenido += `        
+        <div class="d-flex flex-row">
+            <div class="elemento georgia-medium-italic">${datos.Analisis[i].NombreElemento}</div>
+            <div class="valor roboto-medium">${datos.Analisis[i].ValorElemento}</div>
+            <div class="unidad georgia-medium">${datos.Analisis[i].UnidadElemento}</div>
+        </div>
+    `;
+    }
+
+    modalCuerpo.innerHTML = contenido;
+
+    modalTitulo.textContent = "Análisis Agua Red de Suministro Agua Potable";
+
+    modalAnalisis.show();
+}
 
 // 🔹 Función para resaltar la celda del CO₂ según el índice seleccionado
 function resaltarFechaSeleccionada(indice) {
