@@ -405,10 +405,26 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <!-- Enlaces directos -->
-                    <li><a id="ir-a-fecha-inicial" class="dropdown-item georgia-bold" href="#">Ir a la fecha inicial</a></li>
-                    <li><a id="ir-a-fecha-final" class="dropdown-item georgia-bold" href="#">Ir a la fecha final</a></li>
-                    <li><a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha">Ir a Fecha</a></li>
-                    <li><a class="dropdown-item georgia-bold" id="irASeleccion" href="#">Ir a línea selecc.</a></li>
+                    <li>
+                        <a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha-inicial">
+                            <span class="emoji">↖️</span> Ir a la fecha inicial
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha-final">
+                            <span class="emoji">↘️</span> Ir a la fecha final
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item georgia-bold" href="#" id="ir-a-fecha">
+                            <span class="emoji">📅</span> Ir a Fecha
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item georgia-bold" href="#" id="irASeleccion">
+                            <span class="emoji" style="font-size: 1.4em !important;">🏃</span> Ir a línea selecc.
+                        </a>
+                    </li>
                     <li>
                         <hr class="dropdown-divider dropdown-divider-custom">
                     </li>
@@ -417,8 +433,16 @@
                     <li class="dropdown-submenu">
                         <a class="dropdown-item dropdown-toggle georgia-bold" href="#">Acuarios</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item georgia-bold" href="#" onclick="mostrarModalGestionAcuarios()">Gestión de Acuarios</a></li>
-                            <li><a class="dropdown-item georgia-bold" href="configuracion.html">Configuración</a></li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="#" onclick="mostrarModalGestionAcuarios()">
+                                    <span class="emoji">🎰</span> Gestión de Acuarios
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="configuracion.html">
+                                    <span class="emoji">⚙️</span> Configuración
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -426,9 +450,21 @@
                     <li class="dropdown-submenu">
                         <a class="dropdown-item dropdown-toggle georgia-bold" href="#">Estadísticas</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item georgia-bold" href="estadisticas.html">Estadísticas</a></li>
-                            <li><a class="dropdown-item georgia-bold" href="grafico.html">Gráficos</a></li>
-                            <li><a class="dropdown-item georgia-bold" href="buscar.html">Buscar</a></li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="estadisticas.html">
+                                    <span class="emoji">📊</span> Estadísticas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="grafico.html">
+                                    <span class="emoji">📈</span> Gráficos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="buscar.html">
+                                    <span class="emoji">🔍</span> Buscar
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -436,23 +472,51 @@
                     <li class="dropdown-submenu">
                         <a class="dropdown-item dropdown-toggle georgia-bold" href="#">Herramientas</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item georgia-bold" href="mantenimiento.html?opcion=mantenimiento1">Mantenimiento</a></li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="mantenimiento.html?opcion=mantenimiento1">
+                                    <span class="emoji">🛠️</span> Mantenimiento
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider dropdown-divider-custom">
                             </li>
-                            <li><a class="dropdown-item georgia-bold" href="recetas.html?opcion=recetas">Recetas</a></li>
-                            <li><a class="dropdown-item georgia-bold" href="recetas.html?opcion=procedimientos">Procedimientos</a></li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="recetas.html?opcion=recetas">
+                                    <span class="emoji">📖</span> Recetas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="recetas.html?opcion=procedimientos">
+                                    <span class="emoji">📜</span> Procedimientos
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider dropdown-divider-custom">
                             </li>
                             <!-- <li><a class="dropdown-item georgia-bold" id="calculoCO2" href="#">Cálculo del CO₂</a></li> -->
-                            <li><a class="dropdown-item georgia-bold" href="#" data-bs-toggle="modal" data-bs-target="#modalCO2">Cálculo del CO₂</a></li>
-                            <li><a class="dropdown-item georgia-bold" href="tablaPHKH.html?opcion=tabla">Tabla pH/KH</a></li>
-                            <li><a class="dropdown-item georgia-bold" href="tablaPHKH.html?opcion=analisis">Análisis Agua Red</a></li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="#" data-bs-toggle="modal" data-bs-target="#modalCO2">
+                                    <span class="emoji">🧮</span> Cálculo del CO₂
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="tablaPHKH.html?opcion=tabla">
+                                    <span class="emoji">📋</span> Tabla pH/KH
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="tablaPHKH.html?opcion=analisis">
+                                    <span class="emoji">🧪</span> Análisis Agua Red
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider dropdown-divider-custom">
                             </li>
-                            <li><a class="dropdown-item georgia-bold" href="#">Consulta I. A.</a></li>
+                            <li>
+                                <a class="dropdown-item georgia-bold" href="#">
+                                    <span class="emoji">🤖</span> Consulta IA
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -462,7 +526,9 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item georgia-bold" href="index.html" id="volver">Volver a página inicio</a>
+                        <a id="volver" class="dropdown-item georgia-bold" href="index.html">
+                            <span class="emoji">↩️</span> Volver a página inicio
+                        </a>
                     </li>
 
                     <!-- <li>

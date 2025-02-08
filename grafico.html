@@ -38,7 +38,7 @@
 <body>
     <!-- Cabecera fija -->
     <div class="cabecera d-flex align-items-center justify-content-between px-3 py-1">
-        <h1 id="tituloAcuario" class="fs-6 text-truncate m-0 georgia-bold" style="font-size: 20px !important;">Cargando...</h1>
+        <h2 id="tituloAcuario" class="fs-6 text-truncate m-0 roboto-regular-italic" style="font-size: 20px !important;">Cargando...</h2>
         <!-- <button id="btnMenu" class="btn btn-primary p-1 ms-2 w-auto" style="width: 35px !important;">☰</button> -->
         <!-- Ícono de menú Font Awesome alineado a la derecha -->
         <div class="position-absolute end-0" id="iconoMenu">
@@ -47,31 +47,37 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                 <!-- Enlaces directos -->
-                <li><a id="ocultar-series" class="dropdown-item georgia-bold" href="#">Ocultar series menos Tend. Gral.</a></li>
-                <li><a id="mostrar-series" class="dropdown-item georgia-bold" href="#">Mostrar todas las series</a></li>
-                <!-- <li> -->
-                <!-- Checkbox para Tendencia CO2 -->
-                <!-- <div class="dropdown-item">
-                        <input type="checkbox" id="toggleTendenciaCO2" class="form-check-input me-2 border border-2 border-success" style="width: 18px; height: 18px;" unchecked>
-                        <label for="toggleTendenciaCO2" class="form-check-label georgia-bold">Tendencia CO2</label>
-                    </div>
-                </li> -->
-                <!-- <li> -->
-                <!-- Checkbox para Tendencia NO3 -->
-                <!-- <div class="dropdown-item">
-                        <input type="checkbox" id="toggleTendenciaNO3" class="form-check-input me-2 border border-2 border-success" style="width: 18px; height: 18px;" unchecked>
-                        <label for="toggleTendenciaNO3" class="form-check-label georgia-bold">Tendencia NO3</label>
-                    </div>
-                </li> -->
+                <li>
+                    <a id="ocultar-series" class="dropdown-item georgia-bold" href="#">
+                        <span class="emoji">🙈</span> Ocultar series menos Tend. Gral.
+                    </a>
+                </li>
+                <li>
+                    <a id="mostrar-series" class="dropdown-item georgia-bold" href="#">
+                        <span class="emoji">🙉</span> Mostrar todas las series
+                    </a>
+                </li>
                 <li>
                     <hr class="dropdown-divider dropdown-divider-custom">
                 </li>
-                <li><a class="dropdown-item georgia-bold" id="irAFecha" href="#">Ir a una fecha</a></li>
-                <li><a class="dropdown-item georgia-bold" id="infoFecha" href="#">Información de una fecha</a></li>
+                <li>
+                    <a class="dropdown-item georgia-bold" id="irAFecha" href="#">
+                        <span class="emoji">📅</span> Ir a una fecha
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item georgia-bold" id="infoFecha" href="#">
+                        <span class="emoji">ℹ️</span> Información de una fecha
+                    </a>
+                </li>
                 <li>
                     <hr class="dropdown-divider dropdown-divider-custom">
                 </li>
-                <li><a class="dropdown-item georgia-bold" href="index_3.html">Volver a la página principal</a></li>
+                <li>
+                    <a class="dropdown-item georgia-bold" href="index_3.html">
+                        <span class="emoji">↩️</span> Volver a la página principal
+                    </a>
+                </li>
                 <!-- Importar math.js desde un CDN -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.0/math.min.js"></script>
             </ul>
