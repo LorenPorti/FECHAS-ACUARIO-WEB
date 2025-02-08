@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
-
 @font-face {
     font-family: 'Georgia';
     src: url('../fonts/georgia.ttf') format('truetype');
@@ -247,4 +246,15 @@
     font-family: "georgia";
     font-weight: 900;
     font-style: italic;
+}
+
+.select-no {
+    user-select: none;
+}
+
+.emoji {
+    font-size: 1.3em;
+    /* Ajusta el tamaño del emoji */
+    vertical-align: middle;
+    /* Alinea el emoji con el texto */
 }
