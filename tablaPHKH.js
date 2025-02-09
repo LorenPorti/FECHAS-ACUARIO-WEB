@@ -170,6 +170,7 @@ async function presentarModalAnalisis() {
     let contenido = `
     <div>
         <h5 class="empresa georgia-medium"> Empresa: ${datos.Empresa.Empresa}</h5>
+        <hr style="margin-top: 0;">
     </div>`;
 
     for (let i = 0; i < datos.Analisis.length; i++) {
