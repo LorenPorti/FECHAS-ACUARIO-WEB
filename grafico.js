@@ -165,7 +165,7 @@ let options = {
             stroke: "Purple",
             strokeWidth: 4,
             interpolation: {
-                type: "smooth",
+                type: "smooth"
             },
             marker: {
                 fill: "Purple", // Color del botón en la leyenda para esta serie
@@ -847,7 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const lastDate = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
             lastDate.setDate(lastDate.getDate() + 1);
             firstDate.setDate(firstDate.getDate() - 1);
-            const selectedDateString = dateToFormattedString(selectedDate);
+            const selectedDateString = dateToFormattedString(selectedDate).replace(/\bsept\b/, "sep");
 
 
             setTimeout(() => {
