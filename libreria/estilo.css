@@ -251,3 +251,10 @@
 .select-no {
     user-select: none;
 }
+
+.emoji {
+    font-size: 1.5em;
+    /* Ajusta el tamaño del emoji */
+    vertical-align: middle;
+    /* Alinea el emoji con el texto */
+}
