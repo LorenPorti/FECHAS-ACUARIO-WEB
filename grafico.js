@@ -680,8 +680,9 @@ document.addEventListener('DOMContentLoaded', () => {
             series.forEach(serie => {
                 //     serie.visible = serie.properties.yKey === 'tendenciaGral';
                 // Buscar un identificador confiable en cada serie
-                if (serie.yKey) {
-                    serie.visible = serie.yKey === 'tendenciaGral';
+
+                if (serie.properties.yKey) {
+                    serie.visible = serie.properties.yKey === 'tendenciaGral';
                 } else {
                     console.warn('Serie sin yKey válida:', serie);
                     serie.visible = false; // Ocultar series no identificadas
