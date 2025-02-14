@@ -405,7 +405,7 @@ document.getElementById("irFecha").addEventListener("click", function(event) {
         }
 
         if (fechaSeleccionada) {
-            let fechaFormateada = formatearFecha(fechaSeleccionada);
+            let fechaFormateada = formatearFecha(fechaSeleccionada).replace(/\bsept\b/, "sep");
             let selectFecha = document.getElementById("selectFecha");
 
             // Buscar si la fecha ya existe en las opciones

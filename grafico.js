@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const lastDate = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
             lastDate.setDate(lastDate.getDate() + 1);
             firstDate.setDate(firstDate.getDate() - 1);
-            const selectedDateString = dateToFormattedString(selectedDate);
+            let selectedDateString = dateToFormattedString(selectedDate);
 
 
             setTimeout(() => {
@@ -760,8 +760,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            selectedDateString = dateToFormattedString(selectedDate).replace(/\bsept\b/, "sep");
+
             // Calcular los valores del navigator
             const index = datosAcuario.findIndex(d => d.Fecha.replace(".", "") === selectedDateString);
+
             if (index !== -1) {
                 const totalDatos = datosAcuario.length;
                 // rangoNavigator = {
@@ -848,8 +851,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const lastDate = parseToDate(datosAcuario[datosAcuario.length - 1].Fecha);
             lastDate.setDate(lastDate.getDate() + 1);
             firstDate.setDate(firstDate.getDate() - 1);
-            const selectedDateString = dateToFormattedString(selectedDate).replace(/\bsept\b/, "sep");
 
+            const selectedDateString = dateToFormattedString(selectedDate).replace(/\bsept\b/, "sep");
 
             setTimeout(() => {
                 dateInput.valueAsDate = selectedDate; //Muestra la fecha en el selector
