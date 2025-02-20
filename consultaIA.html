@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recomendaciones IA</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="consultaIA.css">
+    <link rel="stylesheet" href="libreria/estilo.css">
+</head>
+
+<body>
+
+    <!-- Contenido principal -->
+    <div class="container mt-2">
+        <h2 class="text-center text-bg-primary roboto-regular" id="titulo-acuario"><span class="emoji">🤖</span>Consulta del Acuario</h2>
+        <h5 class="text-left georgia-regular-italic" style=" text-align: justify;">
+            - Se guardará la información necesaria para hacer una consulta a la I. A.<br><br> - El texto se conservará temporalmente en el portapapeles.<br><br> - Para utilizarlo hay que acceder a la página de la I. A. y copiarlo en el chat.<br><br> -
+            Se puede pedir una sugerencia o consulta basándose en los datos de la última semana o con la tendencia de las diez últimas semanas. La información necesaria la obtiene el programa desde los datos del acuario actual.
+        </h5>
+        <hr>
+        <div class="d-flex align-content-center gap-4">
+            <button class="btn-ultimos-datos">basado ultimos datos</button>
+            <button class="btn-todos-datos">basado todos los datos</button>
+        </div>
+        <button onclick="window.location.href='index_3.html'" class="btn-volver" style="margin-top: 12px !important;">Volver a la Página Principal</button>
+    </div>
+
+    <div class="modal fade" id="modalConsultaIA" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 50px; overflow-x: auto;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-left georgia-regular h6" id="modalCuerpo"></div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script personalizado -->
+    <script type="module" src="consultaIA.js"></script>
+</body>
+
+</html>
