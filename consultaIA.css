@@ -22,11 +22,29 @@
     /* Azul más oscuro */
 }
 
-.btn-ultimos-datos,
-.btn-todos-datos {
+.btn-ultimos-datos {
     display: block;
     width: 100%;
     background: linear-gradient(to bottom, #8ccfa1, #175222);
+    color: white;
+    padding: 10px 0;
+    /* Reduce el relleno vertical para hacer el botón más bajo */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    /* Ajusta el tamaño de fuente si es necesario */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn-todos-datos {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to bottom, #f3b470, #815817);
     color: white;
     padding: 10px 0;
     /* Reduce el relleno vertical para hacer el botón más bajo */
