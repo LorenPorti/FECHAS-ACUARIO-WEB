@@ -45,8 +45,12 @@ function generarTextoConsulta(tipo) {
         textoConsulta += `<br>👉El estado del agua es: ${getEstado("agua", datosAcuario[indice].agua)}`;
         textoConsulta += `<br>👉El estado de la superficie del agua es: ${getEstado("supAgua", datosAcuario[indice].sup_agua)}`; 
         
+        
+        let final = datosAcuario.length - 1;
         let comentarios = [];
-        comentarios[0]=datosAcuario[indice].comentario;
+        for (let i = final-1; i < final; i++) { 
+            comentarios[i] = datosAcuario[i].comentario;
+        }
 
         textoConsulta += `<br><br>Resumen comentarios de la semana:`;
         textoConsulta += `${generarResumenComentarios(comentarios)}`;
@@ -307,7 +311,13 @@ function generarResumenComentarios(comentariosSemanas) {
         "rotíferos": "Cambio en la población de rotíferos",
         "caracoles": "Cambio en la población de caracoles",
         "planarias": "Problemas con planarias",
-        "temperatura": "Problema con la temperatura"
+        "temperatura": "Problema con la temperatura",
+        "ciclo de luz": "Cambio en el ciclo de luz",
+        "iluminación": "Cambio en la iluminación",
+        "luz del acuario": "Causas debidas a la luz del acuario",
+        "luz": "Causas debidas a la luz del acuario",
+        "Ichthyophthirius": "Infección de Ichthyophthirius",
+        "CO2": "Problemas con el CO2"
     };
 
     let resumenSemanas = [];
@@ -321,7 +331,7 @@ function generarResumenComentarios(comentariosSemanas) {
         }
 
         if (eventos.length > 0) {
-            resumenSemanas.push(`<br>Semana ${index + 1}: ${eventos.join(", ")}.`);
+            resumenSemanas.push(`<br>Semana «${datosAcuario[index+1].Fecha}»: ${eventos.join(", ")}.`);
         }
     });
 

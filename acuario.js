@@ -17,7 +17,11 @@ function cargarConfiguracion() {
     document.getElementById("KHOpt").value = `${dataConfig.KHOpt.toString().replace('.', ',')} (dKH)  - media = ${ValorMedio("KH").toString().replace('.', ',')} (dKH)` || "";
     document.getElementById('tempOpt').value = `${dataConfig.tempOpt.toString().replace('.', ',')} ºC  - media = ${ValorMedio("temperatura").toString().replace('.', ',')} ºC` || '';
     document.getElementById('dimensionesAcuario').value = `${dataConfig.largoAcuario} x ${dataConfig.anchoAcuario} x ${dataConfig.altoAcuario}` || '';
-    document.getElementById('volumenAcuario').value = `${Number(dataConfig.largoAcuario*dataConfig.anchoAcuario*dataConfig.altoAcuario/1000).toFixed(0)} lt` || '';
+    document.getElementById('volumenAcuario').value = `${Number(dataConfig.largoAcuario * dataConfig.anchoAcuario * dataConfig.altoAcuario / 1000).toFixed(0)} lt` || '';
+    document.getElementById('filtros').value = `${dataConfig.filtros}` || '';
+    document.getElementById('calentadores').value = `${dataConfig.calentadores}` || '';
+    document.getElementById('refrigeracion').value = `${dataConfig.refrigeracion}` || '';
+    document.getElementById('otros').value = `${dataConfig.otros}` || '';
 }
 
 function ValorMedio(elemento) {
