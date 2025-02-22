@@ -34,10 +34,22 @@ function generarTextoConsulta(tipo) {
         textoConsulta += `<br>${dataConfig.calentadores === "" ? "" : `👉Calentadores: ${dataConfig.calentadores}`}`;
         textoConsulta += `<br>${dataConfig.refrigeracion === "" ? "" : `👉Enfriamiento: ${dataConfig.refrigeracion}`}`;
         textoConsulta += `<br>${dataConfig.otros === "" ? "" : `👉Otros elementos: ${dataConfig.otros}`}`;
-        textoConsulta += `<br>👉El pH es ${datosAcuario[indice].pH.toFixed(1).toString().replace(".", ",")} (${datosAcuario[indice].pH > datosAcuario[indice-2].pH ? "subiendo":"bajando"}); el pH óptimo o deseable es ${dataConfig.pHOpt.toFixed(1).toString().replace(".", ",")}.`;
-        textoConsulta += `<br>👉El KH es ${datosAcuario[indice].KH.toFixed(1).toString().replace(".", ",")} (dKH) (${datosAcuario[indice].KH > datosAcuario[indice-2].KH ? "subiendo":"bajando"}); el KH óptimo o deseable es ${dataConfig.KHOpt.toFixed(1).toString().replace(".", ",")} (dKH).`;
-        textoConsulta += `<br>👉El NO3 es ${datosAcuario[indice].NO3} (ppm) (${datosAcuario[indice].NO3 > datosAcuario[indice-2].NO3 ? "subiendo":"bajando"}).`;
-        textoConsulta += `<br>👉La temperatura es ${datosAcuario[indice].temp.toFixed(0).toString()} (ºC) (${datosAcuario[indice].temp > datosAcuario[indice-2].temp ? "subiendo":"bajando"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;
+        // textoConsulta += `<br>👉El pH es ${datosAcuario[indice].pH.toFixed(1).toString().replace(".", ",")} (${datosAcuario[indice].pH > datosAcuario[indice-2].pH ? "subiendo":"bajando"}); el pH óptimo o deseable es ${dataConfig.pHOpt.toFixed(1).toString().replace(".", ",")}.`;
+        textoConsulta += `
+        <br>👉El pH es ${datosAcuario[indice].pH.toFixed(1).toString().replace(".", ",")} (${datosAcuario[indice].pH > datosAcuario[indice-2].pH ? "subiendo" : datosAcuario[indice].pH < datosAcuario[indice - 2].pH ? "bajando" : "estable"}); el pH óptimo o deseable es ${dataConfig.pHOpt.toFixed(1).toString().replace(".", ",")}.
+        `;
+        // textoConsulta += `<br>👉El KH es ${datosAcuario[indice].KH.toFixed(1).toString().replace(".", ",")} (dKH) (${datosAcuario[indice].KH > datosAcuario[indice-2].KH ? "subiendo":"bajando"}); el KH óptimo o deseable es ${dataConfig.KHOpt.toFixed(1).toString().replace(".", ",")} (dKH).`;
+        textoConsulta += `
+        <br>👉El KH es ${datosAcuario[indice].KH.toFixed(1).toString().replace(".", ",")} (dKH) (${datosAcuario[indice].KH > datosAcuario[indice-2].KH ? "subiendo" : datosAcuario[indice].KH < datosAcuario[indice - 2].KH ? "bajando" : "estable"}); el KH óptimo o deseable es ${dataConfig.KHOpt.toFixed(1).toString().replace(".", ",")} (dKH).
+        `;
+        // textoConsulta += `<br>👉El NO3 es ${datosAcuario[indice].NO3} (ppm) (${datosAcuario[indice].NO3 > datosAcuario[indice-2].NO3 ? "subiendo":"bajando"}).`;
+        textoConsulta += `
+        <br>👉El NO3 es ${datosAcuario[indice].NO3.toFixed(1).toString().replace(".", ",")} (ppm) (${datosAcuario[indice].NO3 > datosAcuario[indice-2].NO3 ? "subiendo" : datosAcuario[indice].NO3 < datosAcuario[indice - 2].NO3 ? "bajando" : "estable"}).
+        `;
+        // textoConsulta += `<br>👉La temperatura es ${datosAcuario[indice].temp.toFixed(0).toString()} (ºC) (${datosAcuario[indice].temp > datosAcuario[indice-2].temp ? "subiendo":"bajando"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;
+        textoConsulta += `
+        <br>👉La temperatura es ${datosAcuario[indice].temp.toFixed(0).toString().replace(".", ",")} (ºC) (${datosAcuario[indice].temp > datosAcuario[indice-2].temp ? "subiendo" : datosAcuario[indice].temp < datosAcuario[indice - 2].temp ? "bajando" : "estable"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString().replace(".", ",")} (ºC).
+        `;
         textoConsulta += `<br>👉La inyección de CO2 es: ${getEstado("inyCO2", datosAcuario[indice].inyeccCO2)}`;
         textoConsulta += `<br>👉El CO2 diluido según el pH/KH es: ${datosAcuario[indice].CO2.toFixed(1).toString().replace(".", ",")} (mg/l) (${datosAcuario[indice].CO2 > datosAcuario[indice-2].CO2 ? "subiendo":"bajando"})`;
         textoConsulta += `<br>👉El estado de las plantas es: ${getEstado("plantas", datosAcuario[indice].plantas)}`; 
@@ -60,7 +72,7 @@ function generarTextoConsulta(tipo) {
         // Aquí generas el texto con la tendencia de todos los datos
         modalTitulo.textContent = "Consulta 10 últimas semanas:";
         modalTitulo.classList.add("georgia-bold-italic");
-
+        console.log(datosAcuario[indice].pH,'-',parseFloat(predecirEstado("pH").replace(",", ".")));
         textoConsulta = 'Aquí están las tendencias de los parámetros de mi acuario en las últimas diez semanas. La medición la hice semanalmente cada domingo:';
 
         textoConsulta += `<br><br>👉Acuario: ${dataConfig.largoAcuario} x ${dataConfig.anchoAcuario} x ${dataConfig.altoAcuario} cms<br>`;
@@ -68,12 +80,26 @@ function generarTextoConsulta(tipo) {
         textoConsulta += `<br>${dataConfig.calentadores === "" ? "" : `👉Calentadores: ${dataConfig.calentadores}`}`;
         textoConsulta += `<br>${dataConfig.refrigeracion === "" ? "" : `👉Enfriamiento: ${dataConfig.refrigeracion}`}`;
         textoConsulta += `<br>${dataConfig.otros === "" ? "" : `👉Otros elementos: ${dataConfig.otros}`}`;
-        textoConsulta += `<br>👉La tendencia del pH es ${predecirEstado("pH")} (${predecirEstado("pH") > datosAcuario[indice].pH ? "subiendo":"bajando"}); el pH óptimo o deseable es ${dataConfig.pHOpt.toFixed(1).toString().replace(".", ",")}.`;
-        textoConsulta += `<br>👉La tendencia del KH es ${predecirEstado("KH")} (${predecirEstado("KH") > datosAcuario[indice].KH ? "subiendo":"bajando"}); el KH óptimo o deseable es ${dataConfig.KHOpt.toFixed(1).toString().replace(".", ",")} (dKH).`;
-        textoConsulta += `<br>👉La tendencia del NO3 es ${predecirEstado("NO3")} (${predecirEstado("NO3") > datosAcuario[indice].NO3 ? "subiendo":"bajando"}).`;
-        textoConsulta += `<br>👉La tendencia de la temperatura es ${predecirEstado("temp")} (${predecirEstado("temp") > datosAcuario[indice].temp ? "subiendo":"bajando"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;
+        // textoConsulta += `<br>👉La tendencia del pH es ${predecirEstado("pH")} (${predecirEstado("pH") > datosAcuario[indice].pH ? "subiendo":"bajando"}); el pH óptimo o deseable es ${dataConfig.pHOpt.toFixed(1).toString().replace(".", ",")}.`;
+        textoConsulta += `
+        <br>👉La tendencia del pH es ${predecirEstado("pH")} (${parseFloat(predecirEstado("pH").replace(",", ".")) > datosAcuario[indice].pH ? "subiendo" : parseFloat(predecirEstado("pH").replace(",", ".")) < datosAcuario[indice].pH ? "bajando" : "estable"}); el pH óptimo o deseable es ${dataConfig.pHOpt.toFixed(1).toString().replace(".", ",")}.
+        `;
+        // textoConsulta += `<br>👉La tendencia del KH es ${predecirEstado("KH")} (${predecirEstado("KH") > datosAcuario[indice].KH ? "subiendo":"bajando"}); el KH óptimo o deseable es ${dataConfig.KHOpt.toFixed(1).toString().replace(".", ",")} (dKH).`;
+        textoConsulta += `
+        <br>👉La tendencia del KH es ${predecirEstado("KH")} (${parseFloat(predecirEstado("KH").replace(",", ".")) > datosAcuario[indice].KH ? "subiendo" : parseFloat(predecirEstado("KH").replace(",", ".")) < datosAcuario[indice].KH ? "bajando" : "estable"}); el KH óptimo o deseable es ${dataConfig.KHOpt.toFixed(1).toString().replace(".", ",")}.
+        `;
+        // textoConsulta += `<br>👉La tendencia del NO3 es ${predecirEstado("NO3")} (${predecirEstado("NO3") > datosAcuario[indice].NO3 ? "subiendo":"bajando"}).`;
+        textoConsulta += `
+        <br>👉La tendencia del NO3 es ${predecirEstado("NO3")} (${parseFloat(predecirEstado("NO3").replace(",", ".")) > datosAcuario[indice].NO3 ? "subiendo" : parseFloat(predecirEstado("NO3").replace(",", ".")) < datosAcuario[indice].NO3 ? "bajando" : "estable"}).
+        `;
+        // textoConsulta += `<br>👉La tendencia de la temperatura es ${predecirEstado("temp")} (${predecirEstado("temp") > datosAcuario[indice].temp ? "subiendo" :
+        // "bajando"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;        
+        textoConsulta += `<br>👉La tendencia de la temperatura es ${predecirEstado("temp")} (${parseFloat(predecirEstado("temp").replace(",", ".")) > datosAcuario[indice].temp ? "subiendo" : parseFloat(predecirEstado("temp").replace(",", ".")) < datosAcuario[indice].temp ? "bajando" : "estable"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;
         textoConsulta += `<br>👉El método más usado de CO2 en las últimas 10 semanas es: ${predecirEstado("inyCO2")}`;
-        textoConsulta += `<br>👉La tendencia del CO2 diluido según el pH/KH es: ${predecirEstado("CO2")} (${predecirEstado("CO2") > datosAcuario[indice].CO2 ? "subiendo":"bajando"})`;
+        // textoConsulta += `<br>👉La tendencia del CO2 diluido según el pH/KH es: ${predecirEstado("CO2")} (${predecirEstado("CO2") > datosAcuario[indice].CO2 ? "subiendo" : "bajando"})`;
+        textoConsulta += `
+        <br>👉La tendencia del disuelto según el pH/KH es ${predecirEstado("CO2")} (${parseFloat(predecirEstado("CO2").replace(",", ".")) > datosAcuario[indice].CO2 ? "subiendo" : parseFloat(predecirEstado("CO2").replace(",", ".")) < datosAcuario[indice].CO2 ? "bajando" : "estable"}).
+        `;
         textoConsulta += `<br>👉La tendencia del estado de las plantas es: ${predecirEstado("plantas")}`; 
         textoConsulta += `<br>👉La tendencia del estado de las algas es: ${predecirEstado("algas")}`;
         textoConsulta += `<br>👉La tendencia del estado del agua es: ${predecirEstado("agua")}`;
