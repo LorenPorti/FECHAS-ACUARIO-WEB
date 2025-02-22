@@ -51,7 +51,7 @@ function generarTextoConsulta(tipo) {
         <br>👉La temperatura es ${datosAcuario[indice].temp.toFixed(0).toString().replace(".", ",")} (ºC) (${datosAcuario[indice].temp > datosAcuario[indice-2].temp ? "subiendo" : datosAcuario[indice].temp < datosAcuario[indice - 2].temp ? "bajando" : "estable"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString().replace(".", ",")} (ºC).
         `;
         textoConsulta += `<br>👉La inyección de CO2 es: ${getEstado("inyCO2", datosAcuario[indice].inyeccCO2)}`;
-        textoConsulta += `<br>👉El CO2 diluido según el pH/KH es: ${datosAcuario[indice].CO2.toFixed(1).toString().replace(".", ",")} (mg/l) (${datosAcuario[indice].CO2 > datosAcuario[indice-2].CO2 ? "subiendo":"bajando"})`;
+        textoConsulta += `<br>👉El CO2 disuelto según el pH/KH es: ${datosAcuario[indice].CO2.toFixed(1).toString().replace(".", ",")} (mg/l) (${datosAcuario[indice].CO2 > datosAcuario[indice-2].CO2 ? "subiendo":"bajando"})`;
         textoConsulta += `<br>👉El estado de las plantas es: ${getEstado("plantas", datosAcuario[indice].plantas)}`; 
         textoConsulta += `<br>👉El estado de las algas es: ${getEstado("algas", datosAcuario[indice].algas)}`;
         textoConsulta += `<br>👉El estado del agua es: ${getEstado("agua", datosAcuario[indice].agua)}`;
@@ -98,7 +98,7 @@ function generarTextoConsulta(tipo) {
         textoConsulta += `<br>👉El método más usado de CO2 en las últimas 10 semanas es: ${predecirEstado("inyCO2")}`;
         // textoConsulta += `<br>👉La tendencia del CO2 diluido según el pH/KH es: ${predecirEstado("CO2")} (${predecirEstado("CO2") > datosAcuario[indice].CO2 ? "subiendo" : "bajando"})`;
         textoConsulta += `
-        <br>👉La tendencia del disuelto según el pH/KH es ${predecirEstado("CO2")} (${parseFloat(predecirEstado("CO2").replace(",", ".")) > datosAcuario[indice].CO2 ? "subiendo" : parseFloat(predecirEstado("CO2").replace(",", ".")) < datosAcuario[indice].CO2 ? "bajando" : "estable"}).
+        <br>👉La tendencia del CO2 disuelto según el pH/KH es ${predecirEstado("CO2")} (${parseFloat(predecirEstado("CO2").replace(",", ".")) > datosAcuario[indice].CO2 ? "subiendo" : parseFloat(predecirEstado("CO2").replace(",", ".")) < datosAcuario[indice].CO2 ? "bajando" : "estable"}).
         `;
         textoConsulta += `<br>👉La tendencia del estado de las plantas es: ${predecirEstado("plantas")}`; 
         textoConsulta += `<br>👉La tendencia del estado de las algas es: ${predecirEstado("algas")}`;
