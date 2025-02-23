@@ -343,7 +343,8 @@ function generarResumenComentarios(comentariosSemanas) {
         "luz del acuario": "Causas debidas a la luz del acuario",
         "luz": "Causas debidas a la luz del acuario",
         "Ichthyophthirius": "Infección de Ichthyophthirius",
-        "CO2": "Problemas con el CO2"
+        "CO2": "Problemas con el CO2",
+        "alimenta": "Causas debidas a la alimentación"
     };
 
     let resumenSemanas = [];
