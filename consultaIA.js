@@ -339,7 +339,7 @@ function generarResumenComentarios(comentariosSemanas) {
         "planarias": "Problemas con planarias",
         "temperatura": "Problema con la temperatura",
         "ciclo de luz": "Cambio en el ciclo de luz",
-        "iluminación": "Cambio en la iluminación",
+        "ilumina": "Cambio en la iluminación",
         "luz del acuario": "Causas debidas a la luz del acuario",
         "luz": "Causas debidas a la luz del acuario",
         "Ichthyophthirius": "Infección de Ichthyophthirius",
