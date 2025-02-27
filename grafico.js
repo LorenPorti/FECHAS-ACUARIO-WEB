@@ -25,9 +25,7 @@ const valoresAjustadosCO2 = xValores.map(x => evaluarPolinomio(coeficientesTende
 const valoresAjustadosTendenciaGral = xValores.map(x => evaluarPolinomio(coeficientesTendenciaGral, x));
 const valoresAjustadosNO3 = xValores.map(x => evaluarPolinomio(coeficientesTendenciaNO3, x));
 
-
-//Selecciona los 20 primeros
-let dataSeleccion = fechas.slice(0, datosAcuario.length - 1).map((fecha, i) => ({
+let dataSeleccion = fechas.slice(0, datosAcuario.length).map((fecha, i) => ({
     fecha,
     pH: valoresPH[i],
     KH: valoresKH[i],
@@ -41,7 +39,7 @@ let dataSeleccion = fechas.slice(0, datosAcuario.length - 1).map((fecha, i) => (
 
 let options = {
     container: document.getElementById("graficoLineas"),
-    autoSize: true, // Ajuste automático del tamaño
+    // autoSize: true, // Ajuste automático del tamaño
     // title: {
     //     text: 'Datos del Acuario',
     //     fontSize: 18,
@@ -258,9 +256,9 @@ let options = {
                     return index % 52 === 0 || index % 4 === 0 ? params.value : "";
                 },
             },
-            tick: {
-                maxSpacing: 60, // Ajusta el espacio máximo entre las etiquetas
-            },
+            // tick: {
+            //     maxSpacing: 60, // Ajusta el espacio máximo entre las etiquetas
+            // },
         },
         {
             type: "number",
@@ -322,9 +320,9 @@ let options = {
         },
         // min: rangoNavigator.min,
         // max: rangoNavigator.max,
-        handles: {
-            visible: true, // Deshabilitar los controles laterales
-        },
+        // handles: {
+        //     visible: true, // Deshabilitar los controles laterales
+        // },
         mask: {
             fill: "#705C53", // Color de la selección
         },
@@ -354,311 +352,6 @@ function inicializarGraficoAG() {
     }
 
     chart = agCharts.AgCharts.create(options);
-    //     container: document.getElementById("graficoLineas"),
-    //     autoSize: true, // Ajuste automático del tamaño
-    //     // title: {
-    //     //     text: 'Datos del Acuario',
-    //     //     fontSize: 18,
-    //     // },
-    //     data: dataSeleccion,
-    //     series: [{
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "pH",
-    //             yName: "pH",
-    //             stroke: "blue",
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "blue", // Color del botón en la leyenda para esta serie
-    //                 size: 0, //Elimina los marcadores de los nodos
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${params.datum.fecha}<br>pH: ${params.datum.pH} eje Izda`,
-    //                     backgroundColor: "blue", // Color de fondo igual al de la serie
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "KH",
-    //             yName: "KH",
-    //             stroke: "green",
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "green", // Color del botón en la leyenda para esta serie
-    //                 size: 0, //Elimina los marcadores de los nodos
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${params.datum.fecha}<br>KH: ${params.datum.KH} (dKH) eje Izda`,
-    //                     backgroundColor: "green", // Color de fondo igual al de la serie
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "CO2",
-    //             yName: "CO2",
-    //             stroke: "DeepSkyBlue",
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "DeepSkyBlue", // Color del botón en la leyenda para esta serie
-    //                 size: 0, //Elimina los marcadores de los nodos
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${
-    //             params.datum.fecha
-    //           }<br>CO2: ${params.datum.CO2.toFixed(2).replace(
-    //             ".",
-    //             ","
-    //           )} (mg/l) eje Dcha`,
-    //                     backgroundColor: "DeepSkyBlue", // Color de fondo igual al de la serie
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "NO3",
-    //             yName: "NO3",
-    //             stroke: "#C96868",
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "#C96868", // Color del botón en la leyenda para esta serie
-    //                 size: 0, //Elimina los marcadores de los nodos
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${
-    //             params.datum.fecha
-    //           }<br>NO3: ${params.datum.NO3.toFixed(2).replace(
-    //             ".",
-    //             ","
-    //           )} (ppm) eje Dcha`,
-    //                     backgroundColor: "#C96868", // Color de fondo igual al de la serie
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "temp",
-    //             yName: "temp",
-    //             stroke: "#DEAA79",
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "#DEAA79", // Color del botón en la leyenda para esta serie
-    //                 size: 0, //Elimina los marcadores de los nodos
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${params.datum.fecha}<br>temp: ${params.datum.temp} ºC eje Dcha`,
-    //                     backgroundColor: "#DEAA79", // Color de fondo igual al de la serie
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "tendenciaGral",
-    //             yName: "Tendencia Gral",
-    //             stroke: "Purple",
-    //             strokeWidth: 4,
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "Purple", // Color del botón en la leyenda para esta serie
-    //                 size: 0, //Elimina los marcadores de los nodos
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${
-    //             params.datum.fecha
-    //           }<br>Tendencia Gral: ${params.datum.tendenciaGral
-    //             .toFixed(2)
-    //             .replace(".", ",")} eje Izda`,
-    //                     backgroundColor: "Purple", // Color de fondo igual al de la serie
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "tendenciaCO2",
-    //             yName: "Tendencia CO2",
-    //             stroke: "#2e86c1",
-    //             strokeWidth: 3,
-    //             lineDash: [10, 5],
-    //             visible: false,
-    //             // showInLegend: false, // Oculta esta serie en la leyenda
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "#2e86c1",
-    //                 size: 0,
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${
-    //             params.datum.fecha
-    //           }<br>Tendencia CO2: ${params.datum.tendenciaCO2
-    //             .toFixed(2)
-    //             .replace(".", ",")} eje Dcha`,
-    //                     backgroundColor: "#2e86c1",
-    //                 }),
-    //             },
-    //         },
-    //         {
-    //             type: "line",
-    //             xKey: "fecha",
-    //             yKey: "tendenciaNO3",
-    //             yName: "Tendencia NO3",
-    //             stroke: "#943126",
-    //             strokeWidth: 3,
-    //             lineDash: [10, 5],
-    //             visible: false,
-    //             interpolation: {
-    //                 type: "smooth",
-    //             },
-    //             marker: {
-    //                 fill: "#943126",
-    //                 size: 0,
-    //             },
-    //             tooltip: {
-    //                 renderer: (params) => ({
-    //                     content: `Fecha: ${
-    //             params.datum.fecha
-    //           }<br>Tendencia NO3: ${params.datum.tendenciaNO3.toFixed(
-    //             0
-    //           )} eje Dcha`,
-    //                     backgroundColor: "#943126",
-    //                 }),
-    //             },
-    //         },
-    //     ],
-    //     axes: [{
-    //             type: "category",
-    //             position: "bottom",
-    //             title: { text: "Fechas" },
-    //             key: "Fecha",
-    //             interval: {
-    //                 maxSpacing: 52,
-    //             },
-    //             label: {
-    //                 rotation: 270,
-    //                 fontSize: 10, // Reducir el tamaño de la fuente en pantallas pequeñas
-    //                 formatter: (params) => {
-    //                     const index = datosAcuario.findIndex(
-    //                         (dato) => dato.Fecha === params.value
-    //                     );
-
-    //                     // Mostrar solo la fecha en el primer valor de cada año (cada 52 elementos) o cada x intervalos
-    //                     return index % 52 === 0 || index % 4 === 0 ? params.value : "";
-    //                 },
-    //             },
-    //             tick: {
-    //                 maxSpacing: 60, // Ajusta el espacio máximo entre las etiquetas
-    //             },
-    //         },
-    //         {
-    //             type: "number",
-    //             position: "left",
-    //             // title: { text: 'pH - KH (dKH)' },
-    //             keys: ["pH", "KH", "tendenciaGral"], // Asociar ejes a estas series
-    //             gridLine: {
-    //                 enabled: true,
-    //                 style: [{
-    //                         stroke: "gray",
-    //                         lineDash: [10, 5],
-    //                     },
-    //                     {
-    //                         stroke: "lightgray",
-    //                         lineDash: [5, 5],
-    //                     },
-    //                 ],
-    //             },
-    //             min: 0,
-    //             max: 10,
-    //             interval: { step: 0.5 },
-    //         },
-    //         {
-    //             type: "number",
-    //             position: "right",
-    //             // title: { text: 'NO3 (ppm)' },
-    //             keys: ["NO3", "CO2", "temp", "tendenciaCO2", "tendenciaNO3"], // Asociar eje a esta serie
-    //             // gridLine: {
-    //             //     enabled: true,
-    //             //     style: [
-    //             //         { stroke: 'red', lineDash: [4, 4], }, // Línea punteada roja
-    //             //     ],
-    //             // },
-    //             interval: { step: 20 },
-    //             min: 0,
-    //             max: 50,
-    //         },
-    //     ],
-    //     navigator: {
-    //         enabled: true,
-    //         height: 40, // Altura del navigator
-    //         minHandle: {
-    //             fill: "darkgrey",
-    //             stroke: "black",
-    //             width: 16,
-    //             height: 30,
-    //             gripLineGap: 4,
-    //             gripLineLength: 12,
-    //             strokeWidth: 2,
-    //         },
-    //         maxHandle: {
-    //             fill: "darkgrey",
-    //             stroke: "black",
-    //             width: 16,
-    //             height: 30,
-    //             gripLineGap: 4,
-    //             gripLineLength: 12,
-    //             strokeWidth: 2,
-    //         },
-    //         // min: rangoNavigator.min,
-    //         // max: rangoNavigator.max,
-    //         handles: {
-    //             visible: true, // Deshabilitar los controles laterales
-    //         },
-    //         mask: {
-    //             fill: "#705C53", // Color de la selección
-    //         },
-    //         min: rangoNavigator.min,
-    //         max: rangoNavigator.max,
-    //     },
-    //     legend: {
-    //         position: "bottom",
-    //         item: {
-    //             marker: {
-    //                 size: 16, // Aumenta el tamaño del marcador
-    //             },
-    //             label: {
-    //                 fontSize: 14, // Ajusta el tamaño del texto
-    //             },
-    //             paddingX: 10, // Espaciado horizontal entre marcador y texto
-    //             paddingY: 5, // Espaciado vertical entre filas de la leyenda
-    //         },
-    //     },
-    // });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
