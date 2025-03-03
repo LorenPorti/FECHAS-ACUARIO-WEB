@@ -616,6 +616,7 @@ canvas {
 .modal-body p,
 .modal-body span,
 #modal-comments {
+    font-family: Georgia;
     font-size: 12px;
     /* Reduce aún más el tamaño */
     line-height: 1.2;

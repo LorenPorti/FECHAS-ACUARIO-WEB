@@ -521,7 +521,7 @@ document.getElementById("fecha-resultado").addEventListener("click", function() 
     document.getElementById("modal-title").innerText = datosAcuario[indice].Fecha;
     document.getElementById("modal-datos").innerHTML = `» La diferencia con valores anteriores de la regresión lineal Gral es <b style="color: Maroon; font-style: italic; ">${diferenciaEstado}</b>(${signo}${(dato2-dato1).toFixed(3).replace(".",",")}).`;
     document.getElementById("modalPH").innerHTML = `<b style="color: Maroon;">pH:</b> ${datosAcuario[indice].pH.toFixed(1).toString().replace(".", ",")}`;
-    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">KH:</b> ${datosAcuario[indice].KH} dKH`;
+    document.getElementById("modalKH").innerHTML = `<b style="color: Maroon;">KH:</b> ${datosAcuario[indice].KH.toFixed(1).toString().replace(".", ",")} dKH`;
     document.getElementById("modalTemp").innerHTML = `<b style="color: Maroon; ">Temperatura:</b> ${datosAcuario[indice].temp} ºC`;
     document.getElementById("modalCO2").innerHTML = `<b style="color: Maroon; ">CO2:</b> ${datosAcuario[indice].CO2.toFixed(2).toString().replace(".", ",")} mg/l`;
     document.getElementById("modalNO3").innerHTML = `<b style="color: Maroon; ">NO3:</b> ${datosAcuario[indice].NO3} ppm`;
@@ -533,7 +533,7 @@ document.getElementById("fecha-resultado").addEventListener("click", function() 
     document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Regresión lineal Gral:</b> ${datosAcuario[indice].tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
     document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Regresión lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
     document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Regresión lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
-    console.log(calcularTendencia(datosAcuario, 2, indice));
+    // console.log(calcularTendencia(datosAcuario, 2, indice));
     document.getElementById("modal-comments").textContent = `${datosAcuario[indice].comentario}`;
 
     modal.style.display = "block";
@@ -765,7 +765,7 @@ function mostrarResultadosCombinacion(elemento) {
     if (resultadosElemento.length === 0) {
         mostrarMensajeSinResultados();
     } else {
-        console.log(`Resultados encontrados (${resultadosElemento.length}):`, resultadosElemento);
+        // console.log(`Resultados encontrados (${resultadosElemento.length}):`, resultadosElemento);
         mostrarResultados(resultadosElemento, elemento, operador); // Asegúrate de implementar esta función
     }
 }
