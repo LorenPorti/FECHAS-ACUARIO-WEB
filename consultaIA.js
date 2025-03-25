@@ -95,7 +95,7 @@ function generarTextoConsulta(tipo) {
         // textoConsulta += `<br>👉La tendencia de la temperatura es ${predecirEstado("temp")} (${predecirEstado("temp") > datosAcuario[indice].temp ? "subiendo" :
         // "bajando"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;        
         textoConsulta += `<br>👉La tendencia de la temperatura es ${predecirEstado("temp")} (${parseFloat(predecirEstado("temp").replace(",", ".")) > datosAcuario[indice].temp ? "subiendo" : parseFloat(predecirEstado("temp").replace(",", ".")) < datosAcuario[indice].temp ? "bajando" : "estable"}); la temperatura óptima o deseable es ${dataConfig.tempOpt.toFixed(0).toString()} (ºC).`;
-        textoConsulta += `<br>👉El método más usado de CO2 en las últimas 10 semanas es: ${predecirEstado("inyCO2")}`;
+        textoConsulta += `<br>👉El método más usado de inyección de CO2 en las últimas 10 semanas es: ${predecirEstado("inyCO2")}`;
         // textoConsulta += `<br>👉La tendencia del CO2 diluido según el pH/KH es: ${predecirEstado("CO2")} (${predecirEstado("CO2") > datosAcuario[indice].CO2 ? "subiendo" : "bajando"})`;
         textoConsulta += `
         <br>👉La tendencia del CO2 disuelto según el pH/KH es ${predecirEstado("CO2")} (${parseFloat(predecirEstado("CO2").replace(",", ".")) > datosAcuario[indice].CO2 ? "subiendo" : parseFloat(predecirEstado("CO2").replace(",", ".")) < datosAcuario[indice].CO2 ? "bajando" : "estable"}).
