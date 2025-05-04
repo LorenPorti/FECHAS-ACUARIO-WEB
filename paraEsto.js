@@ -194,7 +194,7 @@ export async function enviarCorreo(gestor) {
             function(response) {
                 console.log("SUCCESS!", response.status, response.text);
                 // alert(`Email enviado correctamente a «${CORREO_ELECTRONICO}».`);
-                showModal("ENVÍO DEL EMAIL", `Enviado a la xarpeta 'DATOS CAMPO EMAIL'.`, null);
+                showModal("ENVÍO DEL EMAIL", `Enviado a la carpeta 'DATOS CAMPO EMAIL'.`, null);
             },
             function(error) {
                 console.log("FAILED...", error);
