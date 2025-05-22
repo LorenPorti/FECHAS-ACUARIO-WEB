@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const ultimaFila = filas[filas.length - 1];
             ultimaFila.scrollIntoView({ behavior: "instant", block: "center" }); // Asegura visibilidad
             seleccionarFila(ultimaFila, filas);
-        }, 300); // Retraso mínimo para asegurar que la cuadrícula esté lista
+        }, 500); // Retraso mínimo para asegurar que la cuadrícula esté lista
     }
 
 });
