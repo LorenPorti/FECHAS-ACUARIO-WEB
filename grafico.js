@@ -16,9 +16,9 @@ const valorestemp = datosAcuario.map(dato => dato.temp);
 const valorestendenciaGral = datosAcuario.map(dato => dato.resultado);
 // Cálculo de la regresión polinómica de grado 3.
 const xValores = fechas.map((_, index) => index); // Índices como eje X
-const coeficientesTendenciaCO2 = calcularRegresionPolinomica(xValores, valoresCO2, 3);
-const coeficientesTendenciaGral = calcularRegresionPolinomica(xValores, valorestendenciaGral, 3);
-const coeficientesTendenciaNO3 = calcularRegresionPolinomica(xValores, valoresNO3, 3);
+const coeficientesTendenciaCO2 = calcularRegresionPolinomica(xValores, valoresCO2, 2);
+const coeficientesTendenciaGral = calcularRegresionPolinomica(xValores, valorestendenciaGral, 2);
+const coeficientesTendenciaNO3 = calcularRegresionPolinomica(xValores, valoresNO3, 2);
 
 // Generar los valores ajustados de tendencia usando el polinomio
 const valoresAjustadosCO2 = xValores.map(x => evaluarPolinomio(coeficientesTendenciaCO2, x));
@@ -326,8 +326,10 @@ let options = {
         mask: {
             fill: "#705C53", // Color de la selección
         },
-        min: rangoNavigator.min,
-        max: rangoNavigator.max,
+        // min: rangoNavigator.min,
+        // max: rangoNavigator.max,
+        min: 0,
+        max: 0.7 //Con estos valores del Navigator sale seleccionado todo (Gráfico completo). Para una zona determinada arrastar los cursores del navegador gráfico
     },
     legend: {
         position: "bottom",
@@ -620,9 +622,9 @@ function actualizarModal(fecha) {
     document.getElementById("modalAlgas").innerHTML = `<b style="color: Maroon; ">Algas:</b> ${getEstado("algas", valDatos.algas)}`;
     document.getElementById("modalSupAgua").innerHTML = `<b style="color: Maroon; ">Superf. agua:</b> ${getEstado("supAgua", valDatos.sup_agua)}`;
     document.getElementById("modalInyCO2").innerHTML = `<b style="color: Maroon; ">Inyección de CO2:</b> ${getEstado("inyCO2", valDatos.inyeccCO2)}`;
-    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Regresión polin. Gral:</b> ${valDatos.tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
-    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Regresión polin. NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
-    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Regresión polin. CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
+    document.getElementById("modalTendGral").innerHTML = `<b style="color: Maroon; ">Regresión Lineal Gral:</b> ${valDatos.tendencia.toFixed(3).toString().replace(".", ",")} - (Óptimo = 0,000)`;
+    document.getElementById("modalTendNO3").innerHTML = `<b style="color: Maroon; ">Regresión Lineal NO3:</b> ${calcularTendencia(datosAcuario,1,indice).replace(".", ",")} - (Ópt. = 5-10 ppm)`;
+    document.getElementById("modalTendCO2").innerHTML = `<b style="color: Maroon; ">Regresión Lineal CO2:</b> ${calcularTendencia(datosAcuario, 2, indice).replace(".", ",")} - (Ópt. = 6-15 mg/l)`;
     console.log(calcularTendencia(datosAcuario, 2, indice));
     document.getElementById("modal-comments").textContent = `${valDatos.comentario}`;
 
