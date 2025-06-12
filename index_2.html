@@ -465,20 +465,23 @@
         //     if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
         // });
 
-        document.getElementById("phInput").addEventListener("input", function() {
-            let value = this.value.replace(",", "."); // Cambiar coma por punto
-            const regex = /^(\d{0,2})(\.\d?)?$/; // Hasta 2 dígitos y un decimal opcional
+        const phInput = document.getElementById("phInput");
 
-            if (!regex.test(value)) {
-                this.value = this.value.slice(0, -1); // Elimina el último carácter inválido
-                return;
-            }
+        phInput.addEventListener("input", function() {
+            let valor = this.value;
 
-            let num = parseFloat(value);
-            if (!isNaN(num)) {
-                if (num < 0) num = 0;
-                if (num > 10) num = 10;
-                this.value = num.toString();
+            // Reemplazar punto por coma
+            valor = valor.replace(".", ",");
+
+            // Separar parte entera y decimal si hay coma
+            if (valor.includes(",")) {
+                const [parteEntera, parteDecimal] = valor.split(",");
+                const parteEnteraLimpia = parteEntera.replace(/^0+(?!$)/, "") || "0";
+                const decimalRecortado = parteDecimal.substring(0, 1); // Limitar a 1 decimal
+                this.value = parteEnteraLimpia + "," + decimalRecortado;
+            } else {
+                // Solo número entero: quitar ceros a la izquierda
+                this.value = valor.replace(/^0+(?!$)/, "") || "0";
             }
         });
 
@@ -488,9 +491,10 @@
         //     }
         // });
 
-        document.getElementById("phInput").addEventListener("focus", function() {
-            if (this.value === "") {
-                this.value = "6";
+        // Al enfocar el campo vacío, colocar 6,0 y cursor al final
+        phInput.addEventListener("focus", function() {
+            if (this.value === '') {
+                this.value = '6,0';
                 const len = this.value.length;
                 setTimeout(() => this.setSelectionRange(len, len), 0);
             }
@@ -537,20 +541,23 @@
         //     if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
         // });
 
-        document.getElementById("khInput").addEventListener("input", function() {
-            let value = this.value.replace(",", "."); // Cambiar coma por punto
-            const regex = /^(\d{0,2})(\.\d?)?$/; // Hasta 2 dígitos y un decimal opcional
+        const khInput = document.getElementById("khInput");
 
-            if (!regex.test(value)) {
-                this.value = this.value.slice(0, -1); // Elimina el último carácter inválido
-                return;
-            }
+        khInput.addEventListener("input", function() {
+            let valor = this.value;
 
-            let num = parseFloat(value);
-            if (!isNaN(num)) {
-                if (num < 0) num = 0;
-                if (num > 10) num = 10;
-                this.value = num.toString();
+            // Reemplazar punto por coma
+            valor = valor.replace(".", ",");
+
+            // Separar parte entera y decimal si hay coma
+            if (valor.includes(",")) {
+                const [parteEntera, parteDecimal] = valor.split(",");
+                const parteEnteraLimpia = parteEntera.replace(/^0+(?!$)/, "") || "0";
+                const decimalRecortado = parteDecimal.substring(0, 1); // Limitar a 1 decimal
+                this.value = parteEnteraLimpia + "," + decimalRecortado;
+            } else {
+                // Solo número entero: quitar ceros a la izquierda
+                this.value = valor.replace(/^0+(?!$)/, "") || "0";
             }
         });
 
@@ -562,7 +569,7 @@
 
         document.getElementById("khInput").addEventListener("focus", function() {
             if (this.value === "") {
-                this.value = "2";
+                this.value = "2,0";
                 const len = this.value.length;
                 setTimeout(() => this.setSelectionRange(len, len), 0);
             }
