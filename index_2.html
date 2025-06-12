@@ -446,7 +446,14 @@
                 // Convertir a número y volver a cadena para eliminar ceros a la izquierda
                 this.value = parseFloat(value).toString();
             }
-            if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            // if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+            if (Number(this.value) < Number(this.min) || this.value == "") {
+                this.value = this.min;
+                // Coloca el cursor al final del valor
+                const len = this.value.length;
+                // Ejecutar después de renderizar el valor
+                setTimeout(() => this.setSelectionRange(len, len), 0);
+            }
             if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
         });
 
