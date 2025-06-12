@@ -212,7 +212,8 @@
         <div class="input-group mt-2 custom-border">
             <!-- Entrada del pH -->
             <span class="input-group-text text-bg-warning">pH</span>
-            <input type="number" step="0.1" value="" min="0" max="10" class="roboto-medium-italic form-control" id="phInput" />
+            <!-- <input type="number" step="0.1" value="" min="0" max="10" class="roboto-medium-italic form-control" id="phInput" /> -->
+            <input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]?" class="roboto-medium-italic form-control" id="phInput" />
             <!-- Entrada del NO3 -->
             <span class="input-group-text text-bg-danger">NO3 (ppm)</span>
             <input type="number" value="" min="0" max="50" class="roboto-medium-italic form-control" id="no3Input" />
@@ -422,46 +423,72 @@
         //         }
         //     });
         // Controla las entradas del pH********************
-        document.getElementById("phInput").addEventListener("input", function(event) {
-            let value = this.value;
-            // Convertir coma a punto
-            if (value.includes(",")) {
-                this.value = value.replace(",", ".");
-                value = this.value;
+        // document.getElementById("phInput").addEventListener("input", function(event) {
+        //     let value = this.value;
+        //     // Convertir coma a punto
+        //     if (value.includes(",")) {
+        //         this.value = value.replace(",", ".");
+        //         value = this.value;
+        //     }
+        //     // Validar y ajustar el valor a un solo decimal
+        //     if (value.includes(".")) {
+        //         const parts = value.split(".");
+        //         if (parts[1].length > 1) {
+        //             value = `${parts[0]}.${parts[1].slice(0, 1)}`;
+        //         }
+        //     }
+        //     // Asegurarse de que 0 inicial se mantenga en caso de valores decimales como "0.5"
+        //     if (value.startsWith(".")) {
+        //         this.value = "0" + value;
+        //         value = this.value;
+        //     }
+        //     // Eliminar ceros a la izquierda, excepto en "0" o "0."
+        //     if (value !== "0" && value !== "0." && value.length > 1) {
+        //         // Convertir a número y volver a cadena para eliminar ceros a la izquierda
+        //         this.value = parseFloat(value).toString();
+        //     }
+        //     // if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
+        //     if (Number(this.value) < Number(this.min) || this.value == "") {
+        //         this.value = this.min;
+        //         // Coloca el cursor al final del valor
+        //         const len = this.value.length;
+        //         // Ejecutar después de renderizar el valor
+        //         setTimeout(() => this.setSelectionRange(len, len), 0);
+        //     }
+        //     if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
+        // });
+
+        document.getElementById("phInput").addEventListener("input", function() {
+            let value = this.value.replace(",", "."); // Cambiar coma por punto
+            const regex = /^(\d{0,2})(\.\d?)?$/; // Hasta 2 dígitos y un decimal opcional
+
+            if (!regex.test(value)) {
+                this.value = this.value.slice(0, -1); // Elimina el último carácter inválido
+                return;
             }
-            // Validar y ajustar el valor a un solo decimal
-            if (value.includes(".")) {
-                const parts = value.split(".");
-                if (parts[1].length > 1) {
-                    value = `${parts[0]}.${parts[1].slice(0, 1)}`;
-                }
+
+            let num = parseFloat(value);
+            if (!isNaN(num)) {
+                if (num < 0) num = 0;
+                if (num > 10) num = 10;
+                this.value = num.toString();
             }
-            // Asegurarse de que 0 inicial se mantenga en caso de valores decimales como "0.5"
-            if (value.startsWith(".")) {
-                this.value = "0" + value;
-                value = this.value;
-            }
-            // Eliminar ceros a la izquierda, excepto en "0" o "0."
-            if (value !== "0" && value !== "0." && value.length > 1) {
-                // Convertir a número y volver a cadena para eliminar ceros a la izquierda
-                this.value = parseFloat(value).toString();
-            }
-            // if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
-            if (Number(this.value) < Number(this.min) || this.value == "") {
-                this.value = this.min;
-                // Coloca el cursor al final del valor
-                const len = this.value.length;
-                // Ejecutar después de renderizar el valor
-                setTimeout(() => this.setSelectionRange(len, len), 0);
-            }
-            if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
         });
+
+        // document.getElementById("phInput").addEventListener("focus", function() {
+        //     if (this.value === "") {
+        //         this.value = 6;
+        //     }
+        // });
 
         document.getElementById("phInput").addEventListener("focus", function() {
             if (this.value === "") {
-                this.value = 6;
+                this.value = "6";
+                const len = this.value.length;
+                setTimeout(() => this.setSelectionRange(len, len), 0);
             }
         });
+
         // document.getElementById("phInput").addEventListener("change", (event) => {
         //     if (event.returnValue) {
         //         const elements = document.querySelectorAll("span");
