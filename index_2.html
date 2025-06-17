@@ -468,21 +468,38 @@
         const phInput = document.getElementById("phInput");
 
         phInput.addEventListener("input", function() {
-            let valor = this.value;
+            let val = this.value.replace(".", ","); // Convertir punto en coma
 
-            // Reemplazar punto por coma
-            valor = valor.replace(".", ",");
+            // Quitar caracteres no numéricos ni coma
+            val = val.replace(/[^\d,]/g, "");
 
-            // Separar parte entera y decimal si hay coma
-            if (valor.includes(",")) {
-                const [parteEntera, parteDecimal] = valor.split(",");
-                const parteEnteraLimpia = parteEntera.replace(/^0+(?!$)/, "") || "0";
-                const decimalRecortado = parteDecimal.substring(0, 1); // Limitar a 1 decimal
-                this.value = parteEnteraLimpia + "," + decimalRecortado;
-            } else {
-                // Solo número entero: quitar ceros a la izquierda
-                this.value = valor.replace(/^0+(?!$)/, "") || "0";
+            // Limitar a una sola coma
+            const firstComma = val.indexOf(",");
+            if (firstComma !== -1) {
+                val = val.slice(0, firstComma + 1) + val.slice(firstComma + 1).replace(/,/g, "");
             }
+
+            // Anteponer 0 si empieza con coma (",5" -> "0,5")
+            if (val.startsWith(",")) {
+                val = "0" + val;
+            }
+
+            // Limitar a un decimal
+            if (val.includes(",")) {
+                const [ent, dec] = val.split(",");
+                val = ent + "," + dec.slice(0, 1);
+            }
+
+            // Validar rango solo si hay valor
+            if (val !== "") {
+                const num = parseFloat(val.replace(",", "."));
+                if (!isNaN(num)) {
+                    if (num < 0) val = "0";
+                    if (num > 10) val = "10";
+                }
+            }
+
+            this.value = val;
         });
 
         // document.getElementById("phInput").addEventListener("focus", function() {
@@ -494,7 +511,7 @@
         // Al enfocar el campo vacío, colocar 6,0 y cursor al final
         phInput.addEventListener("focus", function() {
             if (this.value === '') {
-                this.value = '6,0';
+                this.value = '6,5';
                 const len = this.value.length;
                 setTimeout(() => this.setSelectionRange(len, len), 0);
             }
@@ -541,25 +558,25 @@
         //     if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
         // });
 
-        const khInput = document.getElementById("khInput");
+        document.getElementById("khInput").addEventListener("input", function() {
+            let val = this.value;
 
-        khInput.addEventListener("input", function() {
-            let valor = this.value;
+            // ✅ Eliminar cualquier cosa que no sea número
+            val = val.replace(/[^\d]/g, "");
 
-            // Reemplazar punto por coma
-            valor = valor.replace(".", ",");
+            // ✅ Convertir a número
+            let num = parseInt(val, 10);
 
-            // Separar parte entera y decimal si hay coma
-            if (valor.includes(",")) {
-                const [parteEntera, parteDecimal] = valor.split(",");
-                const parteEnteraLimpia = parteEntera.replace(/^0+(?!$)/, "") || "";
-                const decimalRecortado = parteDecimal.substring(0, 1); // Limitar a 1 decimal
-                this.value = parteEnteraLimpia + "," + decimalRecortado;
+            // ✅ Limitar el rango
+            if (!isNaN(num)) {
+                if (num < 0) num = 0;
+                if (num > 20) num = 20;
+                this.value = num.toString();
             } else {
-                // Solo número entero: quitar ceros a la izquierda
-                this.value = valor.replace(/^0+(?!$)/, "") || "";
+                this.value = ""; // En caso de que todo se borre o no haya número
             }
         });
+
 
         // document.getElementById("khInput").addEventListener("focus", function() {
         //     if (this.value === "") {
@@ -569,7 +586,7 @@
 
         document.getElementById("khInput").addEventListener("focus", function() {
             if (this.value === "") {
-                this.value = "2,0";
+                this.value = "2";
                 const len = this.value.length;
                 setTimeout(() => this.setSelectionRange(len, len), 0);
             }
@@ -669,22 +686,24 @@
 
         //     if (Number(this.value) < Number(this.min) || this.value == "") this.value = this.min; //Si el número es menor que el mínimo especificado en el input
         //     if (Number(this.value) > Number(this.max)) this.value = this.max; //Si el número es mayor que el máximo especificado en el input
-        // });
+        // });        
 
         document.getElementById("no3Input").addEventListener("input", function() {
-            let value = this.value.replace(",", "."); // Cambiar coma por punto
-            const regex = /^(\d{0,2})(\.\d?)?$/; // Hasta 2 dígitos y un decimal opcional
+            let val = this.value;
 
-            if (!regex.test(value)) {
-                this.value = this.value.slice(0, -1); // Elimina el último carácter inválido
-                return;
-            }
+            // ✅ Eliminar cualquier cosa que no sea número
+            val = val.replace(/[^\d]/g, "");
 
-            let num = parseFloat(value);
+            // ✅ Convertir a número
+            let num = parseInt(val, 10);
+
+            // ✅ Limitar el rango
             if (!isNaN(num)) {
                 if (num < 0) num = 0;
                 if (num > 50) num = 50;
                 this.value = num.toString();
+            } else {
+                this.value = ""; // En caso de que todo se borre o no haya número
             }
         });
 
