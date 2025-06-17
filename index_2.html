@@ -552,12 +552,12 @@
             // Separar parte entera y decimal si hay coma
             if (valor.includes(",")) {
                 const [parteEntera, parteDecimal] = valor.split(",");
-                const parteEnteraLimpia = parteEntera.replace(/^0+(?!$)/, "") || "0";
+                const parteEnteraLimpia = parteEntera.replace(/^0+(?!$)/, "") || "";
                 const decimalRecortado = parteDecimal.substring(0, 1); // Limitar a 1 decimal
                 this.value = parteEnteraLimpia + "," + decimalRecortado;
             } else {
                 // Solo número entero: quitar ceros a la izquierda
-                this.value = valor.replace(/^0+(?!$)/, "") || "0";
+                this.value = valor.replace(/^0+(?!$)/, "") || "";
             }
         });
 
@@ -605,21 +605,24 @@
         // });
 
         document.getElementById("tempInput").addEventListener("input", function() {
-            let value = this.value.replace(",", "."); // Cambiar coma por punto
-            const regex = /^(\d{0,2})(\.\d?)?$/; // Hasta 2 dígitos y un decimal opcional
+            let val = this.value;
 
-            if (!regex.test(value)) {
-                this.value = this.value.slice(0, -1); // Elimina el último carácter inválido
-                return;
-            }
+            // ✅ Eliminar cualquier cosa que no sea número
+            val = val.replace(/[^\d]/g, "");
 
-            let num = parseFloat(value);
+            // ✅ Convertir a número
+            let num = parseInt(val, 10);
+
+            // ✅ Limitar el rango
             if (!isNaN(num)) {
                 if (num < 0) num = 0;
                 if (num > 32) num = 32;
                 this.value = num.toString();
+            } else {
+                this.value = ""; // En caso de que todo se borre o no haya número
             }
         });
+
 
 
         // document.getElementById("tempInput").addEventListener("focus", function() {
