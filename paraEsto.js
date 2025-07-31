@@ -230,7 +230,7 @@ export async function guardarDatos() {
 
     let resultado = await showModal(
         "GUARDAR DATOS ACTUALES",
-        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la memeoria local. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
+        "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la base de datos. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
         "<br>" + "<br>" + "» Se guardan en la nube de la base de datos 'JSONBin'.",
         /*  +
                 txtAdd, */
