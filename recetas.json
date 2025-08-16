@@ -71,7 +71,7 @@
   },
   {
     "NOMBRE_RECETA": "BURBUJAS CO2, ACUARIO 220 lt",
-    "INGREDIENTES": "- Cuenta burbujas\n- Botella CO2 presión",
-    "ELABORACION": ""
+    "INGREDIENTES": "✔️ Cuenta burbujas\n✔️ Botella CO2 presión",
+    "ELABORACION": "🔹Cálculo de la cantidad de burbujas necesarias para inyección de CO2 en un acuario plantado de 220 lt.\n🔹El cálculo se realizara en función del agua que se pierde y se repone por evaporación al día.\n🔹El cálculo se realiza en base a la cantidad de burbujas que se emplean como base en el acuario sin evaporación del agua, que por experiencia  es 60 burbujas por minuto (B/min), y  cuando la evaporación es 2,5 lt/día se inyectan 72-76 B/min.\n🔹En función del punto anterior, se incrementará a las burbujas base, sin evaporación (60 B/min) la relación respecto a los litros evaporados al día. La relación a incrementar para 2,5 lt evaporados resulta (76-60) B/min divido por 2,5 lt un coeficiente de 4,8, que es el que se utilizará para el cálculo de las burbujas necesarias.\n🔹La formula sería:\n                 [n (lt evap. día) x 4,8 + 60]\n Por ejemplo si la evaporación diaria es de ~1,5 lt la cantidad de burbujas sería:\n                  1,5 x 4,8 +60 = 67 B/min"
   }
 ]
