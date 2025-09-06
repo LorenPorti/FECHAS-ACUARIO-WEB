@@ -16,6 +16,21 @@
 
     <link rel="manifest" href="/manifest.json">
     <style>
+        /* Asegurar que los dropdowns siempre se vean encima */
+        
+        .dropdown-menu {
+            z-index: 2000 !important;
+        }
+        /* En móvil, los submenús se apilan verticalmente en lugar de abrirse al lado */
+        
+        @media (max-width: 768px) {
+            .dropdown-submenu .dropdown-menu {
+                position: static !important;
+                float: none !important;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+            }
+        }
         /* Adaptación a pantallas pequeñas */
         
         @media (max-width: 600px) {
