@@ -392,7 +392,7 @@ document.getElementById("ir-a-fecha").addEventListener("click", function(event) 
     const dateInputContainer = document.getElementById("dateInputContainer");
     const dateInput = document.getElementById("dateInput");
 
-    FechaASelector(); //Poner la fecha de la selcción en el selector de fechas
+    FechaASelector(); //Poner la fecha de la selección en el selector de fechas
 
     if (!dateInputContainer || !dateInput) {
         console.error("No se encontraron los elementos necesarios para mostrar el selector de fecha.");
@@ -652,6 +652,32 @@ function calcularCO2() {
     let co2 = (3 * kh * Math.pow(10, 7 - ph)).toFixed(2);
     document.getElementById("resultado").innerText = `${co2}`;
 }
+
+// Función para calcular agua de distinta dureza
+function calcularMezcla() {
+    const volumenTotal = parseFloat(document.getElementById('volumenTotal').value);
+    const durezaMezcla = parseFloat(document.getElementById('durezaMezcla').value);
+    const durezaRed = parseFloat(document.getElementById('durezaRed').value);
+    const durezaOsmosis = parseFloat(document.getElementById('durezaOsmosis').value);
+
+    if (isNaN(volumenTotal) || isNaN(durezaMezcla) || isNaN(durezaRed) || isNaN(durezaOsmosis)) {
+        alert("Por favor rellene todos los campos correctamente.");
+        return;
+    }
+
+    // Fórmula:
+    // (Vred * dRed + Vosm * dOsm) / Vtotal = dMezcla
+    // Vred + Vosm = Vtotal
+    // => Vred = (Vtotal * (dMezcla - dOsm)) / (dRed - dOsm)
+
+    const Vred = (volumenTotal * (durezaMezcla - durezaOsmosis)) / (durezaRed - durezaOsmosis);
+    const Vosm = volumenTotal - Vred;
+
+    document.getElementById('resultadoRed').textContent = Vred.toFixed(1).replace('.', ',');
+    document.getElementById('resultadoOsmosis').textContent = Vosm.toFixed(1).replace('.', ',');
+}
+
+
 
 // Detectar cuándo se abre el modal y calcular el resultado inicial
 document.getElementById('modalCO2').addEventListener('shown.bs.modal', function() {
