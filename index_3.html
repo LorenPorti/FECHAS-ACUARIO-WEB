@@ -430,6 +430,21 @@
             font-family: "Georgia", serif;
             font-weight: bold;
         }
+        /* Fuerza la negrita en los inputs numéricos del modal */
+        
+        #modalMezclaDureza input[type="number"].form-control,
+        #modalMezclaDureza input[type="number"] {
+            font-weight: 700 !important;
+            font-size: 1.05em !important;
+            font-style: italic;
+            /* opcional */
+            font-family: 'Roboto', Arial, sans-serif !important;
+        }
+        /* placeholder en negrita si quieres */
+        
+        #modalMezclaDureza input[type="number"]::placeholder {
+            font-weight: 700 !important;
+        }
     </style>
 </head>
 
@@ -721,19 +736,19 @@
 
                     <form id="formMezcla">
                         <div class="mb-3">
-                            <label for="volumenTotal" class="form-label">Volumen total (L):</label>
+                            <label for="volumenTotal" class="form-label georgia-medium-italic">Volumen total (L):</label>
                             <input type="number" step="0.1" class="form-control" id="volumenTotal" required>
                         </div>
                         <div class="mb-3">
-                            <label for="durezaMezcla" class="form-label">Dureza agua mezcla (°dH):</label>
+                            <label for="durezaMezcla" class="form-label georgia-medium-italic">Dureza agua mezcla (°dH):</label>
                             <input type="number" step="0.1" class="form-control" id="durezaMezcla" required>
                         </div>
                         <div class="mb-3">
-                            <label for="durezaRed" class="form-label">Dureza  agua de la RED (°dH):</label>
+                            <label for="durezaRed" class="form-label georgia-medium-italic">Dureza  agua de la RED (°dH):</label>
                             <input type="number" step="0.1" class="form-control" id="durezaRed" required>
                         </div>
                         <div class="mb-3">
-                            <label for="durezaOsmosis" class="form-label">Dureza del agua de OSMOSIS (°dH):</label>
+                            <label for="durezaOsmosis" class="form-label georgia-medium-italic">Dureza del agua de OSMOSIS (°dH):</label>
                             <input type="number" step="0.1" class="form-control" id="durezaOsmosis" required>
                         </div>
                     </form>

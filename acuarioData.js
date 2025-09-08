@@ -655,26 +655,34 @@ function calcularCO2() {
 
 // Función para calcular agua de distinta dureza
 function calcularMezcla() {
-    const volumenTotal = parseFloat(document.getElementById('volumenTotal').value);
-    const durezaMezcla = parseFloat(document.getElementById('durezaMezcla').value);
-    const durezaRed = parseFloat(document.getElementById('durezaRed').value);
-    const durezaOsmosis = parseFloat(document.getElementById('durezaOsmosis').value);
+    const volumenTotal = parseFloat(document.getElementById('volumenTotal').value.replace(",", "."));
+    const durezaMezcla = parseFloat(document.getElementById('durezaMezcla').value.replace(",", "."));
+    const durezaRed = parseFloat(document.getElementById('durezaRed').value.replace(",", "."));
+    const durezaOsmosis = parseFloat(document.getElementById('durezaOsmosis').value.replace(",", "."));
 
-    if (isNaN(volumenTotal) || isNaN(durezaMezcla) || isNaN(durezaRed) || isNaN(durezaOsmosis)) {
-        alert("Por favor rellene todos los campos correctamente.");
+    // Evitar divisiones por cero y entradas inválidas
+    if (
+        isNaN(volumenTotal) || isNaN(durezaMezcla) || isNaN(durezaRed) || isNaN(durezaOsmosis) ||
+        (durezaRed === durezaOsmosis)
+    ) {
+        document.getElementById('resultadoRed').textContent = "–";
+        document.getElementById('resultadoOsmosis').textContent = "–";
         return;
     }
 
-    // Fórmula:
-    // (Vred * dRed + Vosm * dOsm) / Vtotal = dMezcla
-    // Vred + Vosm = Vtotal
-    // => Vred = (Vtotal * (dMezcla - dOsm)) / (dRed - dOsm)
+    const volumenRed = volumenTotal * (durezaMezcla - durezaOsmosis) / (durezaRed - durezaOsmosis);
+    const volumenOsmosis = volumenTotal - volumenRed;
 
-    const Vred = (volumenTotal * (durezaMezcla - durezaOsmosis)) / (durezaRed - durezaOsmosis);
-    const Vosm = volumenTotal - Vred;
+    // Si el cálculo diera valores imposibles (negativos o infinitos), ocultar
+    if (!isFinite(volumenRed) || !isFinite(volumenOsmosis) || volumenRed < 0 || volumenOsmosis < 0) {
+        document.getElementById('resultadoRed').textContent = "–";
+        document.getElementById('resultadoOsmosis').textContent = "–";
+        return;
+    }
 
-    document.getElementById('resultadoRed').textContent = Vred.toFixed(1).replace('.', ',');
-    document.getElementById('resultadoOsmosis').textContent = Vosm.toFixed(1).replace('.', ',');
+    // Mostrar con un decimal y separador ","
+    document.getElementById('resultadoRed').textContent = volumenRed.toFixed(1).replace(".", ",");
+    document.getElementById('resultadoOsmosis').textContent = volumenOsmosis.toFixed(1).replace(".", ",");
 }
 
 
