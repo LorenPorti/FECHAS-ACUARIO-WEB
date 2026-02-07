@@ -216,6 +216,11 @@ export async function obtenerCorreo() {
 
 
 export async function guardarDatos() {
+    //Comprobar la conexióna internet
+    if (!navigator.onLine) {
+        await showModal("NO HAY CONEXIÓN", "No hay conexión a internet.", null);
+        return;
+    }
 
     // const dispositivo = detectarDispositivo();
     // let txtAdd;
@@ -231,16 +236,22 @@ export async function guardarDatos() {
     let resultado = await showModal(
         "GUARDAR DATOS ACTUALES",
         "» Los datos actuales tal como están en sus cuadros de entradas, se guardaran en la base de datos. Estos datos se pueden recuperar con la opción del menú «Recuperar datos»." +
-        "<br>" + "<br>" + "» Se guardan en la nube de la base de datos 'JSONBin'.",
+        "<br>" +
+        "<br>" +
+        "» Se guardan en la nube de la base de datos 'JSONBin'.",
         /*  +
-                txtAdd, */
-        "Guardar datos"
+                            txtAdd, */
+        "Guardar datos",
     );
     if (!resultado) return;
 
     // Recopilar datos
     let fecha;
-    if (document.getElementById("dateInput").value == "NaN") { fecha = ""; } else { fecha = document.getElementById("dateInput").value; }
+    if (document.getElementById("dateInput").value == "NaN") {
+        fecha = "";
+    } else {
+        fecha = document.getElementById("dateInput").value;
+    }
     const jsonData = {
         acuarioNum: document.getElementById("acuarios").textContent.substring(1, 2),
         tituloAcuario: document.getElementById("acuarios").textContent.substring(4),
@@ -312,6 +323,12 @@ export async function recuperarDatos() {
     //         return; // Salir si hay un error
     //     }
     // }
+
+    //Comprobar la conexióna internet
+    if (!navigator.onLine) {
+        await showModal("NO HAY CONEXIÓN", "No hay conexión a internet.", null);
+        return;
+    }
 
     const valorDatosGuardados = await leerTemporalJSONBin(binID);
 
