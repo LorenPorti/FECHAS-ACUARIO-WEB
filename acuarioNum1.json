@@ -11584,7 +11584,7 @@
     "pH": 6.6,
     "KH": 2.5,
     "temp": 26,
-    "CO2": 18.4623652715954,
+    "CO2": 18.46236527159543,
     "NO3": 10,
     "resultado": 2.339,
     "tendencia": 3.002,
@@ -11593,8 +11593,8 @@
     "sup_agua": 0,
     "algas": 1,
     "inyeccCO2": 2,
-    "foto": "NO",
-    "comentario": "\u27A4 Sigue el punto blanco en la cola del pez disco enano (ver foto), los dem\u00E1s no tienen nada por ahora. \uD83D\uDC20\n\u27A4 He visto unos peque\u00F1os ara\u00F1azos en la parte interior de los de los cristales, \uD83E\uDDF9 voy a intentar la limpieza de los cristales con las rasqueta. \uD83E\uDE92 si vuelvo a utilizar los imanes para limpiar los cristales de dentro tendr\u00E9 cuidado de no atrapar una piedrecita para no ara\u00F1arlos. \n\u27A4 Cambio veinte litros de con agua del grifo \uD83D\uDEBF y agrego media cucharita \uD83E\uDD44 de ACID BUFFER. \n",
+    "foto": "SI",
+    "comentario": "\u27A4 Sigue el punto blanco en la cola del pez disco enano (ver foto), los dem\u00E1s no tienen nada por ahora. \uD83D\uDC20\r\u27A4 He visto unos peque\u00F1os ara\u00F1azos en la parte interior de los de los cristales, \uD83E\uDDF9 voy a intentar la limpieza de los cristales con las rasqueta. \uD83E\uDE92 si vuelvo a utilizar los imanes para limpiar los cristales de dentro tendr\u00E9 cuidado de no atrapar una piedrecita para no ara\u00F1arlos. \r\u27A4 Cambio veinte litros de con agua del grifo \uD83D\uDEBF y agrego media cucharita \uD83E\uDD44 de ACID BUFFER. \r",
     "tarea1": {
       "Texto": "Cambiar el agua",
       "Realizada": true
