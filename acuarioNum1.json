@@ -13621,11 +13621,11 @@
     "tarea2": null,
     "tarea3": {
       "Texto": "Limpieza filtro Aux",
-      "Realizada": false
+      "Realizada": true
     },
     "tarea4": {
       "Texto": "Sustit. 333 cc Turba",
-      "Realizada": false
+      "Realizada": true
     },
     "tarea5": null
   }
