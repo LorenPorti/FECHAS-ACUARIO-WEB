@@ -60,7 +60,7 @@ export async function procesarAcuariosJson() {
 export function procesarAcuarios() {
     document
         .getElementById("menuAcuarios")
-        .addEventListener("click", function(event) {
+        .addEventListener("click", function (event) {
             document.getElementById("acuarios").textContent =
                 event.target.textContent;
         });
@@ -69,7 +69,7 @@ export function procesarAcuarios() {
 export function procesarInyeccion() {
     document
         .getElementById("menuInyeccion")
-        .addEventListener("click", function(event) {
+        .addEventListener("click", function (event) {
             document.getElementById("inyeccion").textContent =
                 event.target.textContent;
         });
@@ -78,7 +78,7 @@ export function procesarInyeccion() {
 export function procesarPlantas() {
     document
         .getElementById("menuPlantas")
-        .addEventListener("click", function(event) {
+        .addEventListener("click", function (event) {
             document.getElementById("plantas").textContent = event.target.textContent;
         });
 }
@@ -86,7 +86,7 @@ export function procesarPlantas() {
 export function procesarAgua() {
     document
         .getElementById("menuAgua")
-        .addEventListener("click", function(event) {
+        .addEventListener("click", function (event) {
             document.getElementById("agua").textContent = event.target.textContent;
         });
 }
@@ -94,7 +94,7 @@ export function procesarAgua() {
 export function procesarAlgas() {
     document
         .getElementById("menuAlgas")
-        .addEventListener("click", function(event) {
+        .addEventListener("click", function (event) {
             document.getElementById("algas").textContent = event.target.textContent;
         });
 }
@@ -102,7 +102,7 @@ export function procesarAlgas() {
 export function procesarSup() {
     document
         .getElementById("menuSup")
-        .addEventListener("click", function(event) {
+        .addEventListener("click", function (event) {
             document.getElementById("superficie").textContent =
                 event.target.textContent;
         });
@@ -171,11 +171,7 @@ export async function enviarCorreo(gestor) {
         return;
     }
 
-    let objetoJson = JSON.stringify(
-        jsonData,
-        null,
-        2
-    ); /* let objetoJson = JSON.stringify(jsonData, null, 2); */
+    let objetoJson = JSON.stringify(jsonData, null, 2); /* let objetoJson = JSON.stringify(jsonData, null, 2); */
 
     let resultado = await showModal("CONTENIDO DEL CORREO", objetoJson, "Enviar Correo");
     if (!resultado) return;
@@ -183,20 +179,18 @@ export async function enviarCorreo(gestor) {
     const templateParams = {
         message: objetoJson,
         to_email: CORREO_ELECTRONICO,
-        subject: `Num. ${jsonData.acuarioNum} «${
-      jsonData.tituloAcuario
-    }» - ${transformarFecha(jsonData.fecha)}`,
+        subject: `Num. ${jsonData.acuarioNum} «${jsonData.tituloAcuario}» - ${transformarFechaAsunto(jsonData.fecha)}`,
     };
 
     emailjs
         .send(service, template, templateParams) // Reemplaza con tu Service ID y Template ID
         .then(
-            function(response) {
+            function (response) {
                 console.log("SUCCESS!", response.status, response.text);
                 // alert(`Email enviado correctamente a «${CORREO_ELECTRONICO}».`);
                 showModal("ENVÍO DEL EMAIL", `Enviado a la carpeta 'DATOS CAMPO EMAIL'.`, null);
             },
-            function(error) {
+            function (error) {
                 console.log("FAILED...", error);
                 // alert("Fallo en el envío del correo.");
                 showModal("FALLO EN EL EMAIL", "Fallo en el envío del correo.", null);
@@ -398,10 +392,10 @@ function guardarTemporalJSONBin(datos, binID) {
     const body = JSON.stringify(datos);
 
     fetch(url, {
-            method: 'PUT', // Método para actualizar un bin existente
-            headers: headers,
-            body: body // Los datos que vamos a guardar
-        })
+        method: 'PUT', // Método para actualizar un bin existente
+        headers: headers,
+        body: body // Los datos que vamos a guardar
+    })
         .then(response => response.json())
         .then(data => {
             console.log('Bin actualizado con éxito:', data);
@@ -464,7 +458,7 @@ function recuperarDatosTemporales() {
         archivoInput.click();
 
         // Escuchar cuando se seleccione un archivo
-        archivoInput.addEventListener('change', function() {
+        archivoInput.addEventListener('change', function () {
             const file = archivoInput.files[0]; // Obtener el archivo seleccionado
 
             if (file) {
@@ -473,7 +467,7 @@ function recuperarDatosTemporales() {
                     const reader = new FileReader();
 
                     // Leer el contenido del archivo
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         const contenidoArchivo = e.target.result;
 
                         // Parsear el archivo como JSON
@@ -588,6 +582,12 @@ function transformarFecha(dateString) {
     return `${year}-${formattedMonth}-${formattedDay}`;
 }
 
+// Convierte "4 ago 2024" a "4 ago 2024" para el asunto del correo
+function transformarFechaAsunto(dateString) {
+    const [day, month, year] = dateString.split(" ");
+    return `${parseInt(day)} ${month.toLowerCase().substring(0, 3)} ${year}`;
+}
+
 //Convierte un valor de la forma  "2024-08-04" a "4 ago 2024"
 function convertirFecha(fecha) {
     const meses = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -633,7 +633,7 @@ function showModal(title, message, botonAvanzar) {
         // Manejador de eventos para el botón "Enviar correo"
         document
             .getElementById("sendEmailButton")
-            .addEventListener("click", function() {
+            .addEventListener("click", function () {
                 modal.hide();
                 resolve(true); // Resuelve la promesa con true
             });
@@ -641,7 +641,7 @@ function showModal(title, message, botonAvanzar) {
         // Manejador de eventos para el botón "Cancelar"
         document
             .getElementById("cancelButton")
-            .addEventListener("click", function() {
+            .addEventListener("click", function () {
                 modal.hide();
                 resolve(false); // Resuelve la promesa con false
             });
